@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Van Dat · Developer Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>Van Dat Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
@@ -13,21 +14,18 @@
   --bg:#09090f;
   --surface:#111118;
   --card:#16161f;
-  --border:#1f1f2e;
-  --border2:#2a2a3e;
+  --border:#232334;
 
   --gold:#c9a84c;
-  --gold-lt:#f0d98a;
+  --gold2:#f2d37d;
 
   --blue:#4f8ef7;
   --green:#3dd68c;
-  --red:#f76f72;
 
   --text:#f2f2f7;
-  --muted:#7f7f96;
-  --muted2:#ababbe;
+  --muted:#9a9ab0;
 
-  --radius:16px;
+  --radius:18px;
 }
 
 *{
@@ -45,93 +43,81 @@ body{
   color:var(--text);
   font-family:'DM Sans',sans-serif;
   overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
 }
 
-/* ========= GLOW ========= */
+/* BACKGROUND */
 
-.bg-glow{
+.bg1,.bg2{
   position:fixed;
   border-radius:50%;
-  filter:blur(140px);
+  filter:blur(130px);
   opacity:.16;
-  z-index:0;
   pointer-events:none;
+  z-index:0;
 }
 
-.glow-1{
-  width:600px;
-  height:600px;
+.bg1{
+  width:500px;
+  height:500px;
   background:var(--gold);
-  top:-220px;
+  top:-180px;
   left:-120px;
 }
 
-.glow-2{
-  width:500px;
-  height:500px;
+.bg2{
+  width:450px;
+  height:450px;
   background:var(--blue);
   right:-120px;
-  bottom:-150px;
+  bottom:-120px;
 }
 
-/* ========= GRAIN ========= */
+/* GRAIN */
 
 body::after{
   content:'';
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:999;
   opacity:.04;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  z-index:999;
+
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
-/* ========= CURSOR GLOW ========= */
+/* LAYOUT */
 
-.cursor-glow{
-  position:fixed;
-  width:320px;
-  height:320px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(201,168,76,.10), transparent 70%);
-  pointer-events:none;
-  z-index:1;
-  transform:translate(-50%,-50%);
-}
-
-/* ========= LAYOUT ========= */
-
-.wrap{
+.container{
   position:relative;
   z-index:2;
-  max-width:1150px;
+
+  width:min(1150px,92%);
   margin:auto;
-  padding:0 24px 80px;
 }
 
-/* ========= NAV ========= */
+/* NAVBAR */
 
 nav{
-  position:sticky;
-  top:0;
-  z-index:100;
-
   display:flex;
   justify-content:space-between;
   align-items:center;
 
-  padding:24px 0;
+  padding:30px 0;
+
+  position:sticky;
+  top:0;
 
   backdrop-filter:blur(12px);
-  background:rgba(9,9,15,.72);
+
+  z-index:99;
 }
 
 .logo{
   font-family:'Playfair Display',serif;
-  font-size:1.2rem;
+  font-size:1.3rem;
   font-weight:900;
-  color:var(--gold-lt);
+
+  color:var(--gold2);
 }
 
 .nav-links{
@@ -140,36 +126,33 @@ nav{
 }
 
 .nav-links a{
-  color:var(--muted2);
+  color:var(--muted);
   text-decoration:none;
-  font-size:.84rem;
-  transition:.2s;
+  transition:.25s;
 }
 
 .nav-links a:hover{
-  color:var(--gold-lt);
+  color:var(--gold2);
 }
 
 .nav-btn{
-  background:rgba(201,168,76,.12);
-  border:1px solid rgba(201,168,76,.25);
-  color:var(--gold-lt);
-
   padding:10px 18px;
-  border-radius:10px;
+  border-radius:12px;
+
+  background:rgba(201,168,76,.15);
+  border:1px solid rgba(201,168,76,.25);
+
+  color:var(--gold2);
 
   cursor:pointer;
   transition:.25s;
-
-  font-weight:600;
 }
 
 .nav-btn:hover{
-  transform:translateY(-2px);
-  background:rgba(201,168,76,.18);
+  transform:translateY(-3px);
 }
 
-/* ========= HERO ========= */
+/* HERO */
 
 .hero{
   margin-top:30px;
@@ -177,29 +160,28 @@ nav{
   background:var(--surface);
   border:1px solid var(--border);
 
-  border-radius:26px;
+  border-radius:28px;
 
-  padding:60px;
+  padding:70px 60px;
 
   display:grid;
   grid-template-columns:1fr auto;
-  gap:60px;
+  gap:50px;
 
   position:relative;
   overflow:hidden;
-
-  animation:fadeUp .8s ease;
 }
 
 .hero::before{
   content:'';
   position:absolute;
   inset:0;
+
   background:
   linear-gradient(
-    140deg,
+    130deg,
     rgba(201,168,76,.06),
-    transparent 40%
+    transparent 45%
   );
 }
 
@@ -208,99 +190,138 @@ nav{
   z-index:2;
 }
 
-.hero-eyebrow{
+.eyebrow{
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:18px;
+  gap:12px;
+
+  margin-bottom:20px;
 }
 
-.hero-line{
+.line{
   width:30px;
   height:1px;
   background:var(--gold);
 }
 
-.hero-eyebrow span{
+.eyebrow span{
   font-family:'DM Mono',monospace;
-  font-size:.72rem;
   letter-spacing:2px;
-  color:var(--gold);
+  font-size:.72rem;
+
+  color:var(--gold2);
 }
 
 .hero h1{
   font-family:'Playfair Display',serif;
-  font-size:4rem;
+  font-size:4.5rem;
   line-height:1;
+
   margin-bottom:10px;
 }
 
 .hero h1 em{
   font-style:normal;
-  background:linear-gradient(90deg,var(--gold),var(--gold-lt));
+
+  background:linear-gradient(
+    90deg,
+    var(--gold),
+    var(--gold2)
+  );
+
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .hero-handle{
-  color:var(--muted2);
+  color:var(--muted);
+  margin-bottom:24px;
+
   font-family:'DM Mono',monospace;
-  margin-bottom:22px;
 }
 
 .hero-bio{
-  color:var(--muted2);
+  color:var(--muted);
   line-height:1.9;
-  max-width:560px;
+
+  max-width:580px;
+
   margin-bottom:30px;
 }
 
-.hero-pills{
+.hero-buttons{
   display:flex;
+  gap:15px;
   flex-wrap:wrap;
-  gap:10px;
 }
 
-.pill{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.btn{
+  padding:13px 24px;
+  border-radius:14px;
 
+  text-decoration:none;
+  border:none;
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+.btn.gold{
+  background:linear-gradient(
+    90deg,
+    var(--gold),
+    var(--gold2)
+  );
+
+  color:#111;
+}
+
+.btn.dark{
   background:var(--card);
-  border:1px solid var(--border2);
+  border:1px solid var(--border);
 
-  padding:8px 15px;
-  border-radius:999px;
-
-  font-size:.78rem;
+  color:var(--text);
 }
 
-.pill-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
+.btn.blue{
+  background:linear-gradient(
+    90deg,
+    #2c63e0,
+    var(--blue)
+  );
+
+  color:white;
 }
 
-/* ========= AVATAR ========= */
+/* AVATAR */
 
 .avatar{
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:18px;
+  gap:20px;
 }
 
 .avatar-ring{
-  width:140px;
-  height:140px;
+  width:150px;
+  height:150px;
   border-radius:50%;
+
   padding:3px;
 
-  background:linear-gradient(
+  background:
+  linear-gradient(
     135deg,
     var(--gold),
-    var(--gold-lt),
+    var(--gold2),
     var(--blue)
   );
 
@@ -312,46 +333,52 @@ nav{
   height:100%;
   border-radius:50%;
 
-  background:linear-gradient(135deg,#161626,#1a1f35);
+  background:
+  linear-gradient(
+    135deg,
+    #1b1b2d,
+    #1a1f36
+  );
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  font-size:3rem;
   font-family:'Playfair Display',serif;
+  font-size:3rem;
   font-weight:900;
 
-  color:var(--gold-lt);
+  color:var(--gold2);
 }
 
 .status{
-  background:rgba(61,214,140,.12);
-  border:1px solid rgba(61,214,140,.24);
-
-  color:var(--green);
-
-  padding:7px 14px;
-  border-radius:999px;
-
   display:flex;
   align-items:center;
   gap:8px;
 
-  font-size:.76rem;
-  font-weight:600;
+  padding:8px 16px;
+  border-radius:999px;
+
+  background:rgba(61,214,140,.1);
+  border:1px solid rgba(61,214,140,.2);
+
+  color:var(--green);
+
+  font-size:.8rem;
+  font-weight:700;
 }
 
 .status-dot{
-  width:7px;
-  height:7px;
+  width:8px;
+  height:8px;
   border-radius:50%;
+
   background:var(--green);
 
   animation:pulse 2s infinite;
 }
 
-/* ========= METRICS ========= */
+/* METRICS */
 
 .metrics{
   margin-top:24px;
@@ -365,50 +392,31 @@ nav{
   background:var(--surface);
   border:1px solid var(--border);
 
-  border-radius:var(--radius);
+  border-radius:18px;
 
-  padding:26px 22px;
-
-  position:relative;
-  overflow:hidden;
+  padding:30px 24px;
 
   transition:.25s;
 }
 
 .metric:hover{
   transform:translateY(-4px);
-  border-color:var(--border2);
-}
-
-.metric::before{
-  content:'';
-  position:absolute;
-  left:0;
-  top:0;
-  right:0;
-  height:2px;
-
-  background:linear-gradient(
-    90deg,
-    var(--gold),
-    var(--blue)
-  );
 }
 
 .metric h2{
   font-size:2.2rem;
+  margin-bottom:6px;
+
   font-family:'Playfair Display',serif;
-  margin-bottom:5px;
 }
 
 .metric span{
   color:var(--muted);
-  font-size:.75rem;
+  font-size:.76rem;
   text-transform:uppercase;
-  letter-spacing:1px;
 }
 
-/* ========= SECTION ========= */
+/* SECTION */
 
 .section{
   margin-top:24px;
@@ -416,18 +424,19 @@ nav{
   background:var(--surface);
   border:1px solid var(--border);
 
-  border-radius:22px;
+  border-radius:24px;
 
   padding:34px;
 }
 
 .section-title{
   font-family:'Playfair Display',serif;
-  font-size:1.3rem;
-  margin-bottom:26px;
+  font-size:1.4rem;
+
+  margin-bottom:24px;
 }
 
-/* ========= REPOS ========= */
+/* REPOS */
 
 .repo-grid{
   display:grid;
@@ -439,14 +448,13 @@ nav{
   background:var(--card);
   border:1px solid var(--border);
 
-  border-radius:16px;
+  border-radius:18px;
 
-  padding:22px;
-
-  position:relative;
-  overflow:hidden;
+  padding:24px;
 
   transition:.3s;
+  position:relative;
+  overflow:hidden;
 }
 
 .repo:hover{
@@ -459,7 +467,8 @@ nav{
   position:absolute;
   inset:0;
 
-  background:linear-gradient(
+  background:
+  linear-gradient(
     120deg,
     transparent,
     rgba(255,255,255,.03),
@@ -488,65 +497,32 @@ nav{
 }
 
 .repo-star{
-  color:var(--gold);
-  font-size:.8rem;
+  color:var(--gold2);
 }
 
 .repo-desc{
-  color:var(--muted2);
-  line-height:1.7;
-  font-size:.85rem;
+  color:var(--muted);
+  line-height:1.8;
+
   margin-bottom:18px;
 }
 
-.repo-footer{
+.repo-lang{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:8px;
+
+  color:var(--muted);
+  font-size:.82rem;
 }
 
-.lang{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  font-size:.76rem;
-  color:var(--muted2);
-}
-
-.lang-dot{
+.repo-dot{
   width:9px;
   height:9px;
   border-radius:50%;
 }
 
-/* ========= GRAPH ========= */
-
-.graph{
-  display:flex;
-  gap:4px;
-  overflow-x:auto;
-}
-
-.col{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.cell{
-  width:12px;
-  height:12px;
-  border-radius:2px;
-  background:#222230;
-}
-
-.l1{background:#12391d;}
-.l2{background:#006d32;}
-.l3{background:#26a641;}
-.l4{background:#39d353;}
-.l5{background:var(--gold);}
-
-/* ========= TERMINAL ========= */
+/* TERMINAL */
 
 .terminal{
   margin-top:24px;
@@ -554,18 +530,17 @@ nav{
   background:#050508;
   border:1px solid var(--border);
 
-  border-radius:20px;
+  border-radius:24px;
   overflow:hidden;
 }
 
-.term-head{
+.term-top{
   background:var(--surface);
   border-bottom:1px solid var(--border);
 
   padding:14px 20px;
 
   display:flex;
-  align-items:center;
   gap:8px;
 }
 
@@ -577,17 +552,13 @@ nav{
 
 .term-body{
   padding:28px;
+
   font-family:'DM Mono',monospace;
-  line-height:2;
-  font-size:.84rem;
+  line-height:2.2;
 }
 
 .cmd{
-  color:var(--gold-lt);
-}
-
-.path{
-  color:var(--blue);
+  color:var(--gold2);
 }
 
 .out{
@@ -598,11 +569,13 @@ nav{
   display:inline-block;
   width:8px;
   height:16px;
+
   background:var(--gold);
+
   animation:blink 1s infinite;
 }
 
-/* ========= CONTACT ========= */
+/* CONTACT */
 
 .contacts{
   margin-top:24px;
@@ -616,13 +589,13 @@ nav{
   background:var(--surface);
   border:1px solid var(--border);
 
-  border-radius:16px;
+  border-radius:18px;
 
-  padding:20px;
-
-  transition:.25s;
+  padding:22px;
 
   text-decoration:none;
+
+  transition:.25s;
 }
 
 .contact:hover{
@@ -632,21 +605,90 @@ nav{
 
 .contact-label{
   color:var(--muted);
-  font-size:.7rem;
+  font-size:.72rem;
   text-transform:uppercase;
+
   margin-bottom:6px;
 }
 
 .contact-value{
   color:var(--text);
-  font-weight:600;
+  font-weight:700;
 }
 
-/* ========= FOOTER ========= */
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.78);
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  z-index:9999;
+}
+
+.modal-box{
+  width:min(1000px,92%);
+
+  background:var(--surface);
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  overflow:hidden;
+}
+
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:20px 24px;
+
+  border-bottom:1px solid var(--border);
+}
+
+.modal-top h3{
+  font-family:'Playfair Display',serif;
+}
+
+.modal-top button{
+  background:none;
+  border:none;
+
+  color:var(--muted);
+
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+.modal textarea{
+  width:100%;
+  height:500px;
+
+  background:#09090f;
+  color:#ddd;
+
+  border:none;
+  outline:none;
+
+  resize:none;
+
+  padding:24px;
+
+  font-family:'DM Mono',monospace;
+  line-height:1.8;
+}
+
+/* FOOTER */
 
 footer{
   margin-top:60px;
-  padding-top:30px;
+  padding:30px 0;
 
   border-top:1px solid var(--border);
 
@@ -655,21 +697,9 @@ footer{
   align-items:center;
 
   color:var(--muted);
-  font-size:.82rem;
 }
 
-/* ========= ANIM ========= */
-
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
+/* ANIMATION */
 
 @keyframes blink{
   50%{
@@ -679,8 +709,9 @@ footer{
 
 @keyframes pulse{
   0%,100%{
-    box-shadow:0 0 0 0 rgba(61,214,140,.5);
+    box-shadow:0 0 0 0 rgba(61,214,140,.4);
   }
+
   70%{
     box-shadow:0 0 0 10px rgba(61,214,140,0);
   }
@@ -692,18 +723,18 @@ footer{
   }
 }
 
-/* ========= MOBILE ========= */
+/* MOBILE */
 
 @media(max-width:900px){
 
   .hero{
     grid-template-columns:1fr;
     text-align:center;
-    padding:40px 28px;
+    padding:50px 30px;
   }
 
-  .hero-eyebrow,
-  .hero-pills{
+  .eyebrow,
+  .hero-buttons{
     justify-content:center;
   }
 
@@ -728,7 +759,7 @@ footer{
   }
 
   .hero h1{
-    font-size:2.8rem;
+    font-size:3rem;
   }
 
   .metrics{
@@ -741,14 +772,10 @@ footer{
 </head>
 <body>
 
-<div class="bg-glow glow-1"></div>
-<div class="bg-glow glow-2"></div>
+<div class="bg1"></div>
+<div class="bg2"></div>
 
-<div class="cursor-glow" id="cursorGlow"></div>
-
-<div class="wrap">
-
-<!-- NAV -->
+<div class="container">
 
 <nav>
 
@@ -758,7 +785,7 @@ Van Dat · VN
 
 <div class="nav-links">
 <a href="#">Projects</a>
-<a href="#">Repositories</a>
+<a href="#">GitHub</a>
 <a href="#">Activity</a>
 <a href="#">Contact</a>
 </div>
@@ -775,9 +802,9 @@ Hire Me
 
 <div class="hero-left">
 
-<div class="hero-eyebrow">
-<div class="hero-line"></div>
-<span>FULL STACK DEVELOPER · VIỆT NAM</span>
+<div class="eyebrow">
+<div class="line"></div>
+<span>FULL STACK DEVELOPER</span>
 </div>
 
 <h1>
@@ -785,34 +812,26 @@ Van <em>Dat</em>
 </h1>
 
 <div class="hero-handle">
-@vandatvn · Hanoi, Vietnam 🇻🇳
+@vandatvn · Vietnam 🇻🇳
 </div>
 
 <p class="hero-bio">
-Full-Stack Developer chuyên về hệ thống web hiệu năng cao, UI/UX hiện đại và backend scalable. Đam mê clean architecture, open-source và tạo ra trải nghiệm digital tinh tế.
+Full-Stack Developer chuyên thiết kế website premium, backend scalable và giao diện hiện đại với trải nghiệm người dùng cao cấp.
 </p>
 
-<div class="hero-pills">
+<div class="hero-buttons">
 
-<div class="pill">
-<div class="pill-dot" style="background:var(--green)"></div>
-Available For Work
-</div>
+<a href="#" class="btn gold">
+View Projects
+</a>
 
-<div class="pill">
-<div class="pill-dot" style="background:var(--blue)"></div>
-Full Stack
-</div>
+<a href="https://github.com/" target="_blank" class="btn dark">
+GitHub
+</a>
 
-<div class="pill">
-<div class="pill-dot" style="background:var(--gold)"></div>
-Open Source
-</div>
-
-<div class="pill">
-<div class="pill-dot" style="background:var(--red)"></div>
-3+ Years Exp
-</div>
+<button class="btn blue" onclick="openModal()">
+Full Code
+</button>
 
 </div>
 
@@ -828,7 +847,7 @@ VD
 
 <div class="status">
 <div class="status-dot"></div>
-Online now
+Online Now
 </div>
 
 </div>
@@ -855,8 +874,8 @@ Online now
 </div>
 
 <div class="metric">
-<h2 style="color:var(--gold-lt)">1.2K</h2>
-<span>Stars Earned</span>
+<h2 style="color:var(--gold2)">1.2K</h2>
+<span>Stars</span>
 </div>
 
 </section>
@@ -874,96 +893,96 @@ Pinned Repositories
 <div class="repo">
 
 <div class="repo-top">
-<div class="repo-name">📦 viet-api-hub</div>
-<div class="repo-star">⭐ 284</div>
+<div class="repo-name">
+📦 viet-api-hub
+</div>
+
+<div class="repo-star">
+⭐ 284
+</div>
 </div>
 
 <div class="repo-desc">
-RESTful API tổng hợp dữ liệu Việt Nam: tỉnh thành, ngân hàng, mã bưu chính và hệ thống Redis cache tốc độ cao.
+RESTful API tổng hợp dữ liệu Việt Nam sử dụng Node.js và Redis cache.
 </div>
 
-<div class="repo-footer">
-<div class="lang">
-<div class="lang-dot" style="background:#f1e05a"></div>
+<div class="repo-lang">
+<div class="repo-dot" style="background:#f1e05a"></div>
 JavaScript
 </div>
-</div>
 
 </div>
 
 <div class="repo">
 
 <div class="repo-top">
-<div class="repo-name">🐍 ml-viet-nlp</div>
-<div class="repo-star">⭐ 521</div>
+<div class="repo-name">
+🐍 ml-viet-nlp
+</div>
+
+<div class="repo-star">
+⭐ 521
+</div>
 </div>
 
 <div class="repo-desc">
-Vietnamese NLP toolkit với tokenizer, sentiment analysis và transformer model tối ưu cho tiếng Việt.
+Vietnamese NLP toolkit với tokenizer và transformer model.
 </div>
 
-<div class="repo-footer">
-<div class="lang">
-<div class="lang-dot" style="background:#3572a5"></div>
+<div class="repo-lang">
+<div class="repo-dot" style="background:#3572a5"></div>
 Python
 </div>
-</div>
 
 </div>
 
 <div class="repo">
 
 <div class="repo-top">
-<div class="repo-name">🎨 ui-kit-vn</div>
-<div class="repo-star">⭐ 173</div>
+<div class="repo-name">
+🎨 ui-kit-vn
+</div>
+
+<div class="repo-star">
+⭐ 173
+</div>
 </div>
 
 <div class="repo-desc">
-Modern React UI Kit chuẩn Material Design với animation, accessibility và dark mode support.
+Modern React component library chuẩn Material Design.
 </div>
 
-<div class="repo-footer">
-<div class="lang">
-<div class="lang-dot" style="background:#61dafb"></div>
+<div class="repo-lang">
+<div class="repo-dot" style="background:#61dafb"></div>
 React
 </div>
-</div>
 
 </div>
 
 <div class="repo">
 
 <div class="repo-top">
-<div class="repo-name">⚡ realtime-chat</div>
-<div class="repo-star">⭐ 94</div>
+<div class="repo-name">
+⚡ realtime-chat
+</div>
+
+<div class="repo-star">
+⭐ 94
+</div>
 </div>
 
 <div class="repo-desc">
-Realtime chat app sử dụng Socket.IO, Redis pub/sub và scalable Node.js architecture.
+Realtime chat app với Socket.IO và Redis pub/sub.
 </div>
 
-<div class="repo-footer">
-<div class="lang">
-<div class="lang-dot" style="background:#68a063"></div>
+<div class="repo-lang">
+<div class="repo-dot" style="background:#68a063"></div>
 Node.js
 </div>
-</div>
 
 </div>
 
 </div>
-
-</section>
-
-<!-- CONTRIBUTION -->
-
-<section class="section">
-
-<h2 class="section-title">
-Contribution Activity
-</h2>
-
-<div class="graph" id="graph"></div>
 
 </section>
 
@@ -971,7 +990,7 @@ Contribution Activity
 
 <div class="terminal">
 
-<div class="term-head">
+<div class="term-top">
 
 <div class="dot" style="background:#ff5f57"></div>
 <div class="dot" style="background:#febc2e"></div>
@@ -990,11 +1009,11 @@ vandatvn — full-stack developer
 </div>
 
 <div>
-<span class="cmd">$ stack</span>
+<span class="cmd">$ skills</span>
 </div>
 
 <div class="out">
-React · Next.js · Node.js · Python · MongoDB
+React · Next.js · Node.js · Python
 </div>
 
 <div>
@@ -1002,11 +1021,12 @@ React · Next.js · Node.js · Python · MongoDB
 </div>
 
 <div class="out">
-Currently building premium web experiences.
+Building premium web experiences...
 </div>
 
 <div>
-<span class="cmd">$ </span><span class="cursor"></span>
+<span class="cmd">$</span>
+<span class="cursor"></span>
 </div>
 
 </div>
@@ -1017,22 +1037,81 @@ Currently building premium web experiences.
 
 <section class="contacts">
 
-<a class="contact" href="#">
-<div class="contact-label">Email</div>
-<div class="contact-value">vandat@example.com</div>
+<a class="contact" href="https://github.com/" target="_blank">
+
+<div class="contact-label">
+GitHub
+</div>
+
+<div class="contact-value">
+github.com/vandatvn
+</div>
+
+</a>
+
+<a class="contact" href="https://discord.gg/ahxDyZNgec" target="_blank">
+
+<div class="contact-label">
+Discord
+</div>
+
+<div class="contact-value">
+Join Server
+</div>
+
 </a>
 
 <a class="contact" href="#">
-<div class="contact-label">GitHub</div>
-<div class="contact-value">github.com/vandatvn</div>
-</a>
 
-<a class="contact" href="#">
-<div class="contact-label">Discord</div>
-<div class="contact-value">vandat.dev</div>
+<div class="contact-label">
+Email
+</div>
+
+<div class="contact-value">
+vandat@example.com
+</div>
+
 </a>
 
 </section>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-top">
+
+<h3>
+Full Source Code
+</h3>
+
+<button onclick="closeModal()">
+✕
+</button>
+
+</div>
+
+<textarea readonly>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Van Dat Portfolio</title>
+</head>
+<body>
+
+<h1>Hello World</h1>
+
+</body>
+</html>
+
+</textarea>
+
+</div>
+
+</div>
 
 <footer>
 
@@ -1041,7 +1120,7 @@ Currently building premium web experiences.
 </div>
 
 <div>
-Built with HTML · CSS · JavaScript
+Built with HTML · CSS · JS
 </div>
 
 </footer>
@@ -1050,81 +1129,29 @@ Built with HTML · CSS · JavaScript
 
 <script>
 
-/* ========= CURSOR GLOW ========= */
+function openModal(){
 
-const glow = document.getElementById('cursorGlow');
-
-window.addEventListener('mousemove',(e)=>{
-
-  glow.style.left = e.clientX + 'px';
-  glow.style.top  = e.clientY + 'px';
-
-});
-
-/* ========= GRAPH ========= */
-
-const graph = document.getElementById('graph');
-
-for(let c=0;c<52;c++){
-
-  const col = document.createElement('div');
-  col.className='col';
-
-  for(let r=0;r<7;r++){
-
-    const cell = document.createElement('div');
-
-    const levels = ['','l1','l2','l3','l4','l5'];
-
-    cell.className =
-      'cell ' +
-      levels[Math.floor(Math.random()*6)];
-
-    col.appendChild(cell);
-
-  }
-
-  graph.appendChild(col);
+  document.getElementById('modal').style.display='flex';
 
 }
 
-/* ========= TYPE TITLE ========= */
+function closeModal(){
 
-const title = document.title;
+  document.getElementById('modal').style.display='none';
 
-let i = 0;
+}
 
-setInterval(()=>{
+window.onclick=function(e){
 
-  document.title =
-    title.substring(i) + ' ' +
-    title.substring(0,i);
+  const modal=document.getElementById('modal');
 
-  i++;
+  if(e.target===modal){
 
-  if(i > title.length){
-    i = 0;
+    closeModal();
+
   }
 
-},350); 
-<section class="contacts">
-
-<a class="contact" href="https://github.com/vandatvn" target="_blank">
-<div class="contact-label">GitHub</div>
-<div class="contact-value">github.com/vandatvn</div>
-</a>
-
-<a class="contact" href="https://discord.gg/ahxDyZNgec" target="_blank">
-<div class="contact-label">Discord</div>
-<div class="contact-value">Join Server</div>
-</a>
-
-<a class="contact" href="https://youtube.com/" target="_blank">
-<div class="contact-label">YouTube</div>
-<div class="contact-value">@vandatvn</div>
-</a>
-
-</section>
+}
 
 </script>
 
