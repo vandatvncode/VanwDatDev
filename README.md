@@ -1,123 +1,295 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Key System</title>
+<!-- CLIENTS -->
 
-<style>
-body{
-  background:#0f0f14;
-  color:white;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
+<section class="section">
 
-.box{
-  background:#181820;
-  padding:30px;
-  border-radius:20px;
-  width:320px;
-  text-align:center;
-  border:1px solid #2a2a3a;
-}
+<h2 class="section-title">
+🔥 Minecraft Clients
+</h2>
 
-input{
-  width:100%;
-  padding:12px;
-  margin-top:15px;
-  border:none;
-  border-radius:10px;
-  background:#101018;
-  color:white;
-}
+<div class="repo-grid">
 
-button{
-  width:100%;
-  padding:12px;
-  margin-top:15px;
-  border:none;
-  border-radius:10px;
-  background:#4f8ef7;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
+<!-- Lunar -->
 
-#content{
-  display:none;
-  margin-top:20px;
-  color:#3dd68c;
-}
-</style>
-</head>
-<body>
+<div class="repo">
 
-<div class="box">
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
 
-<h2>GET KEY SYSTEM</h2>
+<div class="repo-top">
 
-<p id="keyText"></p>
+<div class="repo-name">
+🌙 Lunar Client
+</div>
 
-<input type="text" id="keyInput" placeholder="Nhập key">
-
-<button onclick="checkKey()">
-Xác Nhận
-</button>
-
-<div id="content">
-✅ Key hợp lệ trong 1 ngày
+<div class="repo-star">
+⭐ Popular
 </div>
 
 </div>
 
-<script>
+<div class="repo-desc">
+Client PvP nổi tiếng với FPS boost, cosmetics và anti-cheat hỗ trợ.
+</div>
 
-let savedKey = localStorage.getItem("myKey");
-let expire = localStorage.getItem("expireTime");
+<div class="hero-buttons">
 
-if(!savedKey || Date.now() > expire){
+<a href="https://www.lunarclient.com/"
+target="_blank"
+class="btn blue">
+Download
+</a>
 
-  savedKey = "VD-" + Math.random().toString(36).substring(2,10).toUpperCase();
+<a href="https://www.lunarclient.com/download/"
+target="_blank"
+class="btn dark">
+Website
+</a>
 
-  expire = Date.now() + 86400000;
+</div>
 
-  localStorage.setItem("myKey", savedKey);
-  localStorage.setItem("expireTime", expire);
+</div>
 
-}
+<!-- Badlion -->
 
-document.getElementById("keyText").innerHTML =
-"Key hôm nay:<br><b>" + savedKey + "</b>";
+<div class="repo">
 
-function checkKey(){
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
 
-  let input = document.getElementById("keyInput").value;
+<div class="repo-top">
 
-  if(Date.now() > expire){
+<div class="repo-name">
+🛡 Badlion Client
+</div>
 
-    alert("Key đã hết hạn!");
+<div class="repo-star">
+⭐ PvP
+</div>
 
-    return;
+</div>
 
-  }
+<div class="repo-desc">
+Minecraft client tối ưu hiệu năng với nhiều mod PvP tích hợp.
+</div>
 
-  if(input === savedKey){
+<div class="hero-buttons">
 
-    document.getElementById("content").style.display = "block";
+<a href="https://www.badlion.net/"
+target="_blank"
+class="btn gold">
+Download
+</a>
 
-  }else{
+<a href="https://www.badlion.net/download"
+target="_blank"
+class="btn dark">
+Website
+</a>
 
-    alert("Sai key!");
+</div>
 
-  }
+</div>
 
-}
+<!-- Feather -->
 
-</script>
+<div class="repo">
 
-</body>
-</html>
+<img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
+
+<div class="repo-top">
+
+<div class="repo-name">
+🪶 Feather Client
+</div>
+
+<div class="repo-star">
+⭐ Modern
+</div>
+
+</div>
+
+<div class="repo-desc">
+Client Minecraft hiện đại với giao diện đẹp và nhiều tính năng.
+</div>
+
+<div class="hero-buttons">
+
+<a href="https://feathermc.com/"
+target="_blank"
+class="btn blue">
+Download
+</a>
+
+<a href="https://feathermc.com/"
+target="_blank"
+class="btn dark">
+Website
+</a>
+
+</div>
+
+</div>
+
+<!-- LabyMod -->
+
+<div class="repo">
+
+<img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
+
+<div class="repo-top">
+
+<div class="repo-name">
+💎 LabyMod
+</div>
+
+<div class="repo-star">
+⭐ Voice Chat
+</div>
+
+</div>
+
+<div class="repo-desc">
+Client Minecraft hỗ trợ voice chat, cosmetics và tối ưu gameplay.
+</div>
+
+<div class="hero-buttons">
+
+<a href="https://labymod.net/"
+target="_blank"
+class="btn gold">
+Download
+</a>
+
+<a href="https://labymod.net/"
+target="_blank"
+class="btn dark">
+Website
+</a>
+
+</div>
+
+</div>
+
+<!-- Salwyrr -->
+
+<div class="repo">
+
+<img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
+
+<div class="repo-top">
+
+<div class="repo-name">
+⚡ Salwyrr Client
+</div>
+
+<div class="repo-star">
+⭐ Lightweight
+</div>
+
+</div>
+
+<div class="repo-desc">
+Client nhẹ tối ưu FPS cho máy yếu và PvP mượt.
+</div>
+
+<div class="hero-buttons">
+
+<a href="https://www.salwyrr.com/"
+target="_blank"
+class="btn blue">
+Download
+</a>
+
+<a href="https://www.salwyrr.com/"
+target="_blank"
+class="btn dark">
+Website
+</a>
+
+</div>
+
+</div>
+
+<!-- Novoline -->
+
+<div class="repo">
+
+<img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1200&auto=format&fit=crop"
+style="
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:16px;
+">
+
+<div class="repo-top">
+
+<div class="repo-name">
+🎮 Novoline
+</div>
+
+<div class="repo-star">
+⭐ Premium
+</div>
+
+</div>
+
+<div class="repo-desc">
+Premium Minecraft client với giao diện đẹp và tối ưu gameplay.
+</div>
+
+<div class="hero-buttons">
+
+<a href="https://novoline.wtf/"
+target="_blank"
+class="btn gold">
+Open
+</a>
+
+<a href="https://novoline.wtf/"
+target="_blank"
+class="btn dark">
+Website
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
