@@ -1,11 +1,14 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Quỳnh Anh 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
 
@@ -17,125 +20,229 @@
 }
 
 body{
-    background:#0f0f0f;
-    overflow-x:hidden;
-    color:white;
-}
-
-/* BACKGROUND */
-.bg{
-    position:fixed;
-    inset:0;
     background:
-    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-    url('https://i.ibb.co/ZR6FqsxW/6073.jpg') center/cover;
-    filter:blur(10px);
-    transform:scale(1.1);
-    z-index:-2;
+    radial-gradient(circle at top,#172554,#020617 70%);
+    color:white;
+    overflow-x:hidden;
 }
 
+/* SCROLLBAR */
+::-webkit-scrollbar{
+    width:5px;
+}
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:10px;
+}
+
+/* CONTAINER */
 .container{
-    max-width:1200px;
+    width:100%;
+    max-width:480px;
     margin:auto;
-    padding:50px 20px;
+    padding:25px 18px 40px;
 }
 
-/* TITLE */
-.title{
+/* PROFILE */
+.profile{
+    background:rgba(15,23,42,.7);
+    border:1px solid rgba(59,130,246,.25);
+    border-radius:35px;
+    padding:30px 20px;
     text-align:center;
-    margin-bottom:50px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 0 35px rgba(59,130,246,.15);
 }
 
-.title h1{
-    font-size:65px;
+/* AVATAR */
+.avatar{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #a855f7;
+    box-shadow:0 0 30px #9333ea;
+}
+
+/* NAME */
+.name{
+    margin-top:18px;
+    font-size:38px;
     font-weight:700;
 }
 
-.title p{
-    margin-top:10px;
+/* BIO */
+.bio{
+    margin-top:12px;
+    display:inline-block;
+    padding:10px 20px;
+    border-radius:50px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
     color:#ddd;
-    font-size:18px;
+    font-size:14px;
 }
 
-/* GRID */
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+/* SOCIAL */
+.socials{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:28px;
 }
 
-/* CARD */
-.card{
-    position:relative;
-    overflow:hidden;
+.social{
+    width:65px;
+    height:65px;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:white;
+    font-size:28px;
+    transition:.3s;
+    text-decoration:none;
+}
+
+.social:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 25px rgba(59,130,246,.35);
+}
+
+/* LINKS */
+.links{
+    margin-top:35px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+/* ITEM */
+.item{
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding:18px;
     border-radius:28px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.1);
-    transition:.4s;
-    box-shadow:0 0 25px rgba(0,0,0,.35);
+
+    background:rgba(15,23,42,.75);
+
+    border:1px solid rgba(59,130,246,.2);
+
+    text-decoration:none;
+    color:white;
+
+    transition:.35s;
+    backdrop-filter:blur(12px);
+
+    box-shadow:0 0 25px rgba(59,130,246,.12);
 }
 
-.card:hover{
-    transform:translateY(-10px) scale(1.02);
+.item:hover{
+    transform:scale(1.03);
+    border-color:#3b82f6;
 }
 
 /* IMG */
-.card img{
-    width:100%;
-    height:420px;
+.item img{
+    width:72px;
+    height:72px;
+    border-radius:18px;
     object-fit:cover;
-    transition:.5s;
-}
-
-.card:hover img{
-    transform:scale(1.08);
+    border:2px solid rgba(255,255,255,.1);
 }
 
 /* TEXT */
-.info{
-    position:absolute;
-    bottom:0;
+.item span{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.5;
+}
+
+/* BIG IMAGE */
+.banner{
+    margin-top:30px;
+    overflow:hidden;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 0 35px rgba(0,0,0,.35);
+}
+
+.banner img{
     width:100%;
-    padding:18px;
-    background:linear-gradient(transparent,rgba(0,0,0,.9));
-}
-
-.info h2{
-    font-size:24px;
-}
-
-.info p{
-    font-size:14px;
-    color:#ddd;
-    margin-top:5px;
-}
-
-/* BTN */
-.btn{
-    margin:45px auto 0;
     display:block;
-    padding:15px 40px;
-    border:none;
-    border-radius:50px;
-    background:linear-gradient(45deg,#ff3c78,#ff7ca8);
-    color:white;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.3s;
 }
 
-.btn:hover{
-    transform:scale(1.08);
-    box-shadow:0 0 25px #ff4f81;
+/* COMMENT */
+.comment-box{
+    margin-top:28px;
+    padding:22px;
+    border-radius:30px;
+    background:rgba(15,23,42,.75);
+    border:1px solid rgba(59,130,246,.2);
+}
+
+.comment-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+.input-group{
+    display:flex;
+    gap:10px;
+}
+
+.input-group input{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:20px;
+    background:#020617;
+    color:white;
+    outline:none;
+    border:1px solid rgba(59,130,246,.2);
+}
+
+.input-group button{
+    padding:0 22px;
+    border:none;
+    border-radius:18px;
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* COMMENT ITEM */
+.cmt{
+    margin-top:18px;
+    padding:16px;
+    border-radius:22px;
+    background:rgba(255,255,255,.04);
+}
+
+.cmt-name{
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    margin-top:30px;
+    color:#aaa;
+    font-size:14px;
 }
 
 /* HEART */
 .heart{
     position:fixed;
     top:-10px;
-    color:#ff6b9c;
+    color:#ff4d8d;
     animation:fall linear infinite;
     pointer-events:none;
 }
@@ -152,68 +259,148 @@ body{
 
 <body>
 
-<div class="bg"></div>
-
 <div class="container">
 
-    <div class="title">
-        <h1>Quỳnh Anh 💖</h1>
-        <p>My favorite person ✨</p>
-    </div>
+    <!-- PROFILE -->
+    <div class="profile">
 
-    <div class="gallery">
+        <img class="avatar"
+        src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
-        <!-- ẢNH 1 -->
-        <div class="card">
+        <div class="name">
+            Quỳnh Anh 💖
+        </div>
+
+        <div class="bio">
+            ✨ web tình yêu · profile cute ✨
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="socials">
+
+            <a href="#" class="social">
+                <i class="fab fa-tiktok"></i>
+            </a>
+
+            <a href="#" class="social">
+                <i class="fab fa-facebook"></i>
+            </a>
+
+            <a href="#" class="social">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+        </div>
+
+        <!-- LINKS -->
+        <div class="links">
+
+            <a href="#" class="item">
+
+                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+
+                <span>
+                    💕 Người anh thích nhất
+                </span>
+
+            </a>
+
+            <a href="#" class="item">
+
+                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+
+                <span>
+                    🌸 Nụ cười đẹp nhất
+                </span>
+
+            </a>
+
+            <a href="#" class="item">
+
+                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+
+                <span>
+                    ✨ Cute nhất thế giới
+                </span>
+
+            </a>
+
+            <a href="#" class="item">
+
+                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+
+                <span>
+                    💖 Forever together
+                </span>
+
+            </a>
+
+        </div>
+
+        <!-- BIG IMAGE -->
+        <div class="banner">
+
             <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-            <div class="info">
-                <h2>Pretty Girl 💕</h2>
-                <p>Người anh thích nhất.</p>
-            </div>
+
         </div>
 
-        <!-- ẢNH 2 -->
-        <div class="card">
-            <img src="https://ibb.co/Xr3GzHDG">
-            <div class="info">
-                <h2>Cutie 🌸</h2>
-                <p>Nụ cười làm anh mê.</p>
+        <!-- COMMENT -->
+        <div class="comment-box">
+
+            <div class="comment-title">
+                💬 Bình luận
             </div>
+
+            <div class="input-group">
+
+                <input type="text"
+                placeholder="Viết bình luận...">
+
+                <button>
+                    Gửi
+                </button>
+
+            </div>
+
+            <div class="cmt">
+
+                <div class="cmt-name">
+                    💖 Người lạ
+                </div>
+
+                <div>
+                    Web đẹp vc 😭
+                </div>
+
+            </div>
+
+            <div class="cmt">
+
+                <div class="cmt-name">
+                    🌸 Khách
+                </div>
+
+                <div>
+                    Chúc 2 người hạnh phúc ✨
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- ẢNH 3 -->
-        <div class="card">
-            <img src="https://ibb.co/Kx8g83kR">
-            <div class="info">
-                <h2>Lovely ✨</h2>
-                <p>Đặc biệt nhất với anh.</p>
-            </div>
-        </div>
-
-        <!-- ẢNH 4 -->
-        <div class="card">
-            <img src="https://ibb.co/7JSHXT8Xg">
-            <div class="info">
-                <h2>Mine 💖</h2>
-                <p>Always beautiful.</p>
-            </div>
+        <!-- FOOTER -->
+        <div class="footer">
+            © 2026 · Made with love 💞
         </div>
 
     </div>
-
-    <button class="btn" onclick="love()">
-        Bấm vào đây 💌
-    </button>
 
 </div>
 
 <script>
 
-function love(){
-    alert("Anh thương Quỳnh Anh nhiều lắm 💖");
-}
-
-for(let i=0;i<100;i++){
+/* HEART EFFECT */
+for(let i=0;i<80;i++){
 
     let heart=document.createElement("div");
 
@@ -221,7 +408,7 @@ for(let i=0;i<100;i++){
     heart.innerHTML="❤";
 
     heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*22+10)+"px";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
     heart.style.animationDuration=(Math.random()*5+3)+"s";
 
     document.body.appendChild(heart);
