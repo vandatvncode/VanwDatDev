@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -245,6 +244,128 @@ Website
 <div class="link-desc">
 Visit my website
 </div>
+<!-- NÚT CHA + NÚT CON -->
+
+<style>
+
+.dropdown{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.parent-btn{
+background:linear-gradient(135deg,#5865F2,#4752C4);
+padding:18px 20px;
+border-radius:24px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+cursor:pointer;
+font-weight:700;
+color:white;
+}
+
+.child-box{
+display:none;
+flex-direction:column;
+gap:12px;
+padding-left:15px;
+}
+
+.child-btn{
+background:#1a1a24;
+border:1px solid #2d2d3d;
+padding:16px 18px;
+border-radius:18px;
+text-decoration:none;
+color:white;
+font-weight:600;
+transition:.25s;
+}
+
+.child-btn:hover{
+transform:translateX(6px);
+border-color:#5865F2;
+}
+
+</style>
+
+<!-- DROPDOWN -->
+
+<div class="dropdown">
+
+<!-- NÚT CHA -->
+
+<div class="parent-btn" onclick="toggleMenu()">
+
+<span>
+🎮 Minecraft Clients
+</span>
+
+<span id="arrow">
+▼
+</span>
+
+</div>
+
+<!-- NÚT CON -->
+
+<div class="child-box" id="menu">
+
+<a
+href="https://www.lunarclient.com/"
+target="_blank"
+class="child-btn"
+>
+🌙 Lunar Client
+</a>
+
+<a
+href="https://feathermc.com/"
+target="_blank"
+class="child-btn"
+>
+🪶 Feather Client
+</a>
+
+<a
+href="https://www.badlion.net/"
+target="_blank"
+class="child-btn"
+>
+🛡 Badlion Client
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleMenu(){
+
+const menu =
+document.getElementById("menu");
+
+const arrow =
+document.getElementById("arrow");
+
+if(menu.style.display==="flex"){
+
+menu.style.display="none";
+arrow.innerHTML="▼";
+
+}else{
+
+menu.style.display="flex";
+arrow.innerHTML="▲";
+
+}
+
+}
+
+</script>
 
 </div>
 
