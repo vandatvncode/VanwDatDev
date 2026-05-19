@@ -1,1159 +1,188 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Van Dat Portfolio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<style>
-
-:root{
-  --bg:#09090f;
-  --surface:#111118;
-  --card:#16161f;
-  --border:#232334;
-
-  --gold:#c9a84c;
-  --gold2:#f2d37d;
-
-  --blue:#4f8ef7;
-  --green:#3dd68c;
-
-  --text:#f2f2f7;
-  --muted:#9a9ab0;
-
-  --radius:18px;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  overflow-x:hidden;
-}
-
-/* BACKGROUND */
-
-.bg1,.bg2{
-  position:fixed;
-  border-radius:50%;
-  filter:blur(130px);
-  opacity:.16;
-  pointer-events:none;
-  z-index:0;
-}
-
-.bg1{
-  width:500px;
-  height:500px;
-  background:var(--gold);
-  top:-180px;
-  left:-120px;
-}
-
-.bg2{
-  width:450px;
-  height:450px;
-  background:var(--blue);
-  right:-120px;
-  bottom:-120px;
-}
-
-/* GRAIN */
-
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.04;
-  z-index:999;
-
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-
-/* LAYOUT */
-
-.container{
-  position:relative;
-  z-index:2;
-
-  width:min(1150px,92%);
-  margin:auto;
-}
-
-/* NAVBAR */
-
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:30px 0;
-
-  position:sticky;
-  top:0;
-
-  backdrop-filter:blur(12px);
-
-  z-index:99;
-}
-
-.logo{
-  font-family:'Playfair Display',serif;
-  font-size:1.3rem;
-  font-weight:900;
-
-  color:var(--gold2);
-}
-
-.nav-links{
-  display:flex;
-  gap:30px;
-}
-
-.nav-links a{
-  color:var(--muted);
-  text-decoration:none;
-  transition:.25s;
-}
-
-.nav-links a:hover{
-  color:var(--gold2);
-}
-
-.nav-btn{
-  padding:10px 18px;
-  border-radius:12px;
-
-  background:rgba(201,168,76,.15);
-  border:1px solid rgba(201,168,76,.25);
-
-  color:var(--gold2);
-
-  cursor:pointer;
-  transition:.25s;
-}
-
-.nav-btn:hover{
-  transform:translateY(-3px);
-}
-
-/* HERO */
-
-.hero{
-  margin-top:30px;
-
-  background:var(--surface);
-  border:1px solid var(--border);
-
-  border-radius:28px;
-
-  padding:70px 60px;
-
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:50px;
-
-  position:relative;
-  overflow:hidden;
-}
-
-.hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-
-  background:
-  linear-gradient(
-    130deg,
-    rgba(201,168,76,.06),
-    transparent 45%
-  );
-}
-
-.hero-left{
-  position:relative;
-  z-index:2;
-}
-
-.eyebrow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  margin-bottom:20px;
-}
-
-.line{
-  width:30px;
-  height:1px;
-  background:var(--gold);
-}
-
-.eyebrow span{
-  font-family:'DM Mono',monospace;
-  letter-spacing:2px;
-  font-size:.72rem;
-
-  color:var(--gold2);
-}
-
-.hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:4.5rem;
-  line-height:1;
-
-  margin-bottom:10px;
-}
-
-.hero h1 em{
-  font-style:normal;
-
-  background:linear-gradient(
-    90deg,
-    var(--gold),
-    var(--gold2)
-  );
-
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.hero-handle{
-  color:var(--muted);
-  margin-bottom:24px;
-
-  font-family:'DM Mono',monospace;
-}
-
-.hero-bio{
-  color:var(--muted);
-  line-height:1.9;
-
-  max-width:580px;
-
-  margin-bottom:30px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-}
-
-.btn{
-  padding:13px 24px;
-  border-radius:14px;
-
-  text-decoration:none;
-  border:none;
-
-  cursor:pointer;
-
-  font-weight:700;
-
-  transition:.25s;
-}
-
-.btn:hover{
-  transform:translateY(-3px);
-}
-
-.btn.gold{
-  background:linear-gradient(
-    90deg,
-    var(--gold),
-    var(--gold2)
-  );
-
-  color:#111;
-}
-
-.btn.dark{
-  background:var(--card);
-  border:1px solid var(--border);
-
-  color:var(--text);
-}
-
-.btn.blue{
-  background:linear-gradient(
-    90deg,
-    #2c63e0,
-    var(--blue)
-  );
-
-  color:white;
-}
-
-/* AVATAR */
-
-.avatar{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:20px;
-}
-
-.avatar-ring{
-  width:150px;
-  height:150px;
-  border-radius:50%;
-
-  padding:3px;
-
-  background:
-  linear-gradient(
-    135deg,
-    var(--gold),
-    var(--gold2),
-    var(--blue)
-  );
-
-  animation:spin 8s linear infinite;
-}
-
-.avatar-inner{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-
-  background:
-  linear-gradient(
-    135deg,
-    #1b1b2d,
-    #1a1f36
-  );
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-family:'Playfair Display',serif;
-  font-size:3rem;
-  font-weight:900;
-
-  color:var(--gold2);
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-
-  padding:8px 16px;
-  border-radius:999px;
-
-  background:rgba(61,214,140,.1);
-  border:1px solid rgba(61,214,140,.2);
-
-  color:var(--green);
-
-  font-size:.8rem;
-  font-weight:700;
-}
-
-.status-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-
-  background:var(--green);
-
-  animation:pulse 2s infinite;
-}
-
-/* METRICS */
-
-.metrics{
-  margin-top:24px;
-
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-
-.metric{
-  background:var(--surface);
-  border:1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:30px 24px;
-
-  transition:.25s;
-}
-
-.metric:hover{
-  transform:translateY(-4px);
-}
-
-.metric h2{
-  font-size:2.2rem;
-  margin-bottom:6px;
-
-  font-family:'Playfair Display',serif;
-}
-
-.metric span{
-  color:var(--muted);
-  font-size:.76rem;
-  text-transform:uppercase;
-}
-
-/* SECTION */
-
-.section{
-  margin-top:24px;
-
-  background:var(--surface);
-  border:1px solid var(--border);
-
-  border-radius:24px;
-
-  padding:34px;
-}
-
-.section-title{
-  font-family:'Playfair Display',serif;
-  font-size:1.4rem;
-
-  margin-bottom:24px;
-}
-
-/* REPOS */
-
-.repo-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.repo{
-  background:var(--card);
-  border:1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:24px;
-
-  transition:.3s;
-  position:relative;
-  overflow:hidden;
-}
-
-.repo:hover{
-  transform:translateY(-5px);
-  border-color:var(--gold);
-}
-
-.repo::before{
-  content:'';
-  position:absolute;
-  inset:0;
-
-  background:
-  linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.03),
-    transparent
-  );
-
-  transform:translateX(-100%);
-  transition:1s;
-}
-
-.repo:hover::before{
-  transform:translateX(100%);
-}
-
-.repo-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:14px;
-}
-
-.repo-name{
-  color:var(--blue);
-  font-weight:700;
-}
-
-.repo-star{
-  color:var(--gold2);
-}
-
-.repo-desc{
-  color:var(--muted);
-  line-height:1.8;
-
-  margin-bottom:18px;
-}
-
-.repo-lang{
-  display:flex;
-  align-items:center;
-  gap:8px;
-
-  color:var(--muted);
-  font-size:.82rem;
-}
-
-.repo-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-}
-
-/* TERMINAL */
-
-.terminal{
-  margin-top:24px;
-
-  background:#050508;
-  border:1px solid var(--border);
-
-  border-radius:24px;
-  overflow:hidden;
-}
-
-.term-top{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-
-  padding:14px 20px;
-
-  display:flex;
-  gap:8px;
-}
-
-.dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-}
-
-.term-body{
-  padding:28px;
-
-  font-family:'DM Mono',monospace;
-  line-height:2.2;
-}
-
-.cmd{
-  color:var(--gold2);
-}
-
-.out{
-  color:var(--green);
-}
-
-.cursor{
-  display:inline-block;
-  width:8px;
-  height:16px;
-
-  background:var(--gold);
-
-  animation:blink 1s infinite;
-}
-
-/* CONTACT */
-
-.contacts{
-  margin-top:24px;
-
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-
-.contact{
-  background:var(--surface);
-  border:1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:22px;
-
-  text-decoration:none;
-
-  transition:.25s;
-}
-
-.contact:hover{
-  transform:translateY(-4px);
-  border-color:var(--gold);
-}
-
-.contact-label{
-  color:var(--muted);
-  font-size:.72rem;
-  text-transform:uppercase;
-
-  margin-bottom:6px;
-}
-
-.contact-value{
-  color:var(--text);
-  font-weight:700;
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.78);
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  z-index:9999;
-}
-
-.modal-box{
-  width:min(1000px,92%);
-
-  background:var(--surface);
-  border:1px solid var(--border);
-
-  border-radius:24px;
-
-  overflow:hidden;
-}
-
-.modal-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:20px 24px;
-
-  border-bottom:1px solid var(--border);
-}
-
-.modal-top h3{
-  font-family:'Playfair Display',serif;
-}
-
-.modal-top button{
-  background:none;
-  border:none;
-
-  color:var(--muted);
-
-  font-size:1.2rem;
-  cursor:pointer;
-}
-
-.modal textarea{
-  width:100%;
-  height:500px;
-
-  background:#09090f;
-  color:#ddd;
-
-  border:none;
-  outline:none;
-
-  resize:none;
-
-  padding:24px;
-
-  font-family:'DM Mono',monospace;
-  line-height:1.8;
-}
-
-/* FOOTER */
-
-footer{
-  margin-top:60px;
-  padding:30px 0;
-
-  border-top:1px solid var(--border);
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  color:var(--muted);
-}
-
-/* ANIMATION */
-
-@keyframes blink{
-  50%{
-    opacity:0;
-  }
-}
-
-@keyframes pulse{
-  0%,100%{
-    box-shadow:0 0 0 0 rgba(61,214,140,.4);
-  }
-
-  70%{
-    box-shadow:0 0 0 10px rgba(61,214,140,0);
-  }
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-  .hero{
-    grid-template-columns:1fr;
-    text-align:center;
-    padding:50px 30px;
-  }
-
-  .eyebrow,
-  .hero-buttons{
-    justify-content:center;
-  }
-
-  .metrics{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .repo-grid{
-    grid-template-columns:1fr;
-  }
-
-  .contacts{
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media(max-width:650px){
-
-  .nav-links{
-    display:none;
-  }
-
-  .hero h1{
-    font-size:3rem;
-  }
-
-  .metrics{
-    grid-template-columns:1fr;
-  }
-
-}
-
-</style>
-</head>
-<body>
-
-<div class="bg1"></div>
-<div class="bg2"></div>
-
-<div class="container">
-
-<nav>
-
-<div class="logo">
-Van Dat · VN
-</div>
-
-<div class="nav-links">
-<a href="#">Projects</a>
-<a href="#">GitHub</a>
-<a href="#">Activity</a>
-<a href="#">Contact</a>
-</div>
-
-<button class="nav-btn">
-Hire Me
-</button>
-
-</nav>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="hero-left">
-
-<div class="eyebrow">
-<div class="line"></div>
-<span>FULL STACK DEVELOPER</span>
-</div>
-
-<h1>
-Van <em>Dat</em>
+<!-- BIO CARD -->
+
+<section style="
+max-width:420px;
+margin:40px auto;
+display:flex;
+flex-direction:column;
+gap:18px;
+font-family:'DM Sans',sans-serif;
+">
+
+<!-- PROFILE -->
+
+<div style="
+background:#111118;
+border:1px solid #232334;
+border-radius:30px;
+padding:35px 25px;
+text-align:center;
+">
+
+<img
+src="https://i.imgur.com/yourimage.png"
+style="
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #c9a84c;
+margin-bottom:18px;
+"
+>
+
+<h1 style="
+font-size:2rem;
+margin-bottom:8px;
+color:white;
+">
+Van Dat
 </h1>
 
-<div class="hero-handle">
-@vandatvn · Vietnam 🇻🇳
-</div>
-
-<p class="hero-bio">
-Full-Stack Developer chuyên thiết kế website premium, backend scalable và giao diện hiện đại với trải nghiệm người dùng cao cấp.
+<p style="
+color:#9a9ab0;
+line-height:1.7;
+font-size:.95rem;
+">
+Full Stack Developer 🇻🇳<br>
+Minecraft Creator
 </p>
 
-<div class="hero-buttons">
+</div>
 
-<a href="#" class="btn gold">
-View Projects
+<!-- BUTTON 1 -->
+
+<a href="https://discord.gg/ahxDyZNgec"
+target="_blank"
+style="
+background:#5865F2;
+padding:18px 20px;
+border-radius:22px;
+text-decoration:none;
+display:flex;
+align-items:center;
+gap:15px;
+color:white;
+font-weight:700;
+">
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png"
+style="
+width:48px;
+height:48px;
+border-radius:14px;
+background:white;
+padding:8px;
+"
+>
+
+<div>
+
+<div style="font-size:1rem;">
+Discord Server
+</div>
+
+<div style="
+font-size:.82rem;
+opacity:.8;
+font-weight:400;
+">
+Join community
+</div>
+
+</div>
+
 </a>
 
-<a href="https://github.com/" target="_blank" class="btn dark">
-GitHub
-</a>
+<!-- BUTTON 2 -->
 
-<button class="btn blue" onclick="openModal()">
-Full Code
-</button>
+<a href="https://github.com/vandatvncode"
+target="_blank"
+style="
+background:#1f1f28;
+padding:18px 20px;
+border-radius:22px;
+text-decoration:none;
+display:flex;
+align-items:center;
+gap:15px;
+color:white;
+font-weight:700;
+">
 
-</div>
-
-</div>
-
-<div class="avatar">
-
-<div class="avatar-ring">
-<div class="avatar-inner">
-VD
-</div>
-</div>
-
-<div class="status">
-<div class="status-dot"></div>
-Online Now
-</div>
-
-</div>
-
-</section>
-
-<!-- METRICS -->
-
-<section class="metrics">
-
-<div class="metric">
-<h2 style="color:var(--gold)">48</h2>
-<span>Repositories</span>
-</div>
-
-<div class="metric">
-<h2 style="color:var(--blue)">312</h2>
-<span>Followers</span>
-</div>
-
-<div class="metric">
-<h2 style="color:var(--green)">847</h2>
-<span>Contributions</span>
-</div>
-
-<div class="metric">
-<h2 style="color:var(--gold2)">1.2K</h2>
-<span>Stars</span>
-</div>
-
-</section>
-
-<!-- REPOS -->
-
-<section class="section">
-
-<h2 class="section-title">
-Pinned Repositories
-</h2>
-
-<div class="repo-grid">
-
-<div class="repo">
-
-<div class="repo-top">
-<div class="repo-name">
-📦 viet-api-hub
-</div>
-
-<div class="repo-star">
-⭐ 284
-</div>
-</div>
-
-<div class="repo-desc">
-RESTful API tổng hợp dữ liệu Việt Nam sử dụng Node.js và Redis cache.
-</div>
-
-<div class="repo-lang">
-<div class="repo-dot" style="background:#f1e05a"></div>
-JavaScript
-</div>
-
-</div>
-
-<div class="repo">
-
-<div class="repo-top">
-<div class="repo-name">
-🐍 ml-viet-nlp
-</div>
-
-<div class="repo-star">
-⭐ 521
-</div>
-</div>
-
-<div class="repo-desc">
-Vietnamese NLP toolkit với tokenizer và transformer model.
-</div>
-
-<div class="repo-lang">
-<div class="repo-dot" style="background:#3572a5"></div>
-Python
-</div>
-
-</div>
-
-<div class="repo">
-
-<div class="repo-top">
-<div class="repo-name">
-🎨 ui-kit-vn
-</div>
-
-<div class="repo-star">
-⭐ 173
-</div>
-</div>
-
-<div class="repo-desc">
-Modern React component library chuẩn Material Design.
-</div>
-
-<div class="repo-lang">
-<div class="repo-dot" style="background:#61dafb"></div>
-React
-</div>
-
-</div>
-
-<div class="repo">
-
-<div class="repo-top">
-<div class="repo-name">
-⚡ realtime-chat
-</div>
-
-<div class="repo-star">
-⭐ 94
-</div>
-</div>
-
-<div class="repo-desc">
-Realtime chat app với Socket.IO và Redis pub/sub.
-</div>
-
-<div class="repo-lang">
-<div class="repo-dot" style="background:#68a063"></div>
-Node.js
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- TERMINAL -->
-
-<div class="terminal">
-
-<div class="term-top">
-
-<div class="dot" style="background:#ff5f57"></div>
-<div class="dot" style="background:#febc2e"></div>
-<div class="dot" style="background:#28c840"></div>
-
-</div>
-
-<div class="term-body">
+<img
+src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+style="
+width:48px;
+height:48px;
+border-radius:14px;
+background:white;
+padding:8px;
+"
+>
 
 <div>
-<span class="cmd">$ whoami</span>
-</div>
 
-<div class="out">
-vandatvn — full-stack developer
-</div>
-
-<div>
-<span class="cmd">$ skills</span>
-</div>
-
-<div class="out">
-React · Next.js · Node.js · Python
-</div>
-
-<div>
-<span class="cmd">$ status</span>
-</div>
-
-<div class="out">
-Building premium web experiences...
-</div>
-
-<div>
-<span class="cmd">$</span>
-<span class="cursor"></span>
-</div>
-
-</div>
-
-</div>
-
-<!-- CONTACT -->
-
-<section class="contacts">
-
-<a class="contact" href="https://github.com/" target="_blank">
-
-<div class="contact-label">
+<div style="font-size:1rem;">
 GitHub
 </div>
 
-<div class="contact-value">
-github.com/vandatvn
+<div style="
+font-size:.82rem;
+opacity:.8;
+font-weight:400;
+">
+View repositories
+</div>
+
 </div>
 
 </a>
 
-<a class="contact" href="https://discord.gg/ahxDyZNgec" target="_blank">
+<!-- BUTTON 3 -->
 
-<div class="contact-label">
-Discord
+<a href="https://youtube.com/"
+target="_blank"
+style="
+background:#ff0000;
+padding:18px 20px;
+border-radius:22px;
+text-decoration:none;
+display:flex;
+align-items:center;
+gap:15px;
+color:white;
+font-weight:700;
+">
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+style="
+width:48px;
+height:48px;
+border-radius:14px;
+background:white;
+padding:8px;
+"
+>
+
+<div>
+
+<div style="font-size:1rem;">
+YouTube
 </div>
 
-<div class="contact-value">
-Join Server
+<div style="
+font-size:.82rem;
+opacity:.8;
+font-weight:400;
+">
+Subscribe now
 </div>
 
-</a>
-
-<a class="contact" href="#">
-
-<div class="contact-label">
-Email
-</div>
-
-<div class="contact-value">
-vandat@example.com
 </div>
 
 </a>
 
 </section>
-
-<!-- MODAL -->
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<div class="modal-top">
-
-<h3>
-Full Source Code
-</h3>
-
-<button onclick="closeModal()">
-✕
-</button>
-
-</div>
-
-<textarea readonly>
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>Van Dat Portfolio</title>
-</head>
-<body>
-
-<h1>Hello World</h1>
-
-</body>
-</html>
-
-</textarea>
-
-</div>
-
-</div>
-
-<footer>
-
-<div>
-© 2026 Van Dat Portfolio
-</div>
-
-<div>
-Built with HTML · CSS · JS
-</div>
-
-</footer>
-
-</div>
-
-<script>
-
-function openModal(){
-
-  document.getElementById('modal').style.display='flex';
-
-}
-
-function closeModal(){
-
-  document.getElementById('modal').style.display='none';
-
-}
-
-window.onclick=function(e){
-
-  const modal=document.getElementById('modal');
-
-  if(e.target===modal){
-
-    closeModal();
-
-  }
-
-}
-
-</script>
-
-</body>
-</html>
