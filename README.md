@@ -1,14 +1,12 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quỳnh Anh 💖</title>
+<title>Gaming Profile ⚡</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,235 +14,141 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
 }
 
 body{
-    background:
-    radial-gradient(circle at top,#172554,#020617 70%);
+    background:#05060f;
     color:white;
+    font-family:'Poppins',sans-serif;
     overflow-x:hidden;
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar{
-    width:5px;
+/* BACKGROUND EFFECT */
+.bg{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 20% 20%, #7c3aed55, transparent 40%),
+    radial-gradient(circle at 80% 30%, #22d3ee55, transparent 40%),
+    radial-gradient(circle at 50% 80%, #2563eb55, transparent 40%);
+    z-index:-2;
 }
-::-webkit-scrollbar-thumb{
-    background:#3b82f6;
-    border-radius:10px;
+
+/* GRID */
+.grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:45px 45px;
+    z-index:-1;
 }
 
 /* CONTAINER */
 .container{
-    width:100%;
-    max-width:480px;
+    max-width:500px;
     margin:auto;
-    padding:25px 18px 40px;
+    padding:40px 20px;
+    text-align:center;
 }
 
-/* PROFILE */
-.profile{
-    background:rgba(15,23,42,.7);
-    border:1px solid rgba(59,130,246,.25);
-    border-radius:35px;
-    padding:30px 20px;
-    text-align:center;
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
     backdrop-filter:blur(12px);
-    box-shadow:0 0 35px rgba(59,130,246,.15);
+    border-radius:30px;
+    padding:25px;
+    box-shadow:0 0 40px rgba(0,0,0,0.4);
 }
 
 /* AVATAR */
 .avatar{
-    width:145px;
-    height:145px;
+    width:140px;
+    height:140px;
     border-radius:50%;
     object-fit:cover;
-    border:5px solid #a855f7;
-    box-shadow:0 0 30px #9333ea;
+    border:4px solid #22d3ee;
+    box-shadow:0 0 25px #22d3ee;
 }
 
 /* NAME */
-.name{
-    margin-top:18px;
-    font-size:38px;
-    font-weight:700;
+h1{
+    margin-top:15px;
+    font-family:'Orbitron',sans-serif;
+    font-size:32px;
 }
 
-/* BIO */
-.bio{
-    margin-top:12px;
+/* TAG */
+.tag{
     display:inline-block;
-    padding:10px 20px;
-    border-radius:50px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    color:#ddd;
+    margin-top:10px;
+    padding:6px 15px;
+    border-radius:20px;
+    background:#22d3ee22;
+    border:1px solid #22d3ee55;
+    font-size:13px;
+}
+
+/* INFO */
+.info{
+    margin-top:18px;
     font-size:14px;
+    color:#ccc;
+    line-height:1.6;
 }
 
-/* SOCIAL */
-.socials{
-    display:flex;
-    justify-content:center;
-    gap:18px;
-    margin-top:28px;
-}
-
-.social{
-    width:65px;
-    height:65px;
-    border-radius:22px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
+/* BUTTON */
+.btn{
+    margin-top:22px;
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(45deg,#22d3ee,#3b82f6);
     color:white;
-    font-size:28px;
-    transition:.3s;
-    text-decoration:none;
-}
-
-.social:hover{
-    transform:translateY(-6px);
-    box-shadow:0 0 25px rgba(59,130,246,.35);
-}
-
-/* LINKS */
-.links{
-    margin-top:35px;
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-}
-
-/* ITEM */
-.item{
-    display:flex;
-    align-items:center;
-    gap:18px;
-
-    padding:18px;
-    border-radius:28px;
-
-    background:rgba(15,23,42,.75);
-
-    border:1px solid rgba(59,130,246,.2);
-
-    text-decoration:none;
-    color:white;
-
-    transition:.35s;
-    backdrop-filter:blur(12px);
-
-    box-shadow:0 0 25px rgba(59,130,246,.12);
-}
-
-.item:hover{
-    transform:scale(1.03);
-    border-color:#3b82f6;
-}
-
-/* IMG */
-.item img{
-    width:72px;
-    height:72px;
-    border-radius:18px;
-    object-fit:cover;
-    border:2px solid rgba(255,255,255,.1);
-}
-
-/* TEXT */
-.item span{
-    font-size:18px;
-    font-weight:600;
-    line-height:1.5;
-}
-
-/* BIG IMAGE */
-.banner{
-    margin-top:30px;
-    overflow:hidden;
-    border-radius:30px;
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:0 0 35px rgba(0,0,0,.35);
-}
-
-.banner img{
-    width:100%;
-    display:block;
-}
-
-/* COMMENT */
-.comment-box{
-    margin-top:28px;
-    padding:22px;
-    border-radius:30px;
-    background:rgba(15,23,42,.75);
-    border:1px solid rgba(59,130,246,.2);
-}
-
-.comment-title{
-    font-size:28px;
     font-weight:700;
-    margin-bottom:18px;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.input-group{
+.btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 20px #22d3ee;
+}
+
+/* STATS */
+.stats{
     display:flex;
+    justify-content:space-between;
+    margin-top:25px;
     gap:10px;
 }
 
-.input-group input{
+.box{
     flex:1;
-    padding:15px;
-    border:none;
-    border-radius:20px;
-    background:#020617;
-    color:white;
-    outline:none;
-    border:1px solid rgba(59,130,246,.2);
-}
-
-.input-group button{
-    padding:0 22px;
-    border:none;
+    padding:12px;
     border-radius:18px;
-    background:#2563eb;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
 }
 
-/* COMMENT ITEM */
-.cmt{
-    margin-top:18px;
-    padding:16px;
-    border-radius:22px;
-    background:rgba(255,255,255,.04);
+.box h2{
+    font-size:18px;
+    color:#22d3ee;
 }
 
-.cmt-name{
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-/* FOOTER */
-.footer{
-    text-align:center;
-    margin-top:30px;
+.box p{
+    font-size:12px;
     color:#aaa;
-    font-size:14px;
 }
 
-/* HEART */
+/* FLOAT HEART */
 .heart{
     position:fixed;
     top:-10px;
-    color:#ff4d8d;
+    color:#22d3ee;
     animation:fall linear infinite;
-    pointer-events:none;
 }
 
 @keyframes fall{
@@ -259,138 +163,46 @@ body{
 
 <body>
 
+<div class="bg"></div>
+<div class="grid"></div>
+
 <div class="container">
 
-    <!-- PROFILE -->
-    <div class="profile">
+    <div class="card">
 
         <img class="avatar"
         src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
-        <div class="name">
-            Quỳnh Anh 💖
+        <h1>YOUR NAME ⚡</h1>
+
+        <div class="tag">GAMER PROFILE</div>
+
+        <div class="info">
+            Welcome to my gaming profile 🔥<br>
+            I play chill, I play fun, I play life 🎮
         </div>
 
-        <div class="bio">
-            ✨ quỳnh anh vo anh✨
-        </div>
+        <button class="btn" onclick="clickMe()">
+            Click Me ⚡
+        </button>
 
-        <!-- SOCIAL -->
-        <div class="socials">
+        <div class="stats">
 
-            <a href="#" class="social">
-                <i class="fab fa-tiktok"></i>
-            </a>
-
-            <a href="#" class="social">
-                <i class="fab fa-facebook"></i>
-            </a>
-
-            <a href="#" class="social">
-                <i class="fab fa-instagram"></i>
-            </a>
-
-        </div>
-
-        <!-- LINKS -->
-        <div class="links">
-
-            <a href="#" class="item">
-
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-
-                <span>
-                    💕 Người anh thích nhất
-                </span>
-
-            </a>
-
-            <a href="#" class="item">
-
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-
-                <span>
-                    🌸 Nụ cười đẹp nhất
-                </span>
-
-            </a>
-
-            <a href="#" class="item">
-
-                <img src="https://ibb.co/j9HjSZJ3/qa.jpg">
-
-                <span>
-                    ✨ Cute nhất thế giới
-                </span>
-
-            </a>
-
-            <a href="#" class="item">
-
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-
-                <span>
-                    💖 Forever together
-                </span>
-
-            </a>
-
-        </div>
-
-        <!-- BIG IMAGE -->
-        <div class="banner">
-
-            <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-
-        </div>
-
-        <!-- COMMENT -->
-        <div class="comment-box">
-
-            <div class="comment-title">
-                💬 Bình luận
+            <div class="box">
+                <h2>999+</h2>
+                <p>Wins</p>
             </div>
 
-            <div class="input-group">
-
-                <input type="text"
-                placeholder="Viết bình luận...">
-
-                <button>
-                    Gửi
-                </button>
-
+            <div class="box">
+                <h2>Pro</h2>
+                <p>Rank</p>
             </div>
 
-            <div class="cmt">
-
-                <div class="cmt-name">
-                    💖 Người lạ
-                </div>
-
-                <div>
-                    Web đẹp vc 😭
-                </div>
-
+            <div class="box">
+                <h2>24/7</h2>
+                <p>Online</p>
             </div>
 
-            <div class="cmt">
-
-                <div class="cmt-name">
-                    🌸 Khách
-                </div>
-
-                <div>
-                    Chúc 2 người hạnh phúc ✨
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            © 2026 · Made with love 💞
         </div>
 
     </div>
@@ -399,16 +211,19 @@ body{
 
 <script>
 
-/* HEART EFFECT */
-for(let i=0;i<80;i++){
+function clickMe(){
+    alert("GG 😎 bạn đã bấm nút gaming!");
+}
+
+for(let i=0;i<60;i++){
 
     let heart=document.createElement("div");
 
     heart.className="heart";
-    heart.innerHTML="❤";
+    heart.innerHTML="⚡";
 
     heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+10)+"px";
+    heart.style.fontSize=(Math.random()*18+10)+"px";
     heart.style.animationDuration=(Math.random()*5+3)+"s";
 
     document.body.appendChild(heart);
