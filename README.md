@@ -272,7 +272,7 @@ body{
         </div>
 
         <div class="bio">
-            ✨ web tình yêu · profile cute ✨
+            ✨ quỳnh anh vo anh✨
         </div>
 
         <!-- SOCIAL -->
