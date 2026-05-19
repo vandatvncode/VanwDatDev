@@ -317,7 +317,7 @@ body{
 
             <a href="#" class="item">
 
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+                <img src="https://ibb.co/j9HjSZJ3/qa.jpg">
 
                 <span>
                     ✨ Cute nhất thế giới
