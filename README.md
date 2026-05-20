@@ -12,32 +12,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <style>
     
-.subMenu{
-    display:none;
-    margin-top:10px;
-    margin-left:20px;
-}
-
-.subMenu.show{
-    display:block;
-}
-
-.subBtn{
-    display:block;
-    margin:8px 0;
-    padding:12px 16px;
-    border-radius:16px;
-    background:rgba(37,99,235,.2);
-    border:1px solid rgba(59,130,246,.3);
-    color:white;
-    text-decoration:none;
-    font-weight:600;
-    transition:.2s;
-}
-
-.subBtn:hover{
-    transform:translateX(6px);
-    background:rgba(37,99,235,.35);
 }
 
 *{
@@ -457,6 +431,29 @@ body::after{
         transform:translateY(110vh);
         opacity:0;
     }
+}
+    .subMenu{
+    display:none;
+    flex-direction:column;
+    gap:10px;
+    margin-top:10px;
+    margin-left:20px;
+    animation: fade .3s ease;
+}
+
+.subBtn{
+    padding:12px;
+    border-radius:18px;
+    background:#1e293b;
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(-5px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 </style>
@@ -1093,26 +1090,17 @@ data.join("\n")
 );
 
 }
+    function toggleMenu(id){
+    let el = document.getElementById(id);
+
+    if(el.style.display === "flex"){
+        el.style.display = "none";
+    }else{
+        el.style.display = "flex";
+    }
+    }
 
 </script>
-function toggleMenu(id){
 
-let menu = document.getElementById(id);
-
-// đóng/mở toggle
-if(menu.classList.contains("show")){
-menu.classList.remove("show");
-return;
-}
-
-// đóng tất cả menu khác
-document.querySelectorAll(".subMenu").forEach(m=>{
-m.classList.remove("show");
-});
-
-// mở menu được chọn
-menu.classList.add("show");
-
-}
 </body>
 </html>
