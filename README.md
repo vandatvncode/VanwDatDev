@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -25,6 +26,7 @@ body{
     overflow-x:hidden;
 }
 
+/* BACKGROUND */
 body::before{
     content:"";
     position:fixed;
@@ -34,6 +36,7 @@ body::before{
     z-index:-3;
 }
 
+/* GLOW */
 body::after{
     content:"";
     position:fixed;
@@ -48,6 +51,24 @@ body::after{
     z-index:-2;
 }
 
+/* USER TAG */
+#userTag{
+    position:fixed;
+    top:18px;
+    right:18px;
+    background:rgba(15,23,42,.9);
+    border:1px solid rgba(59,130,246,.3);
+    padding:10px 16px;
+    border-radius:18px;
+    backdrop-filter:blur(10px);
+    font-size:14px;
+    font-weight:600;
+    color:white;
+    z-index:999;
+    box-shadow:0 0 20px rgba(59,130,246,.2);
+}
+
+/* CONTAINER */
 .container{
     width:100%;
     max-width:480px;
@@ -55,6 +76,7 @@ body::after{
     padding:25px 18px 50px;
 }
 
+/* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
     border:1px solid rgba(59,130,246,.25);
@@ -65,6 +87,7 @@ body::after{
     box-shadow:0 0 40px rgba(59,130,246,.12);
 }
 
+/* AVATAR */
 .avatar{
     width:145px;
     height:145px;
@@ -76,12 +99,14 @@ body::after{
     0 0 35px #9333ea;
 }
 
+/* NAME */
 .name{
     margin-top:18px;
     font-size:38px;
     font-weight:700;
 }
 
+/* BIO */
 .bio{
     margin-top:12px;
     display:inline-block;
@@ -93,6 +118,7 @@ body::after{
     font-size:14px;
 }
 
+/* SOCIAL */
 .socials{
     display:flex;
     justify-content:center;
@@ -120,6 +146,7 @@ body::after{
     box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
+/* LINKS */
 .links{
     margin-top:35px;
     display:flex;
@@ -157,6 +184,7 @@ body::after{
     font-weight:600;
 }
 
+/* GALLERY */
 .gallery{
     margin-top:30px;
 }
@@ -167,6 +195,7 @@ body::after{
     border:2px solid rgba(255,255,255,.08);
 }
 
+/* COMMENT */
 .comment-box{
     margin-top:28px;
     padding:22px;
@@ -220,6 +249,7 @@ body::after{
     margin-bottom:8px;
 }
 
+/* FOOTER */
 .footer{
     text-align:center;
     margin-top:30px;
@@ -227,6 +257,7 @@ body::after{
     font-size:14px;
 }
 
+/* FLOAT */
 .float{
     position:fixed;
     top:-10px;
@@ -247,21 +278,30 @@ body::after{
 
 <body>
 
+<!-- USER TAG -->
+<div id="userTag">
+👤 Khách
+</div>
+
 <div class="container">
 
 <div class="profile">
 
+<!-- AVATAR -->
 <img class="avatar"
 src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
+<!-- NAME -->
 <div class="name">
 VanDatDev ⚡
 </div>
 
+<!-- BIO -->
 <div class="bio">
 ✨ gaming profile · share script ✨
 </div>
 
+<!-- SOCIAL -->
 <div class="socials">
 
 <a href="https://tiktok.com"
@@ -284,6 +324,7 @@ class="social">
 
 </div>
 
+<!-- LINKS -->
 <div class="links">
 
 <a href="https://discord.gg/ahxDyZNgec"
@@ -339,8 +380,7 @@ class="item">
 </div>
 
 <!-- NAME -->
-<div class="input-group"
-id="nameBox">
+<div class="input-group">
 
 <input type="text"
 id="commentName"
@@ -369,6 +409,7 @@ Gửi
 
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
 © 2026 VanDatDev ⚡
 </div>
@@ -396,7 +437,7 @@ icon.style.animationDuration=(Math.random()*5+3)+"s";
 document.body.appendChild(icon);
 }
 
-/* DEVICE NAME */
+/* LOAD NAME */
 let savedName =
 localStorage.getItem("deviceName");
 
@@ -404,18 +445,30 @@ localStorage.getItem("deviceName");
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-/* AUTO LOAD NAME */
+/* LOAD NAME */
 if(savedName){
 
 document.getElementById("commentName").value =
 savedName;
-
-document.getElementById("commentName").disabled =
-true;
-
-document.getElementById("nameBox")
-.style.display="none";
 }
+
+/* UPDATE USER TAG */
+function updateUserTag(){
+
+let name =
+localStorage.getItem("deviceName");
+
+if(!name || name.trim()===""){
+
+name="Khách";
+}
+
+document.getElementById("userTag")
+.innerHTML=`👤 ${name}`;
+}
+
+/* FIRST LOAD */
+updateUserTag();
 
 /* SAVE NAME */
 function saveCommentName(){
@@ -423,25 +476,9 @@ function saveCommentName(){
 let name =
 document.getElementById("commentName").value;
 
-if(name.trim()===""){
-
-alert("Nhập tên trước 😎");
-
-return;
-}
-
-/* ONLY 1 NAME PER DEVICE */
-if(localStorage.getItem("deviceName")){
-
-alert("Thiết bị này đã đặt tên rồi ⚡");
-
-return;
-}
-
 localStorage.setItem("deviceName",name);
 
-document.getElementById("nameBox")
-.style.display="none";
+updateUserTag();
 
 alert("Đã lưu tên 🔥");
 }
@@ -453,20 +490,6 @@ let commentsBox =
 document.getElementById("comments");
 
 commentsBox.innerHTML="";
-
-let now = Date.now();
-
-/* ONLY SHOW LAST 30S */
-comments = comments.filter(c => {
-
-return now - c.time <= 30000;
-
-});
-
-localStorage.setItem(
-"comments",
-JSON.stringify(comments)
-);
 
 comments.forEach(c=>{
 
@@ -490,16 +513,6 @@ commentsBox.appendChild(div);
 
 }
 
-/* AUTO REFRESH */
-setInterval(()=>{
-
-comments =
-JSON.parse(localStorage.getItem("comments")) || [];
-
-renderComments();
-
-},1000);
-
 /* FIRST LOAD */
 renderComments();
 
@@ -514,7 +527,7 @@ if(text.trim()==="") return;
 let name =
 localStorage.getItem("deviceName");
 
-if(!name){
+if(!name || name.trim()===""){
 
 name="Khách";
 }
@@ -522,8 +535,7 @@ name="Khách";
 comments.unshift({
 
 name:name,
-text:text,
-time:Date.now()
+text:text
 
 });
 
