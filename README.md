@@ -188,7 +188,7 @@ body::after{
     transform:scale(1.03);
 }
 
-/* BOX */
+/* COMMENT */
 .comment-box{
     margin-top:28px;
     padding:22px;
@@ -197,7 +197,6 @@ body::after{
     border:1px solid rgba(59,130,246,.2);
 }
 
-/* TITLE */
 .comment-title{
     font-size:28px;
     font-weight:700;
@@ -231,7 +230,7 @@ body::after{
     cursor:pointer;
 }
 
-/* COMMENT */
+/* COMMENT ITEM */
 .cmt{
     margin-top:18px;
     padding:16px;
@@ -354,11 +353,8 @@ body::after{
         <div class="gallery">
 
             <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
-
             <img src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
-
             <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
-
             <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
         </div>
@@ -370,6 +366,20 @@ body::after{
                 💬 Bình luận
             </div>
 
+            <!-- NAME -->
+            <div class="input-group">
+
+                <input type="text"
+                id="commentName"
+                placeholder="Đặt tên của bạn...">
+
+                <button onclick="saveCommentName()">
+                    Lưu
+                </button>
+
+            </div>
+
+            <!-- COMMENT -->
             <div class="input-group">
 
                 <input type="text"
@@ -383,43 +393,6 @@ body::after{
             </div>
 
             <div id="comments"></div>
-
-        </div>
-
-        <!-- MESSAGE ADMIN -->
-        <div class="comment-box">
-
-            <div class="comment-title">
-                📩 Nhắn Tin Admin
-            </div>
-
-            <!-- NAME -->
-            <div class="input-group">
-
-                <input type="text"
-                id="nameInput"
-                placeholder="Đặt tên của bạn...">
-
-                <button onclick="saveName()">
-                    Lưu
-                </button>
-
-            </div>
-
-            <!-- MESSAGE -->
-            <div class="input-group">
-
-                <input type="text"
-                id="msgInput"
-                placeholder="Nhập tin nhắn...">
-
-                <button onclick="sendMsg()">
-                    Gửi
-                </button>
-
-            </div>
-
-            <div id="messages"></div>
 
         </div>
 
@@ -452,49 +425,21 @@ for(let i=0;i<70;i++){
     document.body.appendChild(icon);
 }
 
-/* COMMENT */
-function sendComment(){
-
-    let input=document.getElementById("commentInput");
-
-    let text=input.value;
-
-    if(text.trim()==="") return;
-
-    let div=document.createElement("div");
-
-    div.className="cmt";
-
-    div.innerHTML=`
-        <div class="cmt-name">
-            👤 Khách
-        </div>
-
-        <div>
-            ${text}
-        </div>
-    `;
-
-    document.getElementById("comments").prepend(div);
-
-    input.value="";
-}
-
 /* LOAD NAME */
-let savedName = localStorage.getItem("userName");
+let savedCommentName = localStorage.getItem("commentUserName");
 
 /* LOCK NAME */
-if(savedName){
+if(savedCommentName){
 
-    document.getElementById("nameInput").value = savedName;
+    document.getElementById("commentName").value = savedCommentName;
 
-    document.getElementById("nameInput").disabled = true;
+    document.getElementById("commentName").disabled = true;
 }
 
 /* SAVE NAME */
-function saveName(){
+function saveCommentName(){
 
-    let name = document.getElementById("nameInput").value;
+    let name = document.getElementById("commentName").value;
 
     if(name.trim() === ""){
 
@@ -502,26 +447,25 @@ function saveName(){
         return;
     }
 
-    /* CHECK EXIST */
-    if(localStorage.getItem("userName")){
+    if(localStorage.getItem("commentUserName")){
 
-        alert("Mỗi IP chỉ được đặt 1 tên ⚡");
+        alert("Mỗi người chỉ được đặt 1 tên ⚡");
         return;
     }
 
-    localStorage.setItem("userName", name);
+    localStorage.setItem("commentUserName", name);
 
-    document.getElementById("nameInput").disabled = true;
+    document.getElementById("commentName").disabled = true;
 
-    alert("Đã lưu tên thành công 🔥");
+    alert("Đã lưu tên 🔥");
 }
 
-/* SEND MESSAGE */
-function sendMsg(){
+/* SEND COMMENT */
+function sendComment(){
 
-    let text = document.getElementById("msgInput").value;
+    let text = document.getElementById("commentInput").value;
 
-    let name = localStorage.getItem("userName");
+    let name = localStorage.getItem("commentUserName");
 
     if(!name){
 
@@ -544,6 +488,16 @@ function sendMsg(){
             ${text}
         </div>
     `;
+
+    document.getElementById("comments").prepend(div);
+
+    document.getElementById("commentInput").value = "";
+}
+
+</script>
+
+</body>
+</html>
 
     document.getElementById("messages").prepend(div);
 
