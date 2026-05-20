@@ -25,6 +25,7 @@ body{
     overflow-x:hidden;
 }
 
+/* BG */
 body::before{
     content:"";
     position:fixed;
@@ -65,7 +66,7 @@ body::after{
     box-shadow:0 0 20px rgba(59,130,246,.2);
 }
 
-/* RESET BTN */
+/* RESET */
 #resetBtn{
     position:fixed;
     top:18px;
@@ -99,6 +100,7 @@ body::after{
     box-shadow:0 0 40px rgba(59,130,246,.12);
 }
 
+/* AVATAR */
 .avatar{
     width:145px;
     height:145px;
@@ -110,12 +112,14 @@ body::after{
     0 0 35px #9333ea;
 }
 
+/* NAME */
 .name{
     margin-top:18px;
     font-size:38px;
     font-weight:700;
 }
 
+/* BIO */
 .bio{
     margin-top:12px;
     display:inline-block;
@@ -127,6 +131,7 @@ body::after{
     font-size:14px;
 }
 
+/* SOCIAL */
 .socials{
     display:flex;
     justify-content:center;
@@ -154,6 +159,7 @@ body::after{
     box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
+/* LINKS */
 .links{
     margin-top:35px;
     display:flex;
@@ -191,6 +197,7 @@ body::after{
     font-weight:600;
 }
 
+/* IMAGE */
 .gallery{
     margin-top:30px;
 }
@@ -201,6 +208,7 @@ body::after{
     border:2px solid rgba(255,255,255,.08);
 }
 
+/* COMMENT */
 .comment-box{
     margin-top:28px;
     padding:22px;
@@ -256,7 +264,6 @@ body::after{
     padding-right:6px;
 }
 
-/* SCROLLBAR */
 #comments::-webkit-scrollbar{
     width:6px;
 }
@@ -320,11 +327,13 @@ body::after{
 
 <body>
 
+<!-- RESET -->
 <button id="resetBtn"
 onclick="resetAllData()">
 RESET
 </button>
 
+<!-- USER -->
 <div id="userTag">
 👤 Khách
 </div>
@@ -333,17 +342,21 @@ RESET
 
 <div class="profile">
 
+<!-- AVATAR -->
 <img class="avatar"
 src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
+<!-- NAME -->
 <div class="name">
 VanDatDev ⚡
 </div>
 
+<!-- BIO -->
 <div class="bio">
 ✨ gaming profile · share script ✨
 </div>
 
+<!-- SOCIAL -->
 <div class="socials">
 
 <a href="https://tiktok.com"
@@ -366,6 +379,7 @@ class="social">
 
 </div>
 
+<!-- LINKS -->
 <div class="links">
 
 <a href="https://discord.gg/ahxDyZNgec"
@@ -406,10 +420,14 @@ class="item">
 
 </div>
 
+<!-- IMAGE -->
 <div class="gallery">
+
 <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
+
 </div>
 
+<!-- COMMENT -->
 <div class="comment-box">
 
 <div class="comment-title">
@@ -460,18 +478,9 @@ Gửi
 
 <script>
 
-/* ADMIN PASS */
+/* ADMIN */
+const ADMIN_NAME = "VanwDatdz";
 const ADMIN_PASSWORD = "vandat";
-
-let adminPass =
-prompt("Nhập pass admin:");
-
-if(adminPass === ADMIN_PASSWORD){
-
-document.getElementById("resetBtn")
-.style.display="block";
-
-}
 
 /* FLOAT */
 for(let i=0;i<70;i++){
@@ -499,7 +508,11 @@ JSON.parse(localStorage.getItem("comments")) || [];
 let savedName =
 localStorage.getItem("deviceName");
 
-/* HIDE NAME BOX */
+/* LOAD USED NAMES */
+let usedNames =
+JSON.parse(localStorage.getItem("usedNames")) || [];
+
+/* ĐÃ ĐẶT TÊN */
 if(savedName){
 
 document.getElementById("commentName").value =
@@ -509,7 +522,7 @@ document.getElementById("nameBox")
 .style.display="none";
 }
 
-/* USER TAG */
+/* UPDATE TAG */
 function updateUserTag(){
 
 let name =
@@ -522,6 +535,19 @@ name="Khách";
 
 document.getElementById("userTag")
 .innerHTML=`👤 ${name}`;
+
+/* ADMIN THẤY RESET */
+if(name === ADMIN_NAME){
+
+document.getElementById("resetBtn")
+.style.display="block";
+
+}else{
+
+document.getElementById("resetBtn")
+.style.display="none";
+
+}
 
 }
 
@@ -547,9 +573,26 @@ alert("Nhập tên trước 😎");
 return;
 }
 
+/* CHECK TÊN TRÙNG */
+if(usedNames.includes(name)){
+
+alert("Tên này đã có người dùng 😭");
+
+return;
+}
+
+/* SAVE */
+usedNames.push(name);
+
+localStorage.setItem(
+"usedNames",
+JSON.stringify(usedNames)
+);
+
 localStorage.setItem("deviceName",name);
 localStorage.setItem("lockedName","true");
 
+/* HIDE NAME BOX */
 document.getElementById("nameBox")
 .style.display="none";
 
@@ -624,7 +667,7 @@ document.getElementById("commentInput").value="";
 renderComments();
 }
 
-/* AUTO RELOAD 30S */
+/* TIMER */
 let time = 30;
 
 setInterval(()=>{
@@ -650,9 +693,20 @@ time = 30;
 /* RESET */
 function resetAllData(){
 
+let pass =
+prompt("Nhập mật khẩu admin:");
+
+if(pass !== ADMIN_PASSWORD){
+
+alert("Sai mật khẩu 😎");
+
+return;
+}
+
 localStorage.removeItem("deviceName");
 localStorage.removeItem("lockedName");
 localStorage.removeItem("comments");
+localStorage.removeItem("usedNames");
 
 alert("Đã reset toàn bộ 🔥");
 
