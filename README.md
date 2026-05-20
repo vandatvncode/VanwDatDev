@@ -679,25 +679,41 @@ class="social">
 
 <div class="links">
 
-<a href="https://discord.gg/ahxDyZNgec"
-target="_blank"
-class="item">
-
+<!-- MENU CHA 1 -->
+<div class="item" onclick="toggleMenu('hackMenu')">
 <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
-
 <span>🍎 Share Script Free Fire 🍏</span>
+</div>
 
-</a>
+<div class="subMenu" id="hackMenu">
+<a href="https://google.com" target="_blank" class="subBtn">🔥 AIMLOCK VIP</a>
+<a href="https://youtube.com" target="_blank" class="subBtn">⚡ PANEL HEADSHOT</a>
+<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">👑 JOIN DISCORD</a>
+</div>
 
-<a href="https://youtube.com"
-target="_blank"
-class="item">
-
+<!-- MENU CHA 2 -->
+<div class="item" onclick="toggleMenu('clientMenu')">
 <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
-
 <span>⚡ Tổng Hợp Client Mới Nhất</span>
+</div>
 
-</a>
+<div class="subMenu" id="clientMenu">
+<a href="#" class="subBtn">💻 CLIENT IOS</a>
+<a href="#" class="subBtn">🎮 CLIENT ANDROID</a>
+<a href="#" class="subBtn">📦 FULL PACK CLIENT</a>
+</div>
+
+<!-- MENU CHA 3 -->
+<div class="item" onclick="toggleMenu('contactMenu')">
+<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
+<span>😎 Liên Hệ Admin</span>
+</div>
+
+<div class="subMenu" id="contactMenu">
+<a href="https://facebook.com" target="_blank" class="subBtn">📩 FACEBOOK</a>
+<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">💬 DISCORD</a>
+<a href="https://tiktok.com" target="_blank" class="subBtn">🎥 TIKTOK</a>
+</div>
 
 </div>
 
