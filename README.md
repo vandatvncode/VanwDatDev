@@ -972,5 +972,4 @@ data.join("\n")
 </script>
 
 </body>
-
 </html>
