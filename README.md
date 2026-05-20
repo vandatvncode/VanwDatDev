@@ -67,6 +67,22 @@ body::after{
     box-shadow:0 0 20px rgba(59,130,246,.2);
 }
 
+/* RESET BTN */
+#resetBtn{
+    position:fixed;
+    top:18px;
+    left:18px;
+    background:#dc2626;
+    border:none;
+    color:white;
+    padding:10px 16px;
+    border-radius:18px;
+    cursor:pointer;
+    font-weight:600;
+    z-index:999;
+    box-shadow:0 0 20px rgba(220,38,38,.35);
+}
+
 /* CONTAINER */
 .container{
     width:100%;
@@ -277,6 +293,12 @@ body::after{
 
 <body>
 
+<!-- RESET -->
+<button id="resetBtn"
+onclick="resetAllData()">
+RESET
+</button>
+
 <!-- USER TAG -->
 <div id="userTag">
 👤 Khách
@@ -364,7 +386,7 @@ class="item">
 
 </div>
 
-<!-- ONLY IMAGE 4 -->
+<!-- IMAGE -->
 <div class="gallery">
 
 <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
@@ -450,7 +472,6 @@ if(savedName){
 document.getElementById("commentName").value =
 savedName;
 
-/* ẨN PHẦN NHẬP TÊN */
 document.getElementById("nameBox")
 .style.display="none";
 }
@@ -476,8 +497,7 @@ updateUserTag();
 /* SAVE NAME */
 function saveCommentName(){
 
-/* CHỈ 1 TÊN / THIẾT BỊ */
-if(localStorage.getItem("deviceName")){
+if(localStorage.getItem("lockedName")){
 
 alert("Thiết bị này đã đặt tên rồi 😎");
 
@@ -495,6 +515,7 @@ return;
 }
 
 localStorage.setItem("deviceName",name);
+localStorage.setItem("lockedName","true");
 
 /* ẨN Ô NHẬP */
 document.getElementById("nameBox")
@@ -569,6 +590,19 @@ JSON.stringify(comments)
 document.getElementById("commentInput").value="";
 
 renderComments();
+}
+
+/* RESET ALL */
+function resetAllData(){
+
+localStorage.removeItem("deviceName");
+localStorage.removeItem("lockedName");
+localStorage.removeItem("comments");
+localStorage.removeItem("device_id");
+
+alert("Đã reset toàn bộ web 🔥");
+
+location.reload();
 }
 
 </script>
