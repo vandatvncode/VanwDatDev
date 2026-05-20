@@ -352,9 +352,6 @@ body::after{
         <!-- GALLERY -->
         <div class="gallery">
 
-            <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
-            <img src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
-            <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
             <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
         </div>
