@@ -25,7 +25,6 @@ body{
     overflow-x:hidden;
 }
 
-/* BACKGROUND */
 body::before{
     content:"";
     position:fixed;
@@ -35,7 +34,6 @@ body::before{
     z-index:-3;
 }
 
-/* GLOW */
 body::after{
     content:"";
     position:fixed;
@@ -140,7 +138,6 @@ body::after{
     text-decoration:none;
     color:white;
     transition:.35s;
-    box-shadow:0 0 25px rgba(59,130,246,.1);
 }
 
 .item:hover{
@@ -341,22 +338,13 @@ class="item">
 💬 Bình luận
 </div>
 
-<!-- COUNTDOWN -->
-<div id="cooldownText"
-style="
-margin-top:10px;
-color:#60a5fa;
-font-size:14px;">
-⏳ Có thể gửi ngay
-</div>
-
 <!-- NAME -->
 <div class="input-group"
 id="nameBox">
 
 <input type="text"
 id="commentName"
-placeholder="Đặt tên của bạn (không bắt buộc)...">
+placeholder="Đặt tên của bạn...">
 
 <button onclick="saveCommentName()">
 Lưu
@@ -371,8 +359,7 @@ Lưu
 id="commentInput"
 placeholder="Viết bình luận...">
 
-<button id="sendBtn"
-onclick="sendComment()">
+<button onclick="sendComment()">
 Gửi
 </button>
 
@@ -409,20 +396,79 @@ icon.style.animationDuration=(Math.random()*5+3)+"s";
 document.body.appendChild(icon);
 }
 
-/* LOAD NAME */
-let savedCommentName=
-localStorage.getItem("commentUserName");
+/* DEVICE NAME */
+let savedName =
+localStorage.getItem("deviceName");
 
-/* LOAD COMMENTS */
-let savedComments=
+/* COMMENTS */
+let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-/* SHOW COMMENTS */
+/* AUTO LOAD NAME */
+if(savedName){
+
+document.getElementById("commentName").value =
+savedName;
+
+document.getElementById("commentName").disabled =
+true;
+
+document.getElementById("nameBox")
+.style.display="none";
+}
+
+/* SAVE NAME */
+function saveCommentName(){
+
+let name =
+document.getElementById("commentName").value;
+
+if(name.trim()===""){
+
+alert("Nhập tên trước 😎");
+
+return;
+}
+
+/* ONLY 1 NAME PER DEVICE */
+if(localStorage.getItem("deviceName")){
+
+alert("Thiết bị này đã đặt tên rồi ⚡");
+
+return;
+}
+
+localStorage.setItem("deviceName",name);
+
+document.getElementById("nameBox")
+.style.display="none";
+
+alert("Đã lưu tên 🔥");
+}
+
+/* RENDER COMMENTS */
 function renderComments(){
 
-document.getElementById("comments").innerHTML="";
+let commentsBox =
+document.getElementById("comments");
 
-savedComments.forEach(c=>{
+commentsBox.innerHTML="";
+
+let now = Date.now();
+
+/* ONLY SHOW LAST 30S */
+comments = comments.filter(c => {
+
+return now - c.time <= 30000;
+
+});
+
+localStorage.setItem(
+"comments",
+JSON.stringify(comments)
+);
+
+comments.forEach(c=>{
 
 let div=document.createElement("div");
 
@@ -438,133 +484,57 @@ ${c.text}
 </div>
 `;
 
-document.getElementById("comments")
-.appendChild(div);
+commentsBox.appendChild(div);
 
 });
 
 }
 
-/* FIRST LOAD */
-renderComments();
-
-/* AUTO RELOAD COMMENTS EVERY 30S */
+/* AUTO REFRESH */
 setInterval(()=>{
 
-savedComments=
+comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
 renderComments();
 
-},30000);
+},1000);
 
-/* AUTO LOAD NAME */
-if(savedCommentName){
-
-document.getElementById("commentName").value=
-savedCommentName;
-
-document.getElementById("nameBox")
-.style.display="none";
-}
-
-/* SAVE NAME */
-function saveCommentName(){
-
-let name=
-document.getElementById("commentName").value;
-
-if(name.trim()===""){
-
-localStorage.removeItem("commentUserName");
-
-alert("Đã chuyển về khách 😎");
-
-return;
-}
-
-localStorage.setItem("commentUserName",name);
-
-document.getElementById("nameBox")
-.style.display="none";
-
-alert("Đã lưu tên 🔥");
-}
-
-/* COOLDOWN */
-let cooldown=false;
-let countdown=30;
-let timer;
+/* FIRST LOAD */
+renderComments();
 
 /* SEND COMMENT */
 function sendComment(){
 
-if(cooldown){
-
-alert("Đợi cooldown xong 😎");
-
-return;
-}
-
-let text=
+let text =
 document.getElementById("commentInput").value;
 
 if(text.trim()==="") return;
 
-let name=
-localStorage.getItem("commentUserName");
+let name =
+localStorage.getItem("deviceName");
 
-if(!name || name.trim()===""){
+if(!name){
 
 name="Khách";
 }
 
-savedComments.unshift({
+comments.unshift({
+
 name:name,
-text:text
+text:text,
+time:Date.now()
+
 });
 
 localStorage.setItem(
 "comments",
-JSON.stringify(savedComments)
+JSON.stringify(comments)
 );
-
-renderComments();
 
 document.getElementById("commentInput").value="";
 
-/* START COOLDOWN */
-cooldown=true;
-countdown=30;
-
-document.getElementById("sendBtn")
-.disabled=true;
-
-timer=setInterval(()=>{
-
-document.getElementById("cooldownText")
-.innerHTML=
-`⏳ Tải lại bình luận sau ${countdown}s`;
-
-countdown--;
-
-if(countdown<0){
-
-clearInterval(timer);
-
-cooldown=false;
-
-document.getElementById("sendBtn")
-.disabled=false;
-
-document.getElementById("cooldownText")
-.innerHTML=
-"✅ Có thể gửi lại";
-
-}
-
-},1000);
-
+renderComments();
 }
 
 </script>
