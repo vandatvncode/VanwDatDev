@@ -31,10 +31,8 @@ body::before{
     content:"";
     position:fixed;
     inset:0;
-
     background:
     radial-gradient(circle at top,#172554,#020617 70%);
-
     z-index:-3;
 }
 
@@ -44,17 +42,12 @@ body::after{
     position:fixed;
     width:500px;
     height:500px;
-
     background:#2563eb;
     border-radius:50%;
-
     filter:blur(150px);
-
     opacity:.25;
-
     top:-150px;
     left:-150px;
-
     z-index:-2;
 }
 
@@ -69,17 +62,11 @@ body::after{
 /* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
-
     border:1px solid rgba(59,130,246,.25);
-
     border-radius:38px;
-
     padding:32px 22px;
-
     text-align:center;
-
     backdrop-filter:blur(12px);
-
     box-shadow:0 0 40px rgba(59,130,246,.12);
 }
 
@@ -87,13 +74,9 @@ body::after{
 .avatar{
     width:145px;
     height:145px;
-
     border-radius:50%;
-
     object-fit:cover;
-
     border:5px solid #a855f7;
-
     box-shadow:
     0 0 15px #9333ea,
     0 0 35px #9333ea;
@@ -102,29 +85,19 @@ body::after{
 /* NAME */
 .name{
     margin-top:18px;
-
     font-size:38px;
     font-weight:700;
-
-    color:white;
 }
 
 /* BIO */
 .bio{
     margin-top:12px;
-
     display:inline-block;
-
     padding:10px 20px;
-
     border-radius:50px;
-
     background:rgba(255,255,255,.05);
-
     border:1px solid rgba(255,255,255,.08);
-
     color:#ddd;
-
     font-size:14px;
 }
 
@@ -133,46 +106,34 @@ body::after{
     display:flex;
     justify-content:center;
     gap:18px;
-
     margin-top:28px;
 }
 
 .social{
     width:65px;
     height:65px;
-
     border-radius:22px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     background:rgba(255,255,255,.05);
-
     border:1px solid rgba(255,255,255,.08);
-
     color:white;
-
     font-size:28px;
-
     text-decoration:none;
-
     transition:.3s;
 }
 
 .social:hover{
     transform:translateY(-6px);
-
     box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
 /* LINKS */
 .links{
     margin-top:35px;
-
     display:flex;
     flex-direction:column;
-
     gap:22px;
 }
 
@@ -181,27 +142,18 @@ body::after{
     display:flex;
     align-items:center;
     gap:18px;
-
     padding:18px;
-
     border-radius:28px;
-
     background:rgba(15,23,42,.75);
-
     border:1px solid rgba(59,130,246,.2);
-
     text-decoration:none;
-
     color:white;
-
     transition:.35s;
-
     box-shadow:0 0 25px rgba(59,130,246,.1);
 }
 
 .item:hover{
     transform:scale(1.03);
-
     border-color:#3b82f6;
 }
 
@@ -209,11 +161,8 @@ body::after{
 .item img{
     width:72px;
     height:72px;
-
     border-radius:18px;
-
     object-fit:cover;
-
     border:2px solid rgba(255,255,255,.1);
 }
 
@@ -223,95 +172,74 @@ body::after{
     font-weight:600;
 }
 
-/* BANNER */
-.banner{
-    margin-top:32px;
-
-    overflow:hidden;
-
-    border-radius:30px;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:0 0 35px rgba(0,0,0,.35);
+/* GALLERY */
+.gallery{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
-.banner img{
+.gallery img{
     width:100%;
-    display:block;
+    border-radius:20px;
+    border:2px solid rgba(255,255,255,.08);
+    transition:.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.03);
 }
 
 /* BOX */
 .comment-box{
     margin-top:28px;
-
     padding:22px;
-
     border-radius:30px;
-
     background:rgba(15,23,42,.75);
-
     border:1px solid rgba(59,130,246,.2);
 }
 
 /* TITLE */
 .comment-title{
-    font-size:30px;
+    font-size:28px;
     font-weight:700;
 }
 
 /* INPUT */
 .input-group{
     margin-top:18px;
-
     display:flex;
     gap:10px;
 }
 
 .input-group input{
     flex:1;
-
     padding:15px;
-
     border:none;
-
     border-radius:20px;
-
     background:#020617;
-
     color:white;
-
     outline:none;
-
     border:1px solid rgba(59,130,246,.2);
 }
 
 .input-group button{
     padding:0 22px;
-
     border:none;
-
     border-radius:18px;
-
     background:#2563eb;
-
     color:white;
-
     font-weight:600;
-
     cursor:pointer;
 }
 
 /* COMMENT */
 .cmt{
     margin-top:18px;
-
     padding:16px;
-
     border-radius:22px;
-
     background:rgba(255,255,255,.04);
-
     text-align:left;
 }
 
@@ -323,24 +251,17 @@ body::after{
 /* FOOTER */
 .footer{
     text-align:center;
-
     margin-top:30px;
-
     color:#aaa;
-
     font-size:14px;
 }
 
 /* FLOAT */
 .float{
     position:fixed;
-
     top:-10px;
-
     color:#3b82f6;
-
     animation:fall linear infinite;
-
     pointer-events:none;
 }
 
@@ -362,7 +283,7 @@ body::after{
 
         <!-- AVATAR -->
         <img class="avatar"
-        src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+        src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
         <!-- NAME -->
         <div class="name">
@@ -371,21 +292,21 @@ body::after{
 
         <!-- BIO -->
         <div class="bio">
-            ✨ chia sẻ script · gaming profile ✨
+            ✨ gaming profile · share script ✨
         </div>
 
         <!-- SOCIAL -->
         <div class="socials">
 
-            <a href="#" class="social">
+            <a href="https://tiktok.com" target="_blank" class="social">
                 <i class="fab fa-tiktok"></i>
             </a>
 
-            <a href="#" class="social">
+            <a href="https://discord.gg/ahxDyZNgec" target="_blank" class="social">
                 <i class="fab fa-discord"></i>
             </a>
 
-            <a href="#" class="social">
+            <a href="https://facebook.com" target="_blank" class="social">
                 <i class="fab fa-facebook-f"></i>
             </a>
 
@@ -394,52 +315,54 @@ body::after{
         <!-- LINKS -->
         <div class="links">
 
-            <a href="#" class="item">
+            <a href="https://discord.gg/ahxDyZNgec"
+            target="_blank"
+            class="item">
 
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+                <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
 
                 <span>
-                    🍎 Share script free fire 🍏
+                    🍎 Share Script Free Fire 🍏
                 </span>
 
             </a>
 
-            <a href="#" class="item">
+            <a href="https://youtube.com"
+            target="_blank"
+            class="item">
 
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+                <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
 
                 <span>
-                    ⚡ Tổng hợp client mới nhất
+                    ⚡ Tổng Hợp Client Mới Nhất
                 </span>
 
             </a>
 
-            <a href="#" class="item">
+            <a href="https://facebook.com"
+            target="_blank"
+            class="item">
 
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
-
-                <span>
-                    😎 Liên hệ admin nếu có lỗi
-                </span>
-
-            </a>
-
-            <a href="#" class="item">
-
-                <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+                <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
                 <span>
-                    💻 Hướng dẫn làm script
+                    😎 Liên Hệ Admin Nếu Có Lỗi
                 </span>
 
             </a>
 
         </div>
 
-        <!-- IMAGE -->
-        <div class="banner">
+        <!-- GALLERY -->
+        <div class="gallery">
 
-            <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
+            <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
+
+            <img src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
+
+            <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
+
+            <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
         </div>
 
@@ -447,7 +370,7 @@ body::after{
         <div class="comment-box">
 
             <div class="comment-title">
-                💬 Bình luận cộng đồng
+                💬 Bình luận
             </div>
 
             <div class="input-group">
@@ -480,18 +403,18 @@ body::after{
 
         </div>
 
-        <!-- ADMIN MESSAGE -->
+        <!-- MESSAGE -->
         <div class="comment-box">
 
             <div class="comment-title">
-                📩 Nhắn Tin Cho Admin
+                📩 Nhắn Tin Admin
             </div>
 
             <div class="input-group">
 
                 <input type="text"
                 id="msgInput"
-                placeholder="Nhập tin nhắn cho admin...">
+                placeholder="Nhập tin nhắn...">
 
                 <button onclick="sendMsg()">
                     Gửi
@@ -560,7 +483,7 @@ function sendComment(){
     input.value="";
 }
 
-/* MESSAGE ADMIN */
+/* MESSAGE */
 function sendMsg(){
 
     let input=document.getElementById("msgInput");
@@ -575,7 +498,7 @@ function sendMsg(){
 
     div.innerHTML=`
         <div class="cmt-name">
-            📩 Bạn đã gửi
+            📩 Đã gửi tới admin
         </div>
 
         <div>
@@ -587,7 +510,7 @@ function sendMsg(){
 
     input.value="";
 
-    alert("Đã gửi tin nhắn cho admin ⚡");
+    alert("Đã gửi tin nhắn ⚡");
 }
 
 </script>
