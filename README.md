@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VanDatDev</title>
+<title>VanDatDev ⚡</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -176,7 +176,7 @@ body::after{
     gap:22px;
 }
 
-/* LINK ITEM */
+/* ITEM */
 .item{
     display:flex;
     align-items:center;
@@ -223,7 +223,7 @@ body::after{
     font-weight:600;
 }
 
-/* BIG IMAGE */
+/* BANNER */
 .banner{
     margin-top:32px;
 
@@ -241,7 +241,7 @@ body::after{
     display:block;
 }
 
-/* COMMENT */
+/* BOX */
 .comment-box{
     margin-top:28px;
 
@@ -254,22 +254,10 @@ body::after{
     border:1px solid rgba(59,130,246,.2);
 }
 
-.comment-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
+/* TITLE */
 .comment-title{
     font-size:30px;
     font-weight:700;
-}
-
-.time{
-    padding:8px 15px;
-    border-radius:20px;
-    background:#1e3a8a;
-    font-size:13px;
 }
 
 /* INPUT */
@@ -314,7 +302,7 @@ body::after{
     cursor:pointer;
 }
 
-/* COMMENT ITEM */
+/* COMMENT */
 .cmt{
     margin-top:18px;
 
@@ -323,6 +311,8 @@ body::after{
     border-radius:22px;
 
     background:rgba(255,255,255,.04);
+
+    text-align:left;
 }
 
 .cmt-name{
@@ -341,7 +331,7 @@ body::after{
     font-size:14px;
 }
 
-/* FLOAT ICON */
+/* FLOAT */
 .float{
     position:fixed;
 
@@ -381,7 +371,7 @@ body::after{
 
         <!-- BIO -->
         <div class="bio">
-            ✨ chia sẻ script · hướng dẫn tận tình ✨
+            ✨ chia sẻ script · gaming profile ✨
         </div>
 
         <!-- SOCIAL -->
@@ -409,7 +399,7 @@ body::after{
                 <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
                 <span>
-                    🍎 trang chia sẻ đồ free fire 🍏
+                    🍎 Share script free fire 🍏
                 </span>
 
             </a>
@@ -419,7 +409,7 @@ body::after{
                 <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
                 <span>
-                    🍎 Tổng hợp tất cả client mới nhất 🍏
+                    ⚡ Tổng hợp client mới nhất
                 </span>
 
             </a>
@@ -429,7 +419,7 @@ body::after{
                 <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
                 <span>
-                    liên hệ admin nếu có lỗi 😎
+                    😎 Liên hệ admin nếu có lỗi
                 </span>
 
             </a>
@@ -439,14 +429,14 @@ body::after{
                 <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
 
                 <span>
-                    🍎 note link hướng dẫn 🍎
+                    💻 Hướng dẫn làm script
                 </span>
 
             </a>
 
         </div>
 
-        <!-- BIG IMAGE -->
+        <!-- IMAGE -->
         <div class="banner">
 
             <img src="https://i.ibb.co/ZR6FqsxW/6073.jpg">
@@ -456,64 +446,60 @@ body::after{
         <!-- COMMENT -->
         <div class="comment-box">
 
-            <div class="comment-top">
-
-                <div class="comment-title">
-                    💬 Bình luận
-                </div>
-
-                <div class="time">
-                    ⏳ 24s
-                </div>
-
+            <div class="comment-title">
+                💬 Bình luận cộng đồng
             </div>
 
             <div class="input-group">
 
                 <input type="text"
+                id="commentInput"
                 placeholder="Viết bình luận...">
 
-                <button>
+                <button onclick="sendComment()">
                     Gửi
                 </button>
 
             </div>
 
-            <div class="cmt">
+            <div id="comments">
 
-                <div class="cmt-name">
-                    👤 Khách
-                </div>
+                <div class="cmt">
 
-                <div>
-                    web đẹp vc 😭
-                </div>
+                    <div class="cmt-name">
+                        👤 Khách
+                    </div>
 
-            </div>
+                    <div>
+                        web đẹp vc 😭
+                    </div>
 
-            <div class="cmt">
-
-                <div class="cmt-name">
-                    🛡️ Tín Nguyễn
-                </div>
-
-                <div>
-                    Đã copy link, chúc admin sức khỏe.
                 </div>
 
             </div>
 
-            <div class="cmt">
+        </div>
 
-                <div class="cmt-name">
-                    💻 Khoa Dev
-                </div>
+        <!-- ADMIN MESSAGE -->
+        <div class="comment-box">
 
-                <div>
-                    Trang uy tín, mình đã share cho anh em.
-                </div>
+            <div class="comment-title">
+                📩 Nhắn Tin Cho Admin
+            </div>
+
+            <div class="input-group">
+
+                <input type="text"
+                id="msgInput"
+                placeholder="Nhập tin nhắn cho admin...">
+
+                <button onclick="sendMsg()">
+                    Gửi
+                </button>
 
             </div>
+
+            <div id="messages"></div>
 
         </div>
 
@@ -528,7 +514,7 @@ body::after{
 
 <script>
 
-/* EFFECT */
+/* FLOAT EFFECT */
 for(let i=0;i<70;i++){
 
     let icon=document.createElement("div");
@@ -544,6 +530,64 @@ for(let i=0;i<70;i++){
     icon.style.animationDuration=(Math.random()*5+3)+"s";
 
     document.body.appendChild(icon);
+}
+
+/* COMMENT */
+function sendComment(){
+
+    let input=document.getElementById("commentInput");
+
+    let text=input.value;
+
+    if(text.trim()==="") return;
+
+    let div=document.createElement("div");
+
+    div.className="cmt";
+
+    div.innerHTML=`
+        <div class="cmt-name">
+            👤 Khách
+        </div>
+
+        <div>
+            ${text}
+        </div>
+    `;
+
+    document.getElementById("comments").prepend(div);
+
+    input.value="";
+}
+
+/* MESSAGE ADMIN */
+function sendMsg(){
+
+    let input=document.getElementById("msgInput");
+
+    let text=input.value;
+
+    if(text.trim()==="") return;
+
+    let div=document.createElement("div");
+
+    div.className="cmt";
+
+    div.innerHTML=`
+        <div class="cmt-name">
+            📩 Bạn đã gửi
+        </div>
+
+        <div>
+            ${text}
+        </div>
+    `;
+
+    document.getElementById("messages").prepend(div);
+
+    input.value="";
+
+    alert("Đã gửi tin nhắn cho admin ⚡");
 }
 
 </script>
