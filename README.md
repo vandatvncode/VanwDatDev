@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -51,7 +50,6 @@ body::after{
     z-index:-2;
 }
 
-/* CONTAINER */
 .container{
     width:100%;
     max-width:480px;
@@ -59,7 +57,6 @@ body::after{
     padding:25px 18px 50px;
 }
 
-/* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
     border:1px solid rgba(59,130,246,.25);
@@ -70,7 +67,6 @@ body::after{
     box-shadow:0 0 40px rgba(59,130,246,.12);
 }
 
-/* AVATAR */
 .avatar{
     width:145px;
     height:145px;
@@ -82,14 +78,12 @@ body::after{
     0 0 35px #9333ea;
 }
 
-/* NAME */
 .name{
     margin-top:18px;
     font-size:38px;
     font-weight:700;
 }
 
-/* BIO */
 .bio{
     margin-top:12px;
     display:inline-block;
@@ -101,7 +95,6 @@ body::after{
     font-size:14px;
 }
 
-/* SOCIAL */
 .socials{
     display:flex;
     justify-content:center;
@@ -129,7 +122,6 @@ body::after{
     box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
-/* LINKS */
 .links{
     margin-top:35px;
     display:flex;
@@ -161,7 +153,6 @@ body::after{
     height:72px;
     border-radius:18px;
     object-fit:cover;
-    border:2px solid rgba(255,255,255,.1);
 }
 
 .item span{
@@ -169,7 +160,6 @@ body::after{
     font-weight:600;
 }
 
-/* GALLERY */
 .gallery{
     margin-top:30px;
 }
@@ -178,14 +168,8 @@ body::after{
     width:100%;
     border-radius:25px;
     border:2px solid rgba(255,255,255,.08);
-    transition:.3s;
 }
 
-.gallery img:hover{
-    transform:scale(1.02);
-}
-
-/* COMMENT */
 .comment-box{
     margin-top:28px;
     padding:22px;
@@ -199,7 +183,6 @@ body::after{
     font-weight:700;
 }
 
-/* INPUT */
 .input-group{
     margin-top:18px;
     display:flex;
@@ -227,7 +210,6 @@ body::after{
     cursor:pointer;
 }
 
-/* COMMENT ITEM */
 .cmt{
     margin-top:18px;
     padding:16px;
@@ -241,7 +223,6 @@ body::after{
     margin-bottom:8px;
 }
 
-/* FOOTER */
 .footer{
     text-align:center;
     margin-top:30px;
@@ -249,7 +230,6 @@ body::after{
     font-size:14px;
 }
 
-/* FLOAT */
 .float{
     position:fixed;
     top:-10px;
@@ -272,131 +252,141 @@ body::after{
 
 <div class="container">
 
-    <div class="profile">
+<div class="profile">
 
-        <!-- AVATAR -->
-        <img class="avatar"
-        src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
+<img class="avatar"
+src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
-        <!-- NAME -->
-        <div class="name">
-            VanDatDev ⚡
-        </div>
+<div class="name">
+VanDatDev ⚡
+</div>
 
-        <!-- BIO -->
-        <div class="bio">
-            ✨ gaming profile · share script ✨
-        </div>
+<div class="bio">
+✨ gaming profile · share script ✨
+</div>
 
-        <!-- SOCIAL -->
-        <div class="socials">
+<div class="socials">
 
-            <a href="https://tiktok.com" target="_blank" class="social">
-                <i class="fab fa-tiktok"></i>
-            </a>
+<a href="https://tiktok.com"
+target="_blank"
+class="social">
+<i class="fab fa-tiktok"></i>
+</a>
 
-            <a href="https://discord.gg/ahxDyZNgec" target="_blank" class="social">
-                <i class="fab fa-discord"></i>
-            </a>
+<a href="https://discord.gg/ahxDyZNgec"
+target="_blank"
+class="social">
+<i class="fab fa-discord"></i>
+</a>
 
-            <a href="https://facebook.com" target="_blank" class="social">
-                <i class="fab fa-facebook-f"></i>
-            </a>
+<a href="https://facebook.com"
+target="_blank"
+class="social">
+<i class="fab fa-facebook-f"></i>
+</a>
 
-        </div>
+</div>
 
-        <!-- LINKS -->
-        <div class="links">
+<div class="links">
 
-            <a href="https://discord.gg/ahxDyZNgec"
-            target="_blank"
-            class="item">
+<a href="https://discord.gg/ahxDyZNgec"
+target="_blank"
+class="item">
 
-                <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
+<img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
 
-                <span>
-                    🍎 Share Script Free Fire 🍏
-                </span>
+<span>
+🍎 Share Script Free Fire 🍏
+</span>
 
-            </a>
+</a>
 
-            <a href="https://youtube.com"
-            target="_blank"
-            class="item">
+<a href="https://youtube.com"
+target="_blank"
+class="item">
 
-                <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
+<img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
 
-                <span>
-                    ⚡ Tổng Hợp Client Mới Nhất
-                </span>
+<span>
+⚡ Tổng Hợp Client Mới Nhất
+</span>
 
-            </a>
+</a>
 
-            <a href="https://facebook.com"
-            target="_blank"
-            class="item">
+<a href="https://facebook.com"
+target="_blank"
+class="item">
 
-                <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
+<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
-                <span>
-                    😎 Liên Hệ Admin Nếu Có Lỗi
-                </span>
+<span>
+😎 Liên Hệ Admin Nếu Có Lỗi
+</span>
 
-            </a>
+</a>
 
-        </div>
+</div>
 
-        <!-- ONLY IMAGE 4 -->
-        <div class="gallery">
+<!-- ONLY IMAGE 4 -->
+<div class="gallery">
 
-            <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
+<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
-        </div>
+</div>
 
-        <!-- COMMENT -->
-        <div class="comment-box">
+<!-- COMMENT -->
+<div class="comment-box">
 
-            <div class="comment-title">
-                💬 Bình luận
-            </div>
+<div class="comment-title">
+💬 Bình luận
+</div>
 
-            <!-- NAME -->
-            <div class="input-group">
+<!-- COUNTDOWN -->
+<div id="cooldownText"
+style="
+margin-top:10px;
+color:#60a5fa;
+font-size:14px;">
+⏳ Có thể gửi ngay
+</div>
 
-                <input type="text"
-                id="commentName"
-                placeholder="Đặt tên của bạn (không bắt buộc)...">
+<!-- NAME -->
+<div class="input-group"
+id="nameBox">
 
-                <button onclick="saveCommentName()">
-                    Lưu
-                </button>
+<input type="text"
+id="commentName"
+placeholder="Đặt tên của bạn (không bắt buộc)...">
 
-            </div>
+<button onclick="saveCommentName()">
+Lưu
+</button>
 
-            <!-- COMMENT -->
-            <div class="input-group">
+</div>
 
-                <input type="text"
-                id="commentInput"
-                placeholder="Viết bình luận...">
+<!-- COMMENT -->
+<div class="input-group">
 
-                <button onclick="sendComment()">
-                    Gửi
-                </button>
+<input type="text"
+id="commentInput"
+placeholder="Viết bình luận...">
 
-            </div>
+<button id="sendBtn"
+onclick="sendComment()">
+Gửi
+</button>
 
-            <div id="comments"></div>
+</div>
 
-        </div>
+<div id="comments"></div>
 
-        <!-- FOOTER -->
-        <div class="footer">
-            © 2026 VanDatDev ⚡
-        </div>
+</div>
 
-    </div>
+<div class="footer">
+© 2026 VanDatDev ⚡
+</div>
 
+</div>
 </div>
 
 <script>
@@ -404,116 +394,177 @@ body::after{
 /* FLOAT EFFECT */
 for(let i=0;i<70;i++){
 
-    let icon=document.createElement("div");
+let icon=document.createElement("div");
 
-    icon.className="float";
+icon.className="float";
 
-    icon.innerHTML="⚡";
+icon.innerHTML="⚡";
 
-    icon.style.left=Math.random()*100+"vw";
+icon.style.left=Math.random()*100+"vw";
 
-    icon.style.fontSize=(Math.random()*18+10)+"px";
+icon.style.fontSize=(Math.random()*18+10)+"px";
 
-    icon.style.animationDuration=(Math.random()*5+3)+"s";
+icon.style.animationDuration=(Math.random()*5+3)+"s";
 
-    document.body.appendChild(icon);
+document.body.appendChild(icon);
 }
 
 /* LOAD NAME */
-let savedCommentName = localStorage.getItem("commentUserName");
+let savedCommentName=
+localStorage.getItem("commentUserName");
 
-/* AUTO LOAD */
+/* LOAD COMMENTS */
+let savedComments=
+JSON.parse(localStorage.getItem("comments")) || [];
+
+/* SHOW COMMENTS */
+function renderComments(){
+
+document.getElementById("comments").innerHTML="";
+
+savedComments.forEach(c=>{
+
+let div=document.createElement("div");
+
+div.className="cmt";
+
+div.innerHTML=`
+<div class="cmt-name">
+👤 ${c.name}
+</div>
+
+<div>
+${c.text}
+</div>
+`;
+
+document.getElementById("comments")
+.appendChild(div);
+
+});
+
+}
+
+/* FIRST LOAD */
+renderComments();
+
+/* AUTO RELOAD COMMENTS EVERY 30S */
+setInterval(()=>{
+
+savedComments=
+JSON.parse(localStorage.getItem("comments")) || [];
+
+renderComments();
+
+},30000);
+
+/* AUTO LOAD NAME */
 if(savedCommentName){
 
-    document.getElementById("commentName").value = savedCommentName;
+document.getElementById("commentName").value=
+savedCommentName;
+
+document.getElementById("nameBox")
+.style.display="none";
 }
 
 /* SAVE NAME */
 function saveCommentName(){
 
-    let name = document.getElementById("commentName").value;
+let name=
+document.getElementById("commentName").value;
 
-    if(name.trim() === ""){
+if(name.trim()===""){
 
-        alert("Đã chuyển về chế độ Khách 😎");
+localStorage.removeItem("commentUserName");
 
-        localStorage.removeItem("commentUserName");
+alert("Đã chuyển về khách 😎");
 
-        return;
-    }
-
-    localStorage.setItem("commentUserName", name);
-
-    alert("Đã lưu tên 🔥");
+return;
 }
+
+localStorage.setItem("commentUserName",name);
+
+document.getElementById("nameBox")
+.style.display="none";
+
+alert("Đã lưu tên 🔥");
+}
+
+/* COOLDOWN */
+let cooldown=false;
+let countdown=30;
+let timer;
 
 /* SEND COMMENT */
 function sendComment(){
 
-    let text = document.getElementById("commentInput").value;
+if(cooldown){
 
-    if(text.trim() === "") return;
+alert("Đợi cooldown xong 😎");
 
-    let name = localStorage.getItem("commentUserName");
-
-    if(!name || name.trim() === ""){
-
-        name = "Khách";
-    }
-
-    let div = document.createElement("div");
-
-    div.className = "cmt";
-
-    div.innerHTML = `
-        <div class="cmt-name">
-            👤 ${name}
-        </div>
-
-        <div>
-            ${text}
-        </div>
-    `;
-
-    document.getElementById("comments").prepend(div);
-
-    document.getElementById("commentInput").value = "";
+return;
 }
 
-<script>
+let text=
+document.getElementById("commentInput").value;
 
-/* LOAD NAME */
-let savedCommentName = localStorage.getItem("commentUserName");
+if(text.trim()==="") return;
 
-/* AUTO LOAD */
-if(savedCommentName){
+let name=
+localStorage.getItem("commentUserName");
 
-    document.getElementById("commentName").value = savedCommentName;
+if(!name || name.trim()===""){
 
-    /* ẨN PHẦN ĐẶT TÊN */
-    document.getElementById("nameBox").style.display = "none";
+name="Khách";
 }
 
-/* SAVE NAME */
-function saveCommentName(){
+savedComments.unshift({
+name:name,
+text:text
+});
 
-    let name = document.getElementById("commentName").value;
+localStorage.setItem(
+"comments",
+JSON.stringify(savedComments)
+);
 
-    if(name.trim() === ""){
+renderComments();
 
-        alert("Đã chuyển về chế độ Khách 😎");
+document.getElementById("commentInput").value="";
 
-        localStorage.removeItem("commentUserName");
+/* START COOLDOWN */
+cooldown=true;
+countdown=30;
 
-        return;
-    }
+document.getElementById("sendBtn")
+.disabled=true;
 
-    localStorage.setItem("commentUserName", name);
+timer=setInterval(()=>{
 
-    /* ẨN SAU KHI LƯU */
-    document.getElementById("nameBox").style.display = "none";
+document.getElementById("cooldownText")
+.innerHTML=
+`⏳ Tải lại bình luận sau ${countdown}s`;
 
-    alert("Đã lưu tên 🔥");
+countdown--;
+
+if(countdown<0){
+
+clearInterval(timer);
+
+cooldown=false;
+
+document.getElementById("sendBtn")
+.disabled=false;
+
+document.getElementById("cooldownText")
+.innerHTML=
+"✅ Có thể gửi lại";
+
+}
+
+},1000);
+
 }
 
 </script>
