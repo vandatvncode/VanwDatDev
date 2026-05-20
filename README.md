@@ -25,7 +25,7 @@ body{
     overflow-x:hidden;
 }
 
-/* BACKGROUND */
+/* BG */
 body::before{
     content:"";
     position:fixed;
@@ -49,7 +49,7 @@ body::after{
     z-index:-2;
 }
 
-/* USER TAG */
+/* USER */
 #userTag{
     position:fixed;
     top:18px;
@@ -66,7 +66,7 @@ body::after{
     box-shadow:0 0 20px rgba(59,130,246,.2);
 }
 
-/* RESET BTN */
+/* RESET */
 #resetBtn{
     position:fixed;
     top:18px;
@@ -97,7 +97,7 @@ body::after{
 
 .admin-box{
     width:90%;
-    max-width:340px;
+    max-width:360px;
     background:#0f172a;
     border:1px solid rgba(59,130,246,.3);
     border-radius:28px;
@@ -105,6 +105,8 @@ body::after{
     text-align:center;
     box-shadow:0 0 40px rgba(59,130,246,.2);
     animation:showAdmin .25s;
+    max-height:80vh;
+    overflow-y:auto;
 }
 
 @keyframes showAdmin{
@@ -132,6 +134,7 @@ body::after{
     background:#020617;
     color:white;
     border:1px solid rgba(59,130,246,.25);
+    margin-top:12px;
 }
 
 .admin-buttons{
@@ -158,6 +161,39 @@ body::after{
     background:#dc2626;
 }
 
+.panel-title{
+    margin-bottom:18px;
+    font-size:22px;
+}
+
+.panelBtn{
+    width:100%;
+    margin-top:12px;
+    padding:14px;
+    border:none;
+    border-radius:18px;
+    cursor:pointer;
+    font-weight:600;
+    color:white;
+    background:#2563eb;
+}
+
+.panelBtn.red{
+    background:#dc2626;
+}
+
+.panelBtn.orange{
+    background:#ea580c;
+}
+
+.panelBtn.gray{
+    background:#475569;
+}
+
+.panelBtn.green{
+    background:#16a34a;
+}
+
 /* CONTAINER */
 .container{
     width:100%;
@@ -166,7 +202,6 @@ body::after{
     padding:25px 18px 50px;
 }
 
-/* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
     border:1px solid rgba(59,130,246,.25);
@@ -233,7 +268,6 @@ body::after{
 
 .social:hover{
     transform:translateY(-6px);
-    box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
 /* LINKS */
@@ -259,7 +293,6 @@ body::after{
 
 .item:hover{
     transform:scale(1.03);
-    border-color:#3b82f6;
 }
 
 .item img{
@@ -274,7 +307,7 @@ body::after{
     font-weight:600;
 }
 
-/* GALLERY */
+/* IMAGE */
 .gallery{
     margin-top:30px;
 }
@@ -282,7 +315,6 @@ body::after{
 .gallery img{
     width:100%;
     border-radius:25px;
-    border:2px solid rgba(255,255,255,.08);
 }
 
 /* COMMENT */
@@ -305,7 +337,6 @@ body::after{
     font-size:14px;
 }
 
-/* INPUT */
 .input-group{
     margin-top:18px;
     display:flex;
@@ -376,6 +407,7 @@ body::after{
     color:#60a5fa;
 }
 
+/* FOOTER */
 .footer{
     text-align:center;
     margin-top:30px;
@@ -404,13 +436,11 @@ body::after{
 
 <body>
 
-<!-- RESET -->
 <button id="resetBtn"
 onclick="showAdminMenu()">
-RESET
+ADMIN
 </button>
 
-<!-- USER -->
 <div id="userTag">
 👤 Khách
 </div>
@@ -422,6 +452,9 @@ RESET
 
 <h2>🔒 ADMIN PANEL</h2>
 
+<!-- LOGIN -->
+<div id="adminLogin">
+
 <input type="password"
 id="adminPass"
 placeholder="Nhập mật khẩu admin...">
@@ -429,11 +462,67 @@ placeholder="Nhập mật khẩu admin...">
 <div class="admin-buttons">
 
 <button onclick="checkAdminPass()">
-Xác nhận
+Đăng nhập
 </button>
 
 <button onclick="closeAdminMenu()">
 Đóng
+</button>
+
+</div>
+
+</div>
+
+<!-- PANEL -->
+<div id="adminPanel"
+style="display:none;">
+
+<h3 class="panel-title">
+⚙️ Tùy Chọn Admin
+</h3>
+
+<!-- TITLE -->
+<input type="text"
+id="newTitle"
+placeholder="Đổi title web...">
+
+<button class="panelBtn"
+onclick="changeTitle()">
+Đổi Title
+</button>
+
+<!-- XÓA TÊN -->
+<input type="text"
+id="removeName"
+placeholder="Tên cần xoá...">
+
+<button class="panelBtn red"
+onclick="removePlayerName()">
+Xoá Tên Người Chơi
+</button>
+
+<!-- RESET COMMENT -->
+<button class="panelBtn orange"
+onclick="resetComments()">
+Reset Bình Luận
+</button>
+
+<!-- RESET ALL -->
+<button class="panelBtn red"
+onclick="resetAllData()">
+Reset Toàn Bộ
+</button>
+
+<!-- SHOW USED -->
+<button class="panelBtn green"
+onclick="showUsedNames()">
+Hiện Tên Đã Dùng
+</button>
+
+<!-- CLOSE -->
+<button class="panelBtn gray"
+onclick="closeAdminMenu()">
+Đóng Panel
 </button>
 
 </div>
@@ -487,9 +576,7 @@ class="item">
 
 <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
 
-<span>
-🍎 Share Script Free Fire 🍏
-</span>
+<span>🍎 Share Script Free Fire 🍏</span>
 
 </a>
 
@@ -499,30 +586,14 @@ class="item">
 
 <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
 
-<span>
-⚡ Tổng Hợp Client Mới Nhất
-</span>
-
-</a>
-
-<a href="https://facebook.com"
-target="_blank"
-class="item">
-
-<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
-
-<span>
-😎 Liên Hệ Admin Nếu Có Lỗi
-</span>
+<span>⚡ Tổng Hợp Client Mới Nhất</span>
 
 </a>
 
 </div>
 
 <div class="gallery">
-
 <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
-
 </div>
 
 <div class="comment-box">
@@ -571,7 +642,6 @@ Gửi
 </div>
 
 </div>
-</div>
 
 <script>
 
@@ -597,19 +667,17 @@ icon.style.animationDuration=(Math.random()*5+3)+"s";
 document.body.appendChild(icon);
 }
 
-/* COMMENTS */
+/* DATA */
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
-/* USED NAMES */
 let usedNames =
 JSON.parse(localStorage.getItem("usedNames")) || [];
 
-/* LOAD NAME */
 let savedName =
 localStorage.getItem("deviceName");
 
-/* HIDE NAME BOX */
+/* LOAD NAME */
 if(savedName){
 
 document.getElementById("commentName").value =
@@ -633,7 +701,6 @@ name="Khách";
 document.getElementById("userTag")
 .innerHTML=`👤 ${name}`;
 
-/* ADMIN ONLY */
 if(name === ADMIN_NAME){
 
 document.getElementById("resetBtn")
@@ -670,7 +737,6 @@ alert("Nhập tên trước 😎");
 return;
 }
 
-/* CHECK DUPLICATE */
 if(usedNames.includes(name)){
 
 alert("Tên này đã có người dùng 😭");
@@ -678,7 +744,6 @@ alert("Tên này đã có người dùng 😭");
 return;
 }
 
-/* SAVE */
 usedNames.push(name);
 
 localStorage.setItem(
@@ -689,7 +754,6 @@ JSON.stringify(usedNames)
 localStorage.setItem("deviceName",name);
 localStorage.setItem("lockedName","true");
 
-/* HIDE */
 document.getElementById("nameBox")
 .style.display="none";
 
@@ -698,7 +762,7 @@ updateUserTag();
 alert("Đã lưu tên 🔥");
 }
 
-/* RENDER */
+/* RENDER COMMENTS */
 function renderComments(){
 
 let commentsBox =
@@ -728,7 +792,6 @@ commentsBox.appendChild(div);
 
 }
 
-/* FIRST LOAD */
 renderComments();
 
 /* SEND */
@@ -764,7 +827,7 @@ document.getElementById("commentInput").value="";
 renderComments();
 }
 
-/* AUTO RELOAD */
+/* TIMER */
 let time = 30;
 
 setInterval(()=>{
@@ -795,7 +858,7 @@ document.getElementById("adminMenu")
 
 }
 
-/* CLOSE ADMIN */
+/* CLOSE */
 function closeAdminMenu(){
 
 document.getElementById("adminMenu")
@@ -803,7 +866,7 @@ document.getElementById("adminMenu")
 
 }
 
-/* CHECK ADMIN */
+/* LOGIN */
 function checkAdminPass(){
 
 let pass =
@@ -816,12 +879,93 @@ alert("Sai mật khẩu 😎");
 return;
 }
 
-/* RESET COMMENT ONLY */
+document.getElementById("adminLogin")
+.style.display="none";
+
+document.getElementById("adminPanel")
+.style.display="block";
+
+}
+
+/* CHANGE TITLE */
+function changeTitle(){
+
+let title =
+document.getElementById("newTitle").value;
+
+if(title.trim()===""){
+
+alert("Nhập title 😎");
+
+return;
+}
+
+document.title = title;
+
+alert("Đã đổi title 🔥");
+}
+
+/* REMOVE NAME */
+function removePlayerName(){
+
+let target =
+document.getElementById("removeName").value;
+
+if(target.trim()===""){
+
+alert("Nhập tên cần xoá 😎");
+
+return;
+}
+
+usedNames =
+usedNames.filter(name => name !== target);
+
+localStorage.setItem(
+"usedNames",
+JSON.stringify(usedNames)
+);
+
+alert("Đã xoá tên 🔥");
+}
+
+/* RESET COMMENT */
+function resetComments(){
+
 localStorage.removeItem("comments");
 
 alert("Đã reset bình luận 🔥");
 
 location.reload();
+}
+
+/* RESET ALL */
+function resetAllData(){
+
+localStorage.clear();
+
+alert("Đã reset toàn bộ 🔥");
+
+location.reload();
+}
+
+/* SHOW USED */
+function showUsedNames(){
+
+let data =
+JSON.parse(localStorage.getItem("usedNames")) || [];
+
+if(data.length === 0){
+
+alert("Chưa có tên nào 😎");
+
+return;
+}
+
+alert(
+"📋 Tên đã dùng:\n\n" +
+data.join("\n")
+);
 
 }
 
