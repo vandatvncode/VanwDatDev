@@ -11,6 +11,34 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
+    
+.subMenu{
+    display:none;
+    margin-top:10px;
+    margin-left:20px;
+}
+
+.subMenu.show{
+    display:block;
+}
+
+.subBtn{
+    display:block;
+    margin:8px 0;
+    padding:12px 16px;
+    border-radius:16px;
+    background:rgba(37,99,235,.2);
+    border:1px solid rgba(59,130,246,.3);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:.2s;
+}
+
+.subBtn:hover{
+    transform:translateX(6px);
+    background:rgba(37,99,235,.35);
+}
 
 *{
     margin:0;
@@ -445,6 +473,87 @@ ADMIN
 👤 Khách
 </div>
 
+<div class="links">
+
+<!-- MENU 1 -->
+<div class="item"
+onclick="toggleMenu('hackMenu')">
+
+<img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
+
+<span>🍎 Share Script Free Fire 🍏</span>
+
+</div>
+
+<div class="subMenu" id="hackMenu">
+
+<a href="https://google.com" target="_blank" class="subBtn">
+🔥 AIMLOCK VIP
+</a>
+
+<a href="https://youtube.com" target="_blank" class="subBtn">
+⚡ PANEL HEADSHOT
+</a>
+
+<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
+👑 JOIN DISCORD
+</a>
+
+</div>
+
+<!-- MENU 2 -->
+<div class="item"
+onclick="toggleMenu('clientMenu')">
+
+<img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
+
+<span>⚡ Tổng Hợp Client Mới Nhất</span>
+
+</div>
+
+<div class="subMenu" id="clientMenu">
+
+<a href="https://youtube.com" target="_blank" class="subBtn">
+💻 CLIENT IOS
+</a>
+
+<a href="https://google.com" target="_blank" class="subBtn">
+🎮 CLIENT ANDROID
+</a>
+
+<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
+📦 FULL PACK CLIENT
+</a>
+
+</div>
+
+<!-- MENU 3 -->
+<div class="item"
+onclick="toggleMenu('contactMenu')">
+
+<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
+
+<span>😎 Liên Hệ Admin Nếu Có Lỗi</span>
+
+</div>
+
+<div class="subMenu" id="contactMenu">
+
+<a href="https://facebook.com" target="_blank" class="subBtn">
+📩 FACEBOOK ADMIN
+</a>
+
+<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
+💬 DISCORD SUPPORT
+</a>
+
+<a href="https://tiktok.com" target="_blank" class="subBtn">
+🎥 TIKTOK ADMIN
+</a>
+
+</div>
+
+</div>
 <!-- ADMIN MENU -->
 <div id="adminMenu">
 
@@ -970,6 +1079,24 @@ data.join("\n")
 }
 
 </script>
+function toggleMenu(id){
 
+let menu = document.getElementById(id);
+
+// đóng/mở toggle
+if(menu.classList.contains("show")){
+menu.classList.remove("show");
+return;
+}
+
+// đóng tất cả menu khác
+document.querySelectorAll(".subMenu").forEach(m=>{
+m.classList.remove("show");
+});
+
+// mở menu được chọn
+menu.classList.add("show");
+
+}
 </body>
 </html>
