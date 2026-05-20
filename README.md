@@ -137,7 +137,6 @@ body::after{
     gap:22px;
 }
 
-/* ITEM */
 .item{
     display:flex;
     align-items:center;
@@ -157,7 +156,6 @@ body::after{
     border-color:#3b82f6;
 }
 
-/* IMG */
 .item img{
     width:72px;
     height:72px;
@@ -166,7 +164,6 @@ body::after{
     border:2px solid rgba(255,255,255,.1);
 }
 
-/* TEXT */
 .item span{
     font-size:18px;
     font-weight:600;
@@ -385,31 +382,31 @@ body::after{
 
             </div>
 
-            <div id="comments">
-
-                <div class="cmt">
-
-                    <div class="cmt-name">
-                        👤 Khách
-                    </div>
-
-                    <div>
-                        web đẹp vc 😭
-                    </div>
-
-                </div>
-
-            </div>
+            <div id="comments"></div>
 
         </div>
 
-        <!-- MESSAGE -->
+        <!-- MESSAGE ADMIN -->
         <div class="comment-box">
 
             <div class="comment-title">
                 📩 Nhắn Tin Admin
             </div>
 
+            <!-- NAME -->
+            <div class="input-group">
+
+                <input type="text"
+                id="nameInput"
+                placeholder="Đặt tên của bạn...">
+
+                <button onclick="saveName()">
+                    Lưu
+                </button>
+
+            </div>
+
+            <!-- MESSAGE -->
             <div class="input-group">
 
                 <input type="text"
@@ -483,22 +480,64 @@ function sendComment(){
     input.value="";
 }
 
-/* MESSAGE */
+/* LOAD NAME */
+let savedName = localStorage.getItem("userName");
+
+/* LOCK NAME */
+if(savedName){
+
+    document.getElementById("nameInput").value = savedName;
+
+    document.getElementById("nameInput").disabled = true;
+}
+
+/* SAVE NAME */
+function saveName(){
+
+    let name = document.getElementById("nameInput").value;
+
+    if(name.trim() === ""){
+
+        alert("Nhập tên trước 😎");
+        return;
+    }
+
+    /* CHECK EXIST */
+    if(localStorage.getItem("userName")){
+
+        alert("Mỗi IP chỉ được đặt 1 tên ⚡");
+        return;
+    }
+
+    localStorage.setItem("userName", name);
+
+    document.getElementById("nameInput").disabled = true;
+
+    alert("Đã lưu tên thành công 🔥");
+}
+
+/* SEND MESSAGE */
 function sendMsg(){
 
-    let input=document.getElementById("msgInput");
+    let text = document.getElementById("msgInput").value;
 
-    let text=input.value;
+    let name = localStorage.getItem("userName");
 
-    if(text.trim()==="") return;
+    if(!name){
 
-    let div=document.createElement("div");
+        alert("Hãy đặt tên trước 😎");
+        return;
+    }
 
-    div.className="cmt";
+    if(text.trim() === "") return;
 
-    div.innerHTML=`
+    let div = document.createElement("div");
+
+    div.className = "cmt";
+
+    div.innerHTML = `
         <div class="cmt-name">
-            📩 Đã gửi tới admin
+            👤 ${name}
         </div>
 
         <div>
@@ -508,7 +547,7 @@ function sendMsg(){
 
     document.getElementById("messages").prepend(div);
 
-    input.value="";
+    document.getElementById("msgInput").value = "";
 
     alert("Đã gửi tin nhắn ⚡");
 }
