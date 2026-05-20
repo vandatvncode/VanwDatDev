@@ -25,7 +25,7 @@ body{
     overflow-x:hidden;
 }
 
-/* BG */
+/* BACKGROUND */
 body::before{
     content:"";
     position:fixed;
@@ -66,7 +66,7 @@ body::after{
     box-shadow:0 0 20px rgba(59,130,246,.2);
 }
 
-/* RESET */
+/* RESET BTN */
 #resetBtn{
     position:fixed;
     top:18px;
@@ -80,6 +80,82 @@ body::after{
     font-weight:600;
     z-index:999;
     display:none;
+    box-shadow:0 0 20px rgba(220,38,38,.35);
+}
+
+/* ADMIN MENU */
+#adminMenu{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    backdrop-filter:blur(6px);
+}
+
+.admin-box{
+    width:90%;
+    max-width:340px;
+    background:#0f172a;
+    border:1px solid rgba(59,130,246,.3);
+    border-radius:28px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(59,130,246,.2);
+    animation:showAdmin .25s;
+}
+
+@keyframes showAdmin{
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.admin-box h2{
+    margin-bottom:18px;
+    font-size:24px;
+}
+
+.admin-box input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:18px;
+    background:#020617;
+    color:white;
+    border:1px solid rgba(59,130,246,.25);
+}
+
+.admin-buttons{
+    margin-top:18px;
+    display:flex;
+    gap:10px;
+}
+
+.admin-buttons button{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:18px;
+    cursor:pointer;
+    color:white;
+    font-weight:600;
+}
+
+.admin-buttons button:first-child{
+    background:#2563eb;
+}
+
+.admin-buttons button:last-child{
+    background:#dc2626;
 }
 
 /* CONTAINER */
@@ -90,6 +166,7 @@ body::after{
     padding:25px 18px 50px;
 }
 
+/* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
     border:1px solid rgba(59,130,246,.25);
@@ -197,7 +274,7 @@ body::after{
     font-weight:600;
 }
 
-/* IMAGE */
+/* GALLERY */
 .gallery{
     margin-top:30px;
 }
@@ -329,7 +406,7 @@ body::after{
 
 <!-- RESET -->
 <button id="resetBtn"
-onclick="resetAllData()">
+onclick="showAdminMenu()">
 RESET
 </button>
 
@@ -338,25 +415,48 @@ RESET
 👤 Khách
 </div>
 
+<!-- ADMIN MENU -->
+<div id="adminMenu">
+
+<div class="admin-box">
+
+<h2>🔒 ADMIN PANEL</h2>
+
+<input type="password"
+id="adminPass"
+placeholder="Nhập mật khẩu admin...">
+
+<div class="admin-buttons">
+
+<button onclick="checkAdminPass()">
+Xác nhận
+</button>
+
+<button onclick="closeAdminMenu()">
+Đóng
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 <div class="container">
 
 <div class="profile">
 
-<!-- AVATAR -->
 <img class="avatar"
 src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
-<!-- NAME -->
 <div class="name">
 VanDatDev ⚡
 </div>
 
-<!-- BIO -->
 <div class="bio">
 ✨ gaming profile · share script ✨
 </div>
 
-<!-- SOCIAL -->
 <div class="socials">
 
 <a href="https://tiktok.com"
@@ -379,7 +479,6 @@ class="social">
 
 </div>
 
-<!-- LINKS -->
 <div class="links">
 
 <a href="https://discord.gg/ahxDyZNgec"
@@ -420,14 +519,12 @@ class="item">
 
 </div>
 
-<!-- IMAGE -->
 <div class="gallery">
 
 <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
 
 </div>
 
-<!-- COMMENT -->
 <div class="comment-box">
 
 <div class="comment-title">
@@ -504,15 +601,15 @@ document.body.appendChild(icon);
 let comments =
 JSON.parse(localStorage.getItem("comments")) || [];
 
+/* USED NAMES */
+let usedNames =
+JSON.parse(localStorage.getItem("usedNames")) || [];
+
 /* LOAD NAME */
 let savedName =
 localStorage.getItem("deviceName");
 
-/* LOAD USED NAMES */
-let usedNames =
-JSON.parse(localStorage.getItem("usedNames")) || [];
-
-/* ĐÃ ĐẶT TÊN */
+/* HIDE NAME BOX */
 if(savedName){
 
 document.getElementById("commentName").value =
@@ -522,7 +619,7 @@ document.getElementById("nameBox")
 .style.display="none";
 }
 
-/* UPDATE TAG */
+/* USER TAG */
 function updateUserTag(){
 
 let name =
@@ -536,7 +633,7 @@ name="Khách";
 document.getElementById("userTag")
 .innerHTML=`👤 ${name}`;
 
-/* ADMIN THẤY RESET */
+/* ADMIN ONLY */
 if(name === ADMIN_NAME){
 
 document.getElementById("resetBtn")
@@ -573,7 +670,7 @@ alert("Nhập tên trước 😎");
 return;
 }
 
-/* CHECK TÊN TRÙNG */
+/* CHECK DUPLICATE */
 if(usedNames.includes(name)){
 
 alert("Tên này đã có người dùng 😭");
@@ -592,7 +689,7 @@ JSON.stringify(usedNames)
 localStorage.setItem("deviceName",name);
 localStorage.setItem("lockedName","true");
 
-/* HIDE NAME BOX */
+/* HIDE */
 document.getElementById("nameBox")
 .style.display="none";
 
@@ -667,7 +764,7 @@ document.getElementById("commentInput").value="";
 renderComments();
 }
 
-/* TIMER */
+/* AUTO RELOAD */
 let time = 30;
 
 setInterval(()=>{
@@ -690,11 +787,27 @@ time = 30;
 
 },1000);
 
-/* RESET */
-function resetAllData(){
+/* OPEN ADMIN */
+function showAdminMenu(){
+
+document.getElementById("adminMenu")
+.style.display="flex";
+
+}
+
+/* CLOSE ADMIN */
+function closeAdminMenu(){
+
+document.getElementById("adminMenu")
+.style.display="none";
+
+}
+
+/* CHECK ADMIN */
+function checkAdminPass(){
 
 let pass =
-prompt("Nhập mật khẩu admin:");
+document.getElementById("adminPass").value;
 
 if(pass !== ADMIN_PASSWORD){
 
@@ -703,14 +816,13 @@ alert("Sai mật khẩu 😎");
 return;
 }
 
-localStorage.removeItem("deviceName");
-localStorage.removeItem("lockedName");
+/* RESET COMMENT ONLY */
 localStorage.removeItem("comments");
-localStorage.removeItem("usedNames");
 
-alert("Đã reset toàn bộ 🔥");
+alert("Đã reset bình luận 🔥");
 
 location.reload();
+
 }
 
 </script>
