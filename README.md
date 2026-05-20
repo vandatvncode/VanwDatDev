@@ -25,7 +25,6 @@ body{
     overflow-x:hidden;
 }
 
-/* BACKGROUND */
 body::before{
     content:"";
     position:fixed;
@@ -35,7 +34,6 @@ body::before{
     z-index:-3;
 }
 
-/* GLOW */
 body::after{
     content:"";
     position:fixed;
@@ -80,7 +78,7 @@ body::after{
     cursor:pointer;
     font-weight:600;
     z-index:999;
-    box-shadow:0 0 20px rgba(220,38,38,.35);
+    display:none;
 }
 
 /* CONTAINER */
@@ -91,7 +89,6 @@ body::after{
     padding:25px 18px 50px;
 }
 
-/* PROFILE */
 .profile{
     background:rgba(15,23,42,.78);
     border:1px solid rgba(59,130,246,.25);
@@ -102,7 +99,6 @@ body::after{
     box-shadow:0 0 40px rgba(59,130,246,.12);
 }
 
-/* AVATAR */
 .avatar{
     width:145px;
     height:145px;
@@ -114,14 +110,12 @@ body::after{
     0 0 35px #9333ea;
 }
 
-/* NAME */
 .name{
     margin-top:18px;
     font-size:38px;
     font-weight:700;
 }
 
-/* BIO */
 .bio{
     margin-top:12px;
     display:inline-block;
@@ -133,7 +127,6 @@ body::after{
     font-size:14px;
 }
 
-/* SOCIAL */
 .socials{
     display:flex;
     justify-content:center;
@@ -161,7 +154,6 @@ body::after{
     box-shadow:0 0 25px rgba(59,130,246,.35);
 }
 
-/* LINKS */
 .links{
     margin-top:35px;
     display:flex;
@@ -199,7 +191,6 @@ body::after{
     font-weight:600;
 }
 
-/* GALLERY */
 .gallery{
     margin-top:30px;
 }
@@ -210,7 +201,6 @@ body::after{
     border:2px solid rgba(255,255,255,.08);
 }
 
-/* COMMENT */
 .comment-box{
     margin-top:28px;
     padding:22px;
@@ -224,6 +214,13 @@ body::after{
     font-weight:700;
 }
 
+.reloadText{
+    margin-top:10px;
+    color:#60a5fa;
+    font-size:14px;
+}
+
+/* INPUT */
 .input-group{
     margin-top:18px;
     display:flex;
@@ -251,20 +248,50 @@ body::after{
     cursor:pointer;
 }
 
+/* COMMENTS */
+#comments{
+    margin-top:20px;
+    max-height:350px;
+    overflow-y:auto;
+    padding-right:6px;
+}
+
+/* SCROLLBAR */
+#comments::-webkit-scrollbar{
+    width:6px;
+}
+
+#comments::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:20px;
+}
+
 .cmt{
-    margin-top:18px;
+    margin-bottom:14px;
     padding:16px;
     border-radius:22px;
     background:rgba(255,255,255,.04);
     text-align:left;
+    animation:show .3s;
+}
+
+@keyframes show{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .cmt-name{
     font-weight:700;
     margin-bottom:8px;
+    color:#60a5fa;
 }
 
-/* FOOTER */
 .footer{
     text-align:center;
     margin-top:30px;
@@ -293,13 +320,11 @@ body::after{
 
 <body>
 
-<!-- RESET -->
 <button id="resetBtn"
 onclick="resetAllData()">
 RESET
 </button>
 
-<!-- USER TAG -->
 <div id="userTag">
 👤 Khách
 </div>
@@ -308,21 +333,17 @@ RESET
 
 <div class="profile">
 
-<!-- AVATAR -->
 <img class="avatar"
 src="https://i.ibb.co/fzPg5PYx/ảnh2.jpg">
 
-<!-- NAME -->
 <div class="name">
 VanDatDev ⚡
 </div>
 
-<!-- BIO -->
 <div class="bio">
 ✨ gaming profile · share script ✨
 </div>
 
-<!-- SOCIAL -->
 <div class="socials">
 
 <a href="https://tiktok.com"
@@ -345,7 +366,6 @@ class="social">
 
 </div>
 
-<!-- LINKS -->
 <div class="links">
 
 <a href="https://discord.gg/ahxDyZNgec"
@@ -386,18 +406,19 @@ class="item">
 
 </div>
 
-<!-- IMAGE -->
 <div class="gallery">
-
 <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
-
 </div>
 
-<!-- COMMENT -->
 <div class="comment-box">
 
 <div class="comment-title">
 💬 Bình luận
+</div>
+
+<div class="reloadText">
+🔄 Tải lại bình luận sau:
+<span id="timer">30</span>s
 </div>
 
 <!-- NAME -->
@@ -430,7 +451,6 @@ Gửi
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
 © 2026 VanDatDev ⚡
 </div>
@@ -440,7 +460,20 @@ Gửi
 
 <script>
 
-/* FLOAT EFFECT */
+/* ADMIN PASS */
+const ADMIN_PASSWORD = "vandat";
+
+let adminPass =
+prompt("Nhập pass admin:");
+
+if(adminPass === ADMIN_PASSWORD){
+
+document.getElementById("resetBtn")
+.style.display="block";
+
+}
+
+/* FLOAT */
 for(let i=0;i<70;i++){
 
 let icon=document.createElement("div");
@@ -466,7 +499,7 @@ JSON.parse(localStorage.getItem("comments")) || [];
 let savedName =
 localStorage.getItem("deviceName");
 
-/* ĐÃ ĐẶT TÊN */
+/* HIDE NAME BOX */
 if(savedName){
 
 document.getElementById("commentName").value =
@@ -476,22 +509,22 @@ document.getElementById("nameBox")
 .style.display="none";
 }
 
-/* UPDATE USER TAG */
+/* USER TAG */
 function updateUserTag(){
 
 let name =
 localStorage.getItem("deviceName");
 
-if(!name || name.trim()===""){
+if(!name){
 
 name="Khách";
 }
 
 document.getElementById("userTag")
 .innerHTML=`👤 ${name}`;
+
 }
 
-/* FIRST LOAD */
 updateUserTag();
 
 /* SAVE NAME */
@@ -517,7 +550,6 @@ return;
 localStorage.setItem("deviceName",name);
 localStorage.setItem("lockedName","true");
 
-/* ẨN Ô NHẬP */
 document.getElementById("nameBox")
 .style.display="none";
 
@@ -526,7 +558,7 @@ updateUserTag();
 alert("Đã lưu tên 🔥");
 }
 
-/* RENDER COMMENTS */
+/* RENDER */
 function renderComments(){
 
 let commentsBox =
@@ -559,7 +591,7 @@ commentsBox.appendChild(div);
 /* FIRST LOAD */
 renderComments();
 
-/* SEND COMMENT */
+/* SEND */
 function sendComment(){
 
 let text =
@@ -570,7 +602,7 @@ if(text.trim()==="") return;
 let name =
 localStorage.getItem("deviceName");
 
-if(!name || name.trim()===""){
+if(!name){
 
 name="Khách";
 }
@@ -592,15 +624,37 @@ document.getElementById("commentInput").value="";
 renderComments();
 }
 
-/* RESET ALL */
+/* AUTO RELOAD 30S */
+let time = 30;
+
+setInterval(()=>{
+
+time--;
+
+document.getElementById("timer")
+.innerText=time;
+
+if(time <= 0){
+
+comments =
+JSON.parse(localStorage.getItem("comments")) || [];
+
+renderComments();
+
+time = 30;
+
+}
+
+},1000);
+
+/* RESET */
 function resetAllData(){
 
 localStorage.removeItem("deviceName");
 localStorage.removeItem("lockedName");
 localStorage.removeItem("comments");
-localStorage.removeItem("device_id");
 
-alert("Đã reset toàn bộ web 🔥");
+alert("Đã reset toàn bộ 🔥");
 
 location.reload();
 }
