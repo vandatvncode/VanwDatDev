@@ -172,20 +172,17 @@ body::after{
 /* GALLERY */
 .gallery{
     margin-top:30px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
 }
 
 .gallery img{
     width:100%;
-    border-radius:20px;
+    border-radius:25px;
     border:2px solid rgba(255,255,255,.08);
     transition:.3s;
 }
 
 .gallery img:hover{
-    transform:scale(1.03);
+    transform:scale(1.02);
 }
 
 /* COMMENT */
@@ -349,7 +346,7 @@ body::after{
 
         </div>
 
-        <!-- GALLERY -->
+        <!-- ONLY IMAGE 4 -->
         <div class="gallery">
 
             <img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
@@ -368,7 +365,7 @@ body::after{
 
                 <input type="text"
                 id="commentName"
-                placeholder="Đặt tên của bạn...">
+                placeholder="Đặt tên của bạn (không bắt buộc)...">
 
                 <button onclick="saveCommentName()">
                     Lưu
@@ -425,12 +422,10 @@ for(let i=0;i<70;i++){
 /* LOAD NAME */
 let savedCommentName = localStorage.getItem("commentUserName");
 
-/* LOCK NAME */
+/* AUTO LOAD */
 if(savedCommentName){
 
     document.getElementById("commentName").value = savedCommentName;
-
-    document.getElementById("commentName").disabled = true;
 }
 
 /* SAVE NAME */
@@ -440,19 +435,14 @@ function saveCommentName(){
 
     if(name.trim() === ""){
 
-        alert("Nhập tên trước 😎");
-        return;
-    }
+        alert("Đã chuyển về chế độ Khách 😎");
 
-    if(localStorage.getItem("commentUserName")){
+        localStorage.removeItem("commentUserName");
 
-        alert("Mỗi người chỉ được đặt 1 tên ⚡");
         return;
     }
 
     localStorage.setItem("commentUserName", name);
-
-    document.getElementById("commentName").disabled = true;
 
     alert("Đã lưu tên 🔥");
 }
@@ -462,15 +452,14 @@ function sendComment(){
 
     let text = document.getElementById("commentInput").value;
 
+    if(text.trim() === "") return;
+
     let name = localStorage.getItem("commentUserName");
 
-    if(!name){
+    if(!name || name.trim() === ""){
 
-        alert("Hãy đặt tên trước 😎");
-        return;
+        name = "Khách";
     }
-
-    if(text.trim() === "") return;
 
     let div = document.createElement("div");
 
@@ -491,16 +480,40 @@ function sendComment(){
     document.getElementById("commentInput").value = "";
 }
 
-</script>
+<script>
 
-</body>
-</html>
+/* LOAD NAME */
+let savedCommentName = localStorage.getItem("commentUserName");
 
-    document.getElementById("messages").prepend(div);
+/* AUTO LOAD */
+if(savedCommentName){
 
-    document.getElementById("msgInput").value = "";
+    document.getElementById("commentName").value = savedCommentName;
 
-    alert("Đã gửi tin nhắn ⚡");
+    /* ẨN PHẦN ĐẶT TÊN */
+    document.getElementById("nameBox").style.display = "none";
+}
+
+/* SAVE NAME */
+function saveCommentName(){
+
+    let name = document.getElementById("commentName").value;
+
+    if(name.trim() === ""){
+
+        alert("Đã chuyển về chế độ Khách 😎");
+
+        localStorage.removeItem("commentUserName");
+
+        return;
+    }
+
+    localStorage.setItem("commentUserName", name);
+
+    /* ẨN SAU KHI LƯU */
+    document.getElementById("nameBox").style.display = "none";
+
+    alert("Đã lưu tên 🔥");
 }
 
 </script>
