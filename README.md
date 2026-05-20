@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -11,8 +12,6 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
-    
-}
 
 *{
     margin:0;
@@ -432,29 +431,6 @@ body::after{
         opacity:0;
     }
 }
-    .subMenu{
-    display:none;
-    flex-direction:column;
-    gap:10px;
-    margin-top:10px;
-    margin-left:20px;
-    animation: fade .3s ease;
-}
-
-.subBtn{
-    padding:12px;
-    border-radius:18px;
-    background:#1e293b;
-    color:white;
-    text-decoration:none;
-    font-size:14px;
-    border:1px solid rgba(255,255,255,.08);
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateY(-5px);}
-    to{opacity:1; transform:translateY(0);}
-}
 
 </style>
 </head>
@@ -470,87 +446,6 @@ ADMIN
 👤 Khách
 </div>
 
-<div class="links">
-
-<!-- MENU 1 -->
-<div class="item"
-onclick="toggleMenu('hackMenu')">
-
-<img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
-
-<span>🍎 Share Script Free Fire 🍏</span>
-
-</div>
-
-<div class="subMenu" id="hackMenu">
-
-<a href="https://google.com" target="_blank" class="subBtn">
-🔥 AIMLOCK VIP
-</a>
-
-<a href="https://youtube.com" target="_blank" class="subBtn">
-⚡ PANEL HEADSHOT
-</a>
-
-<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
-👑 JOIN DISCORD
-</a>
-
-</div>
-
-<!-- MENU 2 -->
-<div class="item"
-onclick="toggleMenu('clientMenu')">
-
-<img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
-
-<span>⚡ Tổng Hợp Client Mới Nhất</span>
-
-</div>
-
-<div class="subMenu" id="clientMenu">
-
-<a href="https://youtube.com" target="_blank" class="subBtn">
-💻 CLIENT IOS
-</a>
-
-<a href="https://google.com" target="_blank" class="subBtn">
-🎮 CLIENT ANDROID
-</a>
-
-<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
-📦 FULL PACK CLIENT
-</a>
-
-</div>
-
-<!-- MENU 3 -->
-<div class="item"
-onclick="toggleMenu('contactMenu')">
-
-<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
-
-<span>😎 Liên Hệ Admin Nếu Có Lỗi</span>
-
-</div>
-
-<div class="subMenu" id="contactMenu">
-
-<a href="https://facebook.com" target="_blank" class="subBtn">
-📩 FACEBOOK ADMIN
-</a>
-
-<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">
-💬 DISCORD SUPPORT
-</a>
-
-<a href="https://tiktok.com" target="_blank" class="subBtn">
-🎥 TIKTOK ADMIN
-</a>
-
-</div>
-
-</div>
 <!-- ADMIN MENU -->
 <div id="adminMenu">
 
@@ -675,43 +570,26 @@ class="social">
 </div>
 
 <div class="links">
-<div class="links">
 
-<!-- MENU CHA 1 -->
-<div class="item" onclick="toggleMenu('hackMenu')">
+<a href="https://discord.gg/ahxDyZNgec"
+target="_blank"
+class="item">
+
 <img src="https://i.ibb.co/4wLrTx5H/ảnh1.jpg">
+
 <span>🍎 Share Script Free Fire 🍏</span>
-</div>
 
-<div class="subMenu" id="hackMenu">
-<a href="https://google.com" target="_blank" class="subBtn">🔥 AIMLOCK VIP</a>
-<a href="https://youtube.com" target="_blank" class="subBtn">⚡ PANEL HEADSHOT</a>
-<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">👑 JOIN DISCORD</a>
-</div>
+</a>
 
-<!-- MENU CHA 2 -->
-<div class="item" onclick="toggleMenu('clientMenu')">
+<a href="https://youtube.com"
+target="_blank"
+class="item">
+
 <img src="https://i.ibb.co/0RtJsTmC/ảnh3.jpg">
+
 <span>⚡ Tổng Hợp Client Mới Nhất</span>
-</div>
 
-<div class="subMenu" id="clientMenu">
-<a href="#" class="subBtn">💻 CLIENT IOS</a>
-<a href="#" class="subBtn">🎮 CLIENT ANDROID</a>
-<a href="#" class="subBtn">📦 FULL PACK CLIENT</a>
-</div>
-
-<!-- MENU CHA 3 -->
-<div class="item" onclick="toggleMenu('contactMenu')">
-<img src="https://i.ibb.co/kg0gQZnr/ảnh4.jpg">
-<span>😎 Liên Hệ Admin</span>
-</div>
-
-<div class="subMenu" id="contactMenu">
-<a href="https://facebook.com" target="_blank" class="subBtn">📩 FACEBOOK</a>
-<a href="https://discord.gg/ahxDyZNgec" target="_blank" class="subBtn">💬 DISCORD</a>
-<a href="https://tiktok.com" target="_blank" class="subBtn">🎥 TIKTOK</a>
-</div>
+</a>
 
 </div>
 
@@ -1091,15 +969,6 @@ data.join("\n")
 );
 
 }
-    function toggleMenu(id){
-    let el = document.getElementById(id);
-
-    if(el.style.display === "flex"){
-        el.style.display = "none";
-    }else{
-        el.style.display = "flex";
-    }
-    }
 
 </script>
 
