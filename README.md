@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VanwdatDev⚡</title>
+<title>FF Sensitivity AI ⚡</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -130,22 +130,22 @@ body{
     font-weight:700;
 }
 
+.badge{
+    display:inline-block;
+    margin-top:12px;
+    background:#ffcc00;
+    color:black;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
 .footer{
     text-align:center;
     margin-top:25px;
     color:#666;
     font-size:14px;
-}
-
-.badge{
-    display:inline-block;
-    background:#ffcc00;
-    color:black;
-    padding:5px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-    margin-top:10px;
 }
 
 </style>
@@ -157,14 +157,14 @@ body{
     <div class="title">🎯 FF SENSITIVITY AI</div>
 
     <div class="sub">
-        Nhập bất kỳ dòng máy nào để hiện độ nhạy ⚡
+        Nhập tên bất kỳ dòng máy để random độ nhạy ⚡
     </div>
 
     <input 
     type="text"
     id="searchInput"
     class="search"
-    placeholder="🔍 Ví dụ: iPhone 17 Plus, Samsung A99 Ultra..."
+    placeholder="🔍 Ví dụ: iPhone 17 Plus, Samsung A99..."
     onkeyup="filterDevices()"
     >
 
@@ -182,80 +182,18 @@ body{
 
 const devices = [
 
-{
-name:"iPhone 15 Pro Max",
-brand:"Apple"
-},
-
-{
-name:"iPhone 14 Pro Max",
-brand:"Apple"
-},
-
-{
-name:"Samsung S23 Ultra",
-brand:"Samsung"
-},
-
-{
-name:"Samsung A54",
-brand:"Samsung"
-},
-
-{
-name:"Samsung A24",
-brand:"Samsung"
-},
-
-{
-name:"Redmi Note 12",
-brand:"Xiaomi"
-},
-
-{
-name:"POCO F5",
-brand:"Xiaomi"
-},
-
-{
-name:"ROG Phone 7",
-brand:"ASUS"
-},
-
-{
-name:"OPPO Reno8",
-brand:"OPPO"
-},
-
-{
-name:"Realme 11 Pro",
-brand:"Realme"
-},
-
-{
-name:"Vivo V27",
-brand:"Vivo"
-},
-
-{
-name:"iPad Pro M4",
-brand:"Apple"
-},
-
-{
-name:"Galaxy Tab S9",
-brand:"Samsung"
-},
-
-{
-name:"Black Shark 5",
-brand:"Black Shark"
-},
-
-{
-name:"Red Magic 9 Pro",
-brand:"Nubia"
-}
+{name:"iPhone 15 Pro Max",brand:"Apple"},
+{name:"iPhone 14 Pro Max",brand:"Apple"},
+{name:"Samsung S23 Ultra",brand:"Samsung"},
+{name:"Samsung A54",brand:"Samsung"},
+{name:"Redmi Note 12",brand:"Xiaomi"},
+{name:"POCO F5",brand:"Xiaomi"},
+{name:"ROG Phone 7",brand:"ASUS"},
+{name:"Black Shark 5",brand:"Black Shark"},
+{name:"Red Magic 9 Pro",brand:"Nubia"},
+{name:"OPPO Reno8",brand:"OPPO"},
+{name:"Realme 11 Pro",brand:"Realme"},
+{name:"Vivo V27",brand:"Vivo"}
 
 ];
 
@@ -312,7 +250,7 @@ function filterDevices(){
             </div>
 
             <div class="device-brand">
-                Bấm để tạo độ nhạy AI
+                Bấm để random độ nhạy AI
             </div>
 
             <div class="badge">
@@ -329,59 +267,30 @@ function filterDevices(){
 
 function createCustomDevice(name){
 
-    const lower = name.toLowerCase();
-
-    let base = 190;
-    let dpi = 700;
-    let fire = 50;
-
-    if(lower.includes("iphone")){
-
-        base = 200;
-        dpi = 900;
-        fire = 65;
-
-    }else if(
-        lower.includes("rog") ||
-        lower.includes("red magic") ||
-        lower.includes("black shark")
-    ){
-
-        base = 200;
-        dpi = 1100;
-        fire = 75;
-
-    }else if(
-        lower.includes("samsung") ||
-        lower.includes("xiaomi") ||
-        lower.includes("poco")
-    ){
-
-        base = 198;
-        dpi = 850;
-        fire = 60;
-
-    }
+    // RANDOM 100 -> 200
+    const random = (min,max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
     const device = {
 
         name:name.toUpperCase(),
 
-        general:base,
+        general: random(100,200),
 
-        red:base,
+        red: random(100,200),
 
-        x2:base - 5,
+        x2: random(100,200),
 
-        x4:base - 10,
+        x4: random(100,200),
 
-        awm:base - 25,
+        awm: random(100,200),
 
-        free:200,
+        free: random(100,200),
 
-        fire:fire + "%",
+        fire: random(35,80) + "%",
 
-        dpi:dpi
+        dpi: random(400,1200)
 
     };
 
