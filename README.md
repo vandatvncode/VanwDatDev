@@ -1,163 +1,585 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>For You 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>FF Sensitivity Pro ⚡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
 body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-background:linear-gradient(135deg,#ff4d6d,#ffb6c1,#6a5acd);
+    background:#0f0f0f;
+    color:white;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    font-size:35px;
+    font-weight:700;
+    color:#ffcc00;
+}
+
+.sub{
+    text-align:center;
+    color:#999;
+    margin-top:5px;
+    margin-bottom:30px;
+}
+
+.search{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    background:#1b1b1b;
+    color:white;
+    font-size:16px;
+    margin-bottom:15px;
+}
+
+.search::placeholder{
+    color:#777;
+}
+
+select{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    background:#1b1b1b;
+    color:white;
+    font-size:16px;
+    margin-bottom:25px;
 }
 
 .card{
-width:90%;
-max-width:420px;
-padding:25px;
-border-radius:20px;
-background:rgba(0,0,0,0.35);
-backdrop-filter:blur(10px);
-text-align:center;
-color:white;
-box-shadow:0 0 30px rgba(255,255,255,0.2);
+    background:#181818;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 0 20px rgba(255,204,0,0.15);
+    animation:show .4s ease;
 }
 
-#avatar{
-width:130px;
-height:130px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid white;
-margin-bottom:10px;
-box-shadow:0 0 20px #ff4d6d;
+@keyframes show{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:8px;
-border:none;
-border-radius:10px;
-outline:none;
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#232323;
+    padding:14px;
+    border-radius:14px;
+    margin:12px 0;
 }
 
-button{
-margin-top:10px;
-padding:10px;
-border:none;
-border-radius:50px;
-background:white;
-color:#ff4d6d;
-font-weight:bold;
-cursor:pointer;
-transition:0.3s;
+.label{
+    font-weight:500;
+    color:#ddd;
 }
 
-button:hover{transform:scale(1.05)}
-
-#msg{
-display:none;
-margin-top:15px;
-line-height:1.6;
-animation:fade 1s ease;
+.value{
+    font-weight:700;
+    color:#ffcc00;
 }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
+.btn{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(45deg,#ffcc00,#ff8800);
+    color:black;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
 }
 
-.heart{
-position:absolute;
-top:-10px;
-color:#ff4d6d;
-animation:fall 6s linear infinite;
+.btn:hover{
+    transform:scale(1.02);
 }
 
-@keyframes fall{
-0%{transform:translateY(-10px);opacity:1}
-100%{transform:translateY(110vh);opacity:0}
+.footer{
+    text-align:center;
+    margin-top:25px;
+    color:#666;
+    font-size:14px;
 }
 
-.glow{
-animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-from{box-shadow:0 0 10px #fff}
-to{box-shadow:0 0 30px #ff4d6d}
-}
 </style>
 </head>
-
 <body>
 
-<div class="card">
+<div class="container">
 
-<img id="avatar" class="glow" src="https://i.ibb.co/4wLrTx5H.jpg">
+    <div class="title">🎯 FF SENSITIVITY PRO</div>
+    <div class="sub">
+        Độ nhạy Free Fire • Full dòng máy ⚡
+    </div>
 
-<h2>💖 Gửi người thương</h2>
+    <input 
+    type="text"
+    id="searchDevice"
+    class="search"
+    placeholder="🔍 Nhập tên máy..."
+    onkeyup="filterDevices()"
+    >
 
-<input id="name" placeholder="Tên người ấy">
-<input id="pass" placeholder="Mật khẩu">
+    <select id="device" onchange="showSensitivity()">
 
-<button onclick="openLove()">Mở thư 💌</button>
+        <option value="">-- Chọn dòng máy --</option>
 
-<div id="msg">
-<h3 id="txt"></h3>
-<p>
-💞 Có những người xuất hiện không phải để ở lại thoáng qua,<br>
-mà là để làm tim mình “bận rộn cả một thời gian dài”.<br><br>
+        <optgroup label="🍎 iPhone">
+            <option value="iphone6">iPhone 6</option>
+            <option value="iphone7">iPhone 7</option>
+            <option value="iphone8">iPhone 8</option>
+            <option value="iphoneX">iPhone X</option>
+            <option value="iphone11">iPhone 11</option>
+            <option value="iphone12">iPhone 12</option>
+            <option value="iphone13">iPhone 13</option>
+            <option value="iphone14">iPhone 14</option>
+            <option value="iphone15">iPhone 15</option>
+        </optgroup>
 
-Nếu cậu đọc được cái này…<br>
-thì chắc là cậu quan trọng hơn tớ nghĩ rồi 💖
-</p>
+        <optgroup label="📱 Samsung">
+            <option value="a05">Samsung A05</option>
+            <option value="a06">Samsung A06</option>
+            <option value="a05s">Samsung A05s</option>
+            <option value="a14">Samsung A14</option>
+            <option value="a15">Samsung A15</option>
+            <option value="a24">Samsung A24</option>
+            <option value="a34">Samsung A34</option>
+            <option value="a54">Samsung A54</option>
+            <option value="s21">Samsung S21</option>
+            <option value="s22">Samsung S22</option>
+            <option value="s23">Samsung S23</option>
+        </optgroup>
+
+        <optgroup label="🔥 Xiaomi / Redmi">
+            <option value="redmi9">Redmi 9</option>
+            <option value="redmi10">Redmi 10</option>
+            <option value="redmi12">Redmi 12</option>
+            <option value="note11">Redmi Note 11</option>
+            <option value="note12">Redmi Note 12</option>
+            <option value="pocoX3">POCO X3</option>
+            <option value="pocoF5">POCO F5</option>
+        </optgroup>
+
+        <optgroup label="💚 OPPO">
+            <option value="oppoA3s">OPPO A3s</option>
+            <option value="oppoA5">OPPO A5</option>
+            <option value="oppoA15">OPPO A15</option>
+            <option value="oppoA57">OPPO A57</option>
+            <option value="oppoReno8">OPPO Reno8</option>
+        </optgroup>
+
+        <optgroup label="⚡ Realme">
+            <option value="realmeC11">Realme C11</option>
+            <option value="realmeC35">Realme C35</option>
+            <option value="realme8">Realme 8</option>
+            <option value="realme11">Realme 11</option>
+        </optgroup>
+
+        <optgroup label="🔵 Vivo">
+            <option value="vivoY12">Vivo Y12</option>
+            <option value="vivoY20">Vivo Y20</option>
+            <option value="vivoY22">Vivo Y22</option>
+            <option value="vivoV27">Vivo V27</option>
+        </optgroup>
+
+        <optgroup label="🎮 ASUS ROG">
+            <option value="rog5">ROG Phone 5</option>
+            <option value="rog6">ROG Phone 6</option>
+            <option value="rog7">ROG Phone 7</option>
+        </optgroup>
+
+    </select>
+
+    <div class="card" id="result">
+
+        <div class="row">
+            <div class="label">🎯 Tổng Quan</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">🔴 Red Dot</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">🟡 2x Scope</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">🟢 4x Scope</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">🟣 AWM Scope</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">⚡ Free Look</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">🔥 Nút Bắn</div>
+            <div class="value">-</div>
+        </div>
+
+        <div class="row">
+            <div class="label">📡 DPI</div>
+            <div class="value">-</div>
+        </div>
+
+        <button class="btn" onclick="randomSensitivity()">
+            RANDOM ĐỘ NHẠY 🔥
+        </button>
+
+    </div>
+
+    <div class="footer">
+        Made by VanDatDev ⚡
+    </div>
+
 </div>
-
-</div>
-
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c6b6f2d6d.mp3">
-</audio>
 
 <script>
-let music=document.getElementById("music");
 
-function openLove(){
-let name=document.getElementById("name").value;
-let pass=document.getElementById("pass").value;
+const data = {
 
-if(pass!=="yeuem"){
-alert("Sai mật khẩu rồi 😏");
-return;
+    iphone11:{
+        general:200,
+        red:200,
+        x2:195,
+        x4:185,
+        awm:160,
+        free:200,
+        fire:"58%",
+        dpi:800
+    },
+
+    iphone12:{
+        general:200,
+        red:200,
+        x2:198,
+        x4:188,
+        awm:165,
+        free:200,
+        fire:"60%",
+        dpi:820
+    },
+
+    iphone13:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:190,
+        awm:170,
+        free:200,
+        fire:"62%",
+        dpi:850
+    },
+
+    iphone14:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:192,
+        awm:175,
+        free:200,
+        fire:"64%",
+        dpi:880
+    },
+
+    iphone15:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:195,
+        awm:180,
+        free:200,
+        fire:"66%",
+        dpi:900
+    },
+
+    a05:{
+        general:200,
+        red:198,
+        x2:190,
+        x4:180,
+        awm:155,
+        free:200,
+        fire:"48%",
+        dpi:650
+    },
+
+    a06:{
+        general:198,
+        red:195,
+        x2:188,
+        x4:178,
+        awm:152,
+        free:198,
+        fire:"47%",
+        dpi:640
+    },
+
+    a54:{
+        general:200,
+        red:200,
+        x2:198,
+        x4:190,
+        awm:168,
+        free:200,
+        fire:"56%",
+        dpi:780
+    },
+
+    s23:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:196,
+        awm:180,
+        free:200,
+        fire:"65%",
+        dpi:900
+    },
+
+    note12:{
+        general:200,
+        red:200,
+        x2:194,
+        x4:184,
+        awm:160,
+        free:200,
+        fire:"54%",
+        dpi:740
+    },
+
+    pocoF5:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:192,
+        awm:170,
+        free:200,
+        fire:"61%",
+        dpi:850
+    },
+
+    oppoReno8:{
+        general:200,
+        red:198,
+        x2:192,
+        x4:184,
+        awm:160,
+        free:200,
+        fire:"55%",
+        dpi:760
+    },
+
+    realme11:{
+        general:200,
+        red:200,
+        x2:194,
+        x4:186,
+        awm:162,
+        free:200,
+        fire:"57%",
+        dpi:780
+    },
+
+    vivoV27:{
+        general:200,
+        red:198,
+        x2:192,
+        x4:184,
+        awm:160,
+        free:200,
+        fire:"56%",
+        dpi:760
+    },
+
+    rog7:{
+        general:200,
+        red:200,
+        x2:200,
+        x4:200,
+        awm:190,
+        free:200,
+        fire:"75%",
+        dpi:1100
+    }
+
+};
+
+function showSensitivity(){
+
+    const device = document.getElementById("device").value;
+
+    if(!device) return;
+
+    const d = data[device];
+
+    document.getElementById("result").innerHTML = `
+
+    <div class="row">
+        <div class="label">🎯 Tổng Quan</div>
+        <div class="value">${d.general}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔴 Red Dot</div>
+        <div class="value">${d.red}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟡 2x Scope</div>
+        <div class="value">${d.x2}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟢 4x Scope</div>
+        <div class="value">${d.x4}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟣 AWM Scope</div>
+        <div class="value">${d.awm}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">⚡ Free Look</div>
+        <div class="value">${d.free}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔥 Nút Bắn</div>
+        <div class="value">${d.fire}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">📡 DPI</div>
+        <div class="value">${d.dpi}</div>
+    </div>
+
+    <button class="btn" onclick="randomSensitivity()">
+        RANDOM ĐỘ NHẠY 🔥
+    </button>
+
+    `;
 }
 
-document.getElementById("txt").innerText="Gửi "+name+" 💖";
-document.getElementById("msg").style.display="block";
+function randomSensitivity(){
 
-music.play();
+    const random = () => Math.floor(Math.random() * 51) + 150;
+
+    document.getElementById("result").innerHTML = `
+
+    <div class="row">
+        <div class="label">🎯 Tổng Quan</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔴 Red Dot</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟡 2x Scope</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟢 4x Scope</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟣 AWM Scope</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">⚡ Free Look</div>
+        <div class="value">${random()}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔥 Nút Bắn</div>
+        <div class="value">${Math.floor(Math.random()*30)+45}%</div>
+    </div>
+
+    <div class="row">
+        <div class="label">📡 DPI</div>
+        <div class="value">${Math.floor(Math.random()*500)+500}</div>
+    </div>
+
+    <button class="btn" onclick="randomSensitivity()">
+        RANDOM LẠI 🔥
+    </button>
+
+    `;
 }
 
-// tim bay sến
-setInterval(()=>{
-let h=document.createElement("div");
-h.innerHTML="💖";
-h.className="heart";
-h.style.left=Math.random()*window.innerWidth+"px";
-h.style.fontSize=(10+Math.random()*20)+"px";
-document.body.appendChild(h);
+function filterDevices(){
 
-setTimeout(()=>h.remove(),6000);
-},200);
+    let input = document.getElementById("searchDevice");
+    let filter = input.value.toLowerCase();
+
+    let select = document.getElementById("device");
+    let options = select.getElementsByTagName("option");
+
+    for(let i = 0; i < options.length; i++){
+
+        let txt = options[i].textContent || options[i].innerText;
+
+        if(txt.toLowerCase().indexOf(filter) > -1){
+            options[i].style.display = "";
+        }else{
+            options[i].style.display = "none";
+        }
+
+    }
+
+}
+
 </script>
 
 </body>
