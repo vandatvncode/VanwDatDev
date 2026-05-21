@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FF Sensitivity Pro ⚡</title>
+<title>FF Sensitivity AI ⚡</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -24,58 +24,79 @@ body{
 }
 
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
 }
 
 .title{
     text-align:center;
-    font-size:35px;
+    font-size:38px;
     font-weight:700;
     color:#ffcc00;
 }
 
 .sub{
     text-align:center;
-    color:#999;
+    color:#888;
     margin-top:5px;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .search{
     width:100%;
-    padding:15px;
+    padding:16px;
     border:none;
     outline:none;
-    border-radius:15px;
+    border-radius:16px;
     background:#1b1b1b;
     color:white;
     font-size:16px;
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 
 .search::placeholder{
-    color:#777;
+    color:#666;
 }
 
-select{
-    width:100%;
-    padding:15px;
-    border:none;
-    outline:none;
-    border-radius:15px;
+.device-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:14px;
+}
+
+.device{
     background:#1b1b1b;
-    color:white;
+    border-radius:18px;
+    padding:16px;
+    cursor:pointer;
+    transition:.3s;
+    border:1px solid transparent;
+}
+
+.device:hover{
+    transform:translateY(-4px);
+    border-color:#ffcc00;
+}
+
+.device-name{
     font-size:16px;
-    margin-bottom:25px;
+    font-weight:600;
+}
+
+.device-brand{
+    color:#888;
+    margin-top:4px;
+    font-size:13px;
 }
 
 .card{
+    margin-top:25px;
     background:#181818;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 0 20px rgba(255,204,0,0.15);
-    animation:show .4s ease;
+    border-radius:22px;
+    padding:24px;
+    display:none;
+    animation:show .3s ease;
+    box-shadow:0 0 25px rgba(255,204,0,.12);
 }
 
 @keyframes show{
@@ -100,31 +121,13 @@ select{
 }
 
 .label{
-    font-weight:500;
     color:#ddd;
+    font-weight:500;
 }
 
 .value{
-    font-weight:700;
     color:#ffcc00;
-}
-
-.btn{
-    width:100%;
-    margin-top:20px;
-    padding:15px;
-    border:none;
-    border-radius:15px;
-    background:linear-gradient(45deg,#ffcc00,#ff8800);
-    color:black;
-    font-size:16px;
     font-weight:700;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.btn:hover{
-    transform:scale(1.02);
 }
 
 .footer{
@@ -134,142 +137,40 @@ select{
     font-size:14px;
 }
 
+.badge{
+    display:inline-block;
+    background:#ffcc00;
+    color:black;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    margin-top:10px;
+}
+
 </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div class="title">🎯 FF SENSITIVITY PRO</div>
+    <div class="title">🎯 FF SENSITIVITY AI</div>
+
     <div class="sub">
-        Độ nhạy Free Fire • Full dòng máy ⚡
+        Nhập bất kỳ dòng máy nào để hiện độ nhạy ⚡
     </div>
 
     <input 
     type="text"
-    id="searchDevice"
+    id="searchInput"
     class="search"
-    placeholder="🔍 Nhập tên máy..."
+    placeholder="🔍 Ví dụ: iPhone 17 Plus, Samsung A99 Ultra..."
     onkeyup="filterDevices()"
     >
 
-    <select id="device" onchange="showSensitivity()">
+    <div class="device-list" id="deviceList"></div>
 
-        <option value="">-- Chọn dòng máy --</option>
-
-        <optgroup label="🍎 iPhone">
-            <option value="iphone6">iPhone 6</option>
-            <option value="iphone7">iPhone 7</option>
-            <option value="iphone8">iPhone 8</option>
-            <option value="iphoneX">iPhone X</option>
-            <option value="iphone11">iPhone 11</option>
-            <option value="iphone12">iPhone 12</option>
-            <option value="iphone13">iPhone 13</option>
-            <option value="iphone14">iPhone 14</option>
-            <option value="iphone15">iPhone 15</option>
-        </optgroup>
-
-        <optgroup label="📱 Samsung">
-            <option value="a05">Samsung A05</option>
-            <option value="a06">Samsung A06</option>
-            <option value="a05s">Samsung A05s</option>
-            <option value="a14">Samsung A14</option>
-            <option value="a15">Samsung A15</option>
-            <option value="a24">Samsung A24</option>
-            <option value="a34">Samsung A34</option>
-            <option value="a54">Samsung A54</option>
-            <option value="s21">Samsung S21</option>
-            <option value="s22">Samsung S22</option>
-            <option value="s23">Samsung S23</option>
-        </optgroup>
-
-        <optgroup label="🔥 Xiaomi / Redmi">
-            <option value="redmi9">Redmi 9</option>
-            <option value="redmi10">Redmi 10</option>
-            <option value="redmi12">Redmi 12</option>
-            <option value="note11">Redmi Note 11</option>
-            <option value="note12">Redmi Note 12</option>
-            <option value="pocoX3">POCO X3</option>
-            <option value="pocoF5">POCO F5</option>
-        </optgroup>
-
-        <optgroup label="💚 OPPO">
-            <option value="oppoA3s">OPPO A3s</option>
-            <option value="oppoA5">OPPO A5</option>
-            <option value="oppoA15">OPPO A15</option>
-            <option value="oppoA57">OPPO A57</option>
-            <option value="oppoReno8">OPPO Reno8</option>
-        </optgroup>
-
-        <optgroup label="⚡ Realme">
-            <option value="realmeC11">Realme C11</option>
-            <option value="realmeC35">Realme C35</option>
-            <option value="realme8">Realme 8</option>
-            <option value="realme11">Realme 11</option>
-        </optgroup>
-
-        <optgroup label="🔵 Vivo">
-            <option value="vivoY12">Vivo Y12</option>
-            <option value="vivoY20">Vivo Y20</option>
-            <option value="vivoY22">Vivo Y22</option>
-            <option value="vivoV27">Vivo V27</option>
-        </optgroup>
-
-        <optgroup label="🎮 ASUS ROG">
-            <option value="rog5">ROG Phone 5</option>
-            <option value="rog6">ROG Phone 6</option>
-            <option value="rog7">ROG Phone 7</option>
-        </optgroup>
-
-    </select>
-
-    <div class="card" id="result">
-
-        <div class="row">
-            <div class="label">🎯 Tổng Quan</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">🔴 Red Dot</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">🟡 2x Scope</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">🟢 4x Scope</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">🟣 AWM Scope</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">⚡ Free Look</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">🔥 Nút Bắn</div>
-            <div class="value">-</div>
-        </div>
-
-        <div class="row">
-            <div class="label">📡 DPI</div>
-            <div class="value">-</div>
-        </div>
-
-        <button class="btn" onclick="randomSensitivity()">
-            RANDOM ĐỘ NHẠY 🔥
-        </button>
-
-    </div>
+    <div class="card" id="result"></div>
 
     <div class="footer">
         Made by VanDatDev ⚡
@@ -279,304 +180,271 @@ select{
 
 <script>
 
-const data = {
+const devices = [
 
-    iphone11:{
-        general:200,
-        red:200,
-        x2:195,
-        x4:185,
-        awm:160,
-        free:200,
-        fire:"58%",
-        dpi:800
-    },
+{
+name:"iPhone 15 Pro Max",
+brand:"Apple"
+},
 
-    iphone12:{
-        general:200,
-        red:200,
-        x2:198,
-        x4:188,
-        awm:165,
-        free:200,
-        fire:"60%",
-        dpi:820
-    },
+{
+name:"iPhone 14 Pro Max",
+brand:"Apple"
+},
 
-    iphone13:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:190,
-        awm:170,
-        free:200,
-        fire:"62%",
-        dpi:850
-    },
+{
+name:"Samsung S23 Ultra",
+brand:"Samsung"
+},
 
-    iphone14:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:192,
-        awm:175,
-        free:200,
-        fire:"64%",
-        dpi:880
-    },
+{
+name:"Samsung A54",
+brand:"Samsung"
+},
 
-    iphone15:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:195,
-        awm:180,
-        free:200,
-        fire:"66%",
-        dpi:900
-    },
+{
+name:"Samsung A24",
+brand:"Samsung"
+},
 
-    a05:{
-        general:200,
-        red:198,
-        x2:190,
-        x4:180,
-        awm:155,
-        free:200,
-        fire:"48%",
-        dpi:650
-    },
+{
+name:"Redmi Note 12",
+brand:"Xiaomi"
+},
 
-    a06:{
-        general:198,
-        red:195,
-        x2:188,
-        x4:178,
-        awm:152,
-        free:198,
-        fire:"47%",
-        dpi:640
-    },
+{
+name:"POCO F5",
+brand:"Xiaomi"
+},
 
-    a54:{
-        general:200,
-        red:200,
-        x2:198,
-        x4:190,
-        awm:168,
-        free:200,
-        fire:"56%",
-        dpi:780
-    },
+{
+name:"ROG Phone 7",
+brand:"ASUS"
+},
 
-    s23:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:196,
-        awm:180,
-        free:200,
-        fire:"65%",
-        dpi:900
-    },
+{
+name:"OPPO Reno8",
+brand:"OPPO"
+},
 
-    note12:{
-        general:200,
-        red:200,
-        x2:194,
-        x4:184,
-        awm:160,
-        free:200,
-        fire:"54%",
-        dpi:740
-    },
+{
+name:"Realme 11 Pro",
+brand:"Realme"
+},
 
-    pocoF5:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:192,
-        awm:170,
-        free:200,
-        fire:"61%",
-        dpi:850
-    },
+{
+name:"Vivo V27",
+brand:"Vivo"
+},
 
-    oppoReno8:{
-        general:200,
-        red:198,
-        x2:192,
-        x4:184,
-        awm:160,
-        free:200,
-        fire:"55%",
-        dpi:760
-    },
+{
+name:"iPad Pro M4",
+brand:"Apple"
+},
 
-    realme11:{
-        general:200,
-        red:200,
-        x2:194,
-        x4:186,
-        awm:162,
-        free:200,
-        fire:"57%",
-        dpi:780
-    },
+{
+name:"Galaxy Tab S9",
+brand:"Samsung"
+},
 
-    vivoV27:{
-        general:200,
-        red:198,
-        x2:192,
-        x4:184,
-        awm:160,
-        free:200,
-        fire:"56%",
-        dpi:760
-    },
+{
+name:"Black Shark 5",
+brand:"Black Shark"
+},
 
-    rog7:{
-        general:200,
-        red:200,
-        x2:200,
-        x4:200,
-        awm:190,
-        free:200,
-        fire:"75%",
-        dpi:1100
-    }
-
-};
-
-function showSensitivity(){
-
-    const device = document.getElementById("device").value;
-
-    if(!device) return;
-
-    const d = data[device];
-
-    document.getElementById("result").innerHTML = `
-
-    <div class="row">
-        <div class="label">🎯 Tổng Quan</div>
-        <div class="value">${d.general}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">🔴 Red Dot</div>
-        <div class="value">${d.red}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">🟡 2x Scope</div>
-        <div class="value">${d.x2}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">🟢 4x Scope</div>
-        <div class="value">${d.x4}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">🟣 AWM Scope</div>
-        <div class="value">${d.awm}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">⚡ Free Look</div>
-        <div class="value">${d.free}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">🔥 Nút Bắn</div>
-        <div class="value">${d.fire}</div>
-    </div>
-
-    <div class="row">
-        <div class="label">📡 DPI</div>
-        <div class="value">${d.dpi}</div>
-    </div>
-
-    <button class="btn" onclick="randomSensitivity()">
-        RANDOM ĐỘ NHẠY 🔥
-    </button>
-
-    `;
+{
+name:"Red Magic 9 Pro",
+brand:"Nubia"
 }
 
-function randomSensitivity(){
+];
 
-    const random = () => Math.floor(Math.random() * 51) + 150;
+const deviceList = document.getElementById("deviceList");
 
-    document.getElementById("result").innerHTML = `
+function renderDevices(list){
 
-    <div class="row">
-        <div class="label">🎯 Tổng Quan</div>
-        <div class="value">${random()}</div>
-    </div>
+    deviceList.innerHTML = "";
 
-    <div class="row">
-        <div class="label">🔴 Red Dot</div>
-        <div class="value">${random()}</div>
-    </div>
+    list.forEach(device=>{
 
-    <div class="row">
-        <div class="label">🟡 2x Scope</div>
-        <div class="value">${random()}</div>
-    </div>
+        deviceList.innerHTML += `
 
-    <div class="row">
-        <div class="label">🟢 4x Scope</div>
-        <div class="value">${random()}</div>
-    </div>
+        <div class="device"
+        onclick='createCustomDevice("${device.name}")'>
 
-    <div class="row">
-        <div class="label">🟣 AWM Scope</div>
-        <div class="value">${random()}</div>
-    </div>
+            <div class="device-name">
+                ${device.name}
+            </div>
 
-    <div class="row">
-        <div class="label">⚡ Free Look</div>
-        <div class="value">${random()}</div>
-    </div>
+            <div class="device-brand">
+                ${device.brand}
+            </div>
 
-    <div class="row">
-        <div class="label">🔥 Nút Bắn</div>
-        <div class="value">${Math.floor(Math.random()*30)+45}%</div>
-    </div>
+        </div>
 
-    <div class="row">
-        <div class="label">📡 DPI</div>
-        <div class="value">${Math.floor(Math.random()*500)+500}</div>
-    </div>
+        `;
 
-    <button class="btn" onclick="randomSensitivity()">
-        RANDOM LẠI 🔥
-    </button>
+    });
 
-    `;
 }
+
+renderDevices(devices);
 
 function filterDevices(){
 
-    let input = document.getElementById("searchDevice");
-    let filter = input.value.toLowerCase();
+    const input = document.getElementById("searchInput").value.toLowerCase();
 
-    let select = document.getElementById("device");
-    let options = select.getElementsByTagName("option");
+    const filtered = devices.filter(device =>
+        device.name.toLowerCase().includes(input)
+    );
 
-    for(let i = 0; i < options.length; i++){
+    renderDevices(filtered);
 
-        let txt = options[i].textContent || options[i].innerText;
+    if(filtered.length === 0 && input.trim() !== ""){
 
-        if(txt.toLowerCase().indexOf(filter) > -1){
-            options[i].style.display = "";
-        }else{
-            options[i].style.display = "none";
-        }
+        deviceList.innerHTML = `
+
+        <div class="device"
+        onclick="createCustomDevice('${input}')">
+
+            <div class="device-name">
+                🔍 ${input}
+            </div>
+
+            <div class="device-brand">
+                Bấm để tạo độ nhạy AI
+            </div>
+
+            <div class="badge">
+                AI GENERATED
+            </div>
+
+        </div>
+
+        `;
 
     }
+
+}
+
+function createCustomDevice(name){
+
+    const lower = name.toLowerCase();
+
+    let base = 190;
+    let dpi = 700;
+    let fire = 50;
+
+    if(lower.includes("iphone")){
+
+        base = 200;
+        dpi = 900;
+        fire = 65;
+
+    }else if(
+        lower.includes("rog") ||
+        lower.includes("red magic") ||
+        lower.includes("black shark")
+    ){
+
+        base = 200;
+        dpi = 1100;
+        fire = 75;
+
+    }else if(
+        lower.includes("samsung") ||
+        lower.includes("xiaomi") ||
+        lower.includes("poco")
+    ){
+
+        base = 198;
+        dpi = 850;
+        fire = 60;
+
+    }
+
+    const device = {
+
+        name:name.toUpperCase(),
+
+        general:base,
+
+        red:base,
+
+        x2:base - 5,
+
+        x4:base - 10,
+
+        awm:base - 25,
+
+        free:200,
+
+        fire:fire + "%",
+
+        dpi:dpi
+
+    };
+
+    showDevice(device);
+
+}
+
+function showDevice(device){
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("result").innerHTML = `
+
+    <div class="row">
+        <div class="label">📱 Thiết bị</div>
+        <div class="value">${device.name}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🎯 Tổng Quan</div>
+        <div class="value">${device.general}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔴 Red Dot</div>
+        <div class="value">${device.red}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟡 2x Scope</div>
+        <div class="value">${device.x2}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟢 4x Scope</div>
+        <div class="value">${device.x4}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🟣 AWM Scope</div>
+        <div class="value">${device.awm}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">⚡ Free Look</div>
+        <div class="value">${device.free}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">🔥 Nút Bắn</div>
+        <div class="value">${device.fire}</div>
+    </div>
+
+    <div class="row">
+        <div class="label">📡 DPI</div>
+        <div class="value">${device.dpi}</div>
+    </div>
+
+    <div class="badge">
+        AI SENSITIVITY SYSTEM ⚡
+    </div>
+
+    `;
 
 }
 
