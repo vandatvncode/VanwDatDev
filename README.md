@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -211,7 +212,7 @@
             </div>
         </div>
 
-        <!-- DANH MỤC 2: MUA FILE ĐỊNH VỊ (SÚNG & NHÂN VẬT) -->
+        <!-- DANH MỤC 2: MUA FILE ĐỊNH VỊ (SÚNG & NHÂN VẬT) - ĐÃ XÓA NÚT TẢI FILE -->
         <div id="cat-gps-file" class="price-grid center-grid">
             <!-- Gói Định Vị Súng -->
             <div class="card">
@@ -225,7 +226,6 @@
                     <li>File OB cực nhẹ, an toàn tuyệt đối</li>
                 </ul>
                 <div class="action-buttons">
-                    <a href="https://www.mediafire.com/file/m0favwvz85bzbx7/%F0%9D%97%9B%F0%9D%97%9A%F0%9D%97%9C%F0%9D%97%9A%F0%9D%97%A5%F0%9D%97%94%F0%9D%97%9C+%F0%9D%97%residual%F0%9D%97%A2+%F0%9D%97%97%F0%9D%97%A4%F0%9D%97%A1%F0%9D%97%A1+%F0%9D%97%A1+%F0%9D%97%9C%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%E2%9C%85.7z/file" class="download-btn" target="_blank">📥 Tải File</a>
                     <button class="buy-btn" onclick="goToInvoice(30000, 'Vĩnh Viễn', 'Dinh Vi Sung')">💳 Mua Ngay</button>
                 </div>
             </div>
@@ -241,7 +241,6 @@
                     <li>Cài đặt dễ dàng bằng tệp OBB/Data</li>
                 </ul>
                 <div class="action-buttons">
-                    <a href="https://www.mediafire.com/file/m0favwvz85bzbx7/%F0%9D%97%9B%F0%9D%97%9A%F0%9D%97%9C%F0%9D%97%9A%F0%9D%97%A5%F0%9D%97%94%F0%9D%97%9C+%F0%9D%97%residual%F0%9D%97%A2+%F0%9D%97%97%F0%9D%97%A4%F0%9D%97%A1%F0%9D%97%A1+%F0%9D%97%A1+%F0%9D%97%9C%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%E2%9C%85.7z/file" class="download-btn" target="_blank">📥 Tải File</a>
                     <button class="buy-btn" onclick="goToInvoice(20000, 'Vĩnh Viễn', 'Dinh Vi Full Nhan Vat')">💳 Mua Ngay</button>
                 </div>
             </div>
@@ -337,4 +336,3 @@
     </script>
 </body>
 </html>
-
