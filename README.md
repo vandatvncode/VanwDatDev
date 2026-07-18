@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +64,6 @@
             display: grid;
         }
 
-        /* Custom căn giữa cho danh mục ít thẻ */
         .center-grid {
             justify-content: center;
         }
@@ -76,8 +74,21 @@
             position: relative; border: 1px solid #eaeaea;
             display: flex; flex-direction: column;
         }
-        .card-tag { position: absolute; top: 15px; right: 15px; background: #ffeaa7; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; color: #d63031; font-weight: bold; }
+        
+        /* Nhãn hiển thị số lượng tồn kho */
+        .card-tag { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            background: #ffeaa7; 
+            font-size: 0.75rem; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            color: #d63031; 
+            font-weight: bold; 
+        }
         .card-tag.blue { background: #e3f2fd; color: #0d47a1; }
+        
         .card-duration { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: #1a1a1a; }
         .card-price { font-size: 1.6rem; font-weight: 800; color: #007bff; margin-bottom: 15px; }
         .card-price span { font-size: 0.9rem; font-weight: normal; color: #666; }
@@ -101,7 +112,7 @@
         }
         .buy-btn:hover { background: #0056b3; }
 
-        /* --- TRANG TẠO MÃ QR THANH TOÁN TOÀN MÀN HÌNH --- */
+        /* --- TRANG TẠO MÃ QR THANH TOÁN --- */
         .invoice-page {
             display: none;
             width: 100%;
@@ -152,7 +163,7 @@
         <div id="cat-mod-key" class="price-grid active">
             <!-- Gói 1 ngày -->
             <div class="card">
-                <span class="card-tag blue">1 Thiết bị</span>
+                <span class="card-tag blue">Còn lại: 5</span>
                 <div class="card-duration">1 Ngày</div>
                 <div class="card-price">15.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -168,7 +179,7 @@
             </div>
             <!-- Gói 7 ngày -->
             <div class="card">
-                <span class="card-tag blue">1 Thiết bị</span>
+                <span class="card-tag blue">Còn lại: 3</span>
                 <div class="card-duration">7 Ngày</div>
                 <div class="card-price">70.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -184,7 +195,7 @@
             </div>
             <!-- Gói 30 ngày -->
             <div class="card">
-                <span class="card-tag blue">1 Thiết bị</span>
+                <span class="card-tag blue">Còn lại: 6</span>
                 <div class="card-duration">30 Ngày</div>
                 <div class="card-price">160.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -204,7 +215,7 @@
         <div id="cat-gps-file" class="price-grid center-grid">
             <!-- Gói Định Vị Súng -->
             <div class="card">
-                <span class="card-tag">Hologram Gold</span>
+                <span class="card-tag">Còn lại: 99999</span>
                 <div class="card-duration">Định Vị Súng VIP</div>
                 <div class="card-price">30.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -220,7 +231,7 @@
             </div>
             <!-- Gói Định Vị Full Nhân Vật -->
             <div class="card">
-                <span class="card-tag">Hologram Pink</span>
+                <span class="card-tag">Còn lại: 999</span>
                 <div class="card-duration">Định Vị Full Nhân Vật</div>
                 <div class="card-price">20.000 <span>VND</span></div>
                 <ul class="card-features">
