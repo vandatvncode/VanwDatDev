@@ -56,7 +56,7 @@
         }
 
         .price-grid {
-            display: none; /* Ẩn mặc định, điều khiển bằng JS */
+            display: none;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
             padding: 10px;
@@ -65,13 +65,19 @@
             display: grid;
         }
 
+        /* Custom căn giữa cho danh mục ít thẻ */
+        .center-grid {
+            justify-content: center;
+        }
+
         .card {
             background: white; border-radius: 16px; padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left;
             position: relative; border: 1px solid #eaeaea;
             display: flex; flex-direction: column;
         }
-        .card-tag { position: absolute; top: 15px; right: 15px; background: #f0f2f5; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; color: #666; }
+        .card-tag { position: absolute; top: 15px; right: 15px; background: #ffeaa7; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; color: #d63031; font-weight: bold; }
+        .card-tag.blue { background: #e3f2fd; color: #0d47a1; }
         .card-duration { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: #1a1a1a; }
         .card-price { font-size: 1.6rem; font-weight: 800; color: #007bff; margin-bottom: 15px; }
         .card-price span { font-size: 0.9rem; font-weight: normal; color: #666; }
@@ -139,14 +145,14 @@
         <!-- THANH CHỌN DANH MỤC -->
         <div class="category-tabs">
             <button class="tab-btn active" onclick="switchCategory('mod-key', this)">📦 Gói Ngo Tran Mods</button>
-            <button class="tab-btn" onclick="switchCategory('gps-file', this)">📍 Gói File Định Vị</button>
+            <button class="tab-btn" onclick="switchCategory('gps-file', this)">📍 Gói File Định Vị Free Fire</button>
         </div>
 
         <!-- DANH MỤC 1: MUA KEY NGO TRAN MODS -->
         <div id="cat-mod-key" class="price-grid active">
             <!-- Gói 1 ngày -->
             <div class="card">
-                <span class="card-tag">1 Thiết bị</span>
+                <span class="card-tag blue">1 Thiết bị</span>
                 <div class="card-duration">1 Ngày</div>
                 <div class="card-price">15.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -157,12 +163,12 @@
                 </ul>
                 <div class="action-buttons">
                     <a href="https://zufile.com/download/lMGQkcehkz" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(15000, 1, 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
+                    <button class="buy-btn" onclick="goToInvoice(15000, '1 Ngày', 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
                 </div>
             </div>
             <!-- Gói 7 ngày -->
             <div class="card">
-                <span class="card-tag">1 Thiết bị</span>
+                <span class="card-tag blue">1 Thiết bị</span>
                 <div class="card-duration">7 Ngày</div>
                 <div class="card-price">70.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -173,12 +179,12 @@
                 </ul>
                 <div class="action-buttons">
                     <a href="https://zufile.com/download/lMGQkcehkz" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(70000, 7, 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
+                    <button class="buy-btn" onclick="goToInvoice(70000, '7 Ngày', 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
                 </div>
             </div>
             <!-- Gói 30 ngày -->
             <div class="card">
-                <span class="card-tag">1 Thiết bị</span>
+                <span class="card-tag blue">1 Thiết bị</span>
                 <div class="card-duration">30 Ngày</div>
                 <div class="card-price">160.000 <span>VND</span></div>
                 <ul class="card-features">
@@ -189,60 +195,43 @@
                 </ul>
                 <div class="action-buttons">
                     <a href="https://zufile.com/download/lMGQkcehkz" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(160000, 30, 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
+                    <button class="buy-btn" onclick="goToInvoice(160000, '30 Ngày', 'Key Ngo Tran Mods')">💳 Mua Ngay</button>
                 </div>
             </div>
         </div>
 
-        <!-- DANH MỤC 2: MUA FILE ĐỊNH VỊ -->
-        <div id="cat-gps-file" class="price-grid">
-            <!-- Gói Định Vị 1 ngày -->
+        <!-- DANH MỤC 2: MUA FILE ĐỊNH VỊ (SÚNG & NHÂN VẬT) -->
+        <div id="cat-gps-file" class="price-grid center-grid">
+            <!-- Gói Định Vị Súng -->
             <div class="card">
-                <span class="card-tag">Bản Premium</span>
-                <div class="card-duration">Định Vị 1 Ngày</div>
+                <span class="card-tag">Hologram Gold</span>
+                <div class="card-duration">Định Vị Súng VIP</div>
+                <div class="card-price">30.000 <span>VND</span></div>
+                <ul class="card-features">
+                    <li>Hiện vị trí súng thính, súng hiếm</li>
+                    <li>Hiển thị rõ ràng qua tường/vật cản</li>
+                    <li>Hỗ trợ quét vị trí realtime 100%</li>
+                    <li>File OB cực nhẹ, an toàn tuyệt đối</li>
+                </ul>
+                <div class="action-buttons">
+                    <a href="https://www.mediafire.com/file/m0favwvz85bzbx7/%F0%9D%97%9B%F0%9D%97%9A%F0%9D%97%9C%F0%9D%97%9A%F0%9D%97%A5%F0%9D%97%94%F0%9D%97%9C+%F0%9D%97%residual%F0%9D%97%A2+%F0%9D%97%97%F0%9D%97%A4%F0%9D%97%A1%F0%9D%97%A1+%F0%9D%97%A1+%F0%9D%97%9C%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%E2%9C%85.7z/file" class="download-btn" target="_blank">📥 Tải File</a>
+                    <button class="buy-btn" onclick="goToInvoice(30000, 'Vĩnh Viễn', 'Dinh Vi Sung')">💳 Mua Ngay</button>
+                </div>
+            </div>
+            <!-- Gói Định Vị Full Nhân Vật -->
+            <div class="card">
+                <span class="card-tag">Hologram Pink</span>
+                <div class="card-duration">Định Vị Full Nhân Vật</div>
                 <div class="card-price">20.000 <span>VND</span></div>
                 <ul class="card-features">
-                    <li>Hiện Vị Trí Realtime Chuẩn 100%</li>
-                    <li>Cập Nhật Tọa Độ Liên Tục</li>
-                    <li>Dễ Dàng Cài Đặt và Sử Dụng</li>
-                    <li>Không Cần Root Máy</li>
+                    <li>Hiện người màu hồng (Hologram Pink)</li>
+                    <li>Thấy địch từ xa xuyên vật cản</li>
+                    <li>Hỗ trợ tâm ngắm chuẩn xác hơn</li>
+                    <li>Cài đặt dễ dàng bằng tệp OBB/Data</li>
                 </ul>
                 <div class="action-buttons">
-                    <!-- Bạn thay LINK TẢI riêng của FILE ĐỊNH VỊ vào đây -->
-                    <a href="LINK_TAI_FILE_DINH_VI_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(20000, 1, 'File Dinh Vi')">💳 Mua Ngay</button>
-                </div>
-            </div>
-            <!-- Gói Định Vị 7 ngày -->
-            <div class="card">
-                <span class="card-tag">Bản Premium</span>
-                <div class="card-duration">Định Vị 7 Ngày</div>
-                <div class="card-price">85.000 <span>VND</span></div>
-                <ul class="card-features">
-                    <li>Hiện Vị Trí Realtime Chuẩn 100%</li>
-                    <li>Cập Nhật Tọa Độ Liên Tục</li>
-                    <li>Hỗ Trợ Lưu Lịch Sử Di Chuyển</li>
-                    <li>Bảo Hành Suốt Thời Gian Gói</li>
-                </ul>
-                <div class="action-buttons">
-                    <a href="LINK_TAI_FILE_DINH_VI_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(85000, 7, 'File Dinh Vi')">💳 Mua Ngay</button>
-                </div>
-            </div>
-            <!-- Gói Định Vị 30 ngày -->
-            <div class="card">
-                <span class="card-tag">Bản Toàn Diện</span>
-                <div class="card-duration">Định Vị 30 Ngày</div>
-                <div class="card-price">190.000 <span>VND</span></div>
-                <ul class="card-features">
-                    <li>Hiện Vị Trí Realtime Chuẩn 100%</li>
-                    <li>Mở Khóa Mọi Tính Năng Cao Cấp</li>
-                    <li>Hỗ Trợ Chạy Ẩn Không Bị Ngắt</li>
-                    <li>Ưu Tiên Hỗ Trợ Kỹ Thuật 24/7</li>
-                </ul>
-                <div class="action-buttons">
-                    <a href="LINK_TAI_FILE_DINH_VI_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
-                    <button class="buy-btn" onclick="goToInvoice(190000, 30, 'File Dinh Vi')">💳 Mua Ngay</button>
+                    <a href="https://www.mediafire.com/file/m0favwvz85bzbx7/%F0%9D%97%9B%F0%9D%97%9A%F0%9D%97%9C%F0%9D%97%9A%F0%9D%97%A5%F0%9D%97%94%F0%9D%97%9C+%F0%9D%97%residual%F0%9D%97%A2+%F0%9D%97%97%F0%9D%97%A4%F0%9D%97%A1%F0%9D%97%A1+%F0%9D%97%A1+%F0%9D%97%9C%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%F0%9D%97%residual%F0%9D%97%94%E2%9C%85.7z/file" class="download-btn" target="_blank">📥 Tải File</a>
+                    <button class="buy-btn" onclick="goToInvoice(20000, 'Vĩnh Viễn', 'Dinh Vi Full Nhan Vat')">💳 Mua Ngay</button>
                 </div>
             </div>
         </div>
@@ -280,28 +269,24 @@
         const ACCOUNT_NAME = "LO THI NON";
 
         let currentAmount = 0;
-        let currentDays = 0;
+        let currentDuration = "";
         let currentItemName = "";
         let updateInterval = null;
         let countdownInterval = null;
         let timeLeft = 30;
 
-        // Hàm chuyển đổi qua lại giữa danh mục 1 và danh mục 2
         function switchCategory(catId, element) {
-            // Loại bỏ class active ở các nút tab cũ
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            // Loại bỏ class active ở grid bảng giá cũ
             document.querySelectorAll('.price-grid').forEach(grid => grid.classList.remove('active'));
             
-            // Thêm active vào tab và grid được chọn
             element.classList.add('active');
             document.getElementById('cat-' + catId).classList.add('active');
         }
 
-        function goToInvoice(amount, days, itemName) {
+        function goToInvoice(amount, duration, itemName) {
             currentAmount = amount;
-            currentDays = days;
-            currentItemName = itemName; // Ghi nhớ tên sản phẩm để tạo nội dung chuyển khoản đúng loại
+            currentDuration = duration;
+            currentItemName = itemName;
 
             document.getElementById("mainStore").style.display = "none";
             document.getElementById("invoicePage").style.display = "block";
@@ -323,8 +308,7 @@
 
         function generateNewQR() {
             const randomCode = Math.floor(1000000 + Math.random() * 9000000);
-            // Tạo nội dung dựa trên danh mục: "Mua Key Ngo Tran Mods 1 day XXXXXXX" hoặc "Mua File Dinh Vi 1 day XXXXXXX"
-            const content = `Mua ${currentItemName} ${currentDays} day ${randomCode}`;
+            const content = `Mua ${currentItemName} ${currentDuration} ${randomCode}`;
             
             const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-qr_only.png?amount=${currentAmount}&addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
             
