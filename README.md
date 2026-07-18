@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VanwDat - Gói License & Mua Key</title>
+    <title>NgoTran License System</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -17,7 +16,7 @@
             padding: 20px;
         }
 
-        /* --- TỔNG THỂ TRANG CỬA HÀNG --- */
+        /* --- TRANG CHỦ BẢNG GIÁ --- */
         .store-page {
             width: 100%;
             max-width: 800px;
@@ -27,7 +26,6 @@
         .store-title { font-size: 2rem; color: #1a1a1a; margin-bottom: 10px; font-weight: bold; }
         .store-subtitle { color: #666; margin-bottom: 30px; font-size: 0.95rem; }
         
-        /* Lưới hiển thị danh sách các Gói Key */
         .price-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -48,22 +46,15 @@
         .card-features li { margin-bottom: 8px; }
         .card-features li::before { content: "✓ "; color: #28a745; font-weight: bold; }
         
-        /* --- ĐỊNH DẠNG CÁC NÚT BẤM VÀ ĐƯỜNG DẪN --- */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        /* Nút đường dẫn tải file hack */
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; }
+        
         .download-btn {
             background: #28a745; color: white; text-decoration: none;
             width: 100%; padding: 11px; border-radius: 8px; font-size: 0.95rem;
             font-weight: 600; text-align: center; transition: 0.2s;
-            border: 1px solid transparent;
         }
         .download-btn:hover { background: #218838; }
 
-        /* Nút mua kích hoạt QR */
         .buy-btn {
             background: #007bff; color: white; border: none; width: 100%;
             padding: 11px; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
@@ -71,23 +62,44 @@
         }
         .buy-btn:hover { background: #0056b3; }
 
-        /* --- HỆ THỐNG POPUP HIỂN THỊ MÃ QR --- */
-        .popup-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); display: flex;
-            justify-content: center; align-items: center; opacity: 0;
-            pointer-events: none; transition: opacity 0.3s ease; z-index: 999;
+        /* --- TRANG TẠO MÃ QR THANH TOÁN TOÀN MÀN HÌNH --- */
+        .invoice-page {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-top: 10px;
         }
-        .popup-overlay.show { opacity: 1; pointer-events: auto; }
-        .popup-box { background: white; padding: 25px; border-radius: 16px; width: 85%; max-width: 360px; text-align: center; color: #333; }
-        .qr-code-img { width: 230px; height: 230px; margin: 15px 0; border: 1px solid #eee; padding: 5px; }
-        .close-popup-btn { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-weight: 600; }
+        .invoice-header { font-size: 1.4rem; font-weight: bold; color: #c92a2a; margin-bottom: 5px; }
+        .qr-wrapper {
+            background: #f8f9fa; border: 1px solid #eee; padding: 15px;
+            border-radius: 12px; margin: 20px auto; width: fit-content;
+        }
+        .qr-code-img { width: 240px; height: 240px; display: block; }
+        
+        .info-box {
+            text-align: left; background: #f8f9fa; padding: 15px;
+            border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border-left: 4px solid #007bff;
+        }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 4px; }
+        .info-row span:last-child { font-weight: bold; color: #1a1a1a; }
+        .content-highlight { color: #d63031 !important; font-size: 1rem; background: #ffeaa7; padding: 2px 6px; border-radius: 4px; }
+        
+        .timer-text { font-size: 0.85rem; color: #666; margin-bottom: 15px; font-style: italic; }
+        .back-btn {
+            background: #6c757d; color: white; border: none; padding: 11px;
+            border-radius: 8px; width: 100%; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <!-- TRANG MUA KEY LICENSE LUÔN, KHÔNG CẦN QUA ĐĂNG NHẬP -->
-    <div class="store-page">
+    <!-- GIAO DIỆN CHÍNH: BẢNG GIÁ MUA KEY -->
+    <div id="mainStore" class="store-page">
         <h1 class="store-title">NgoTran Mods Khiến Bạn Rỉ Nước</h1>
         <p class="store-subtitle">Hệ thống tự động 24/7. Chọn gói phù hợp nhất với nhu cầu sử dụng của bạn.</p>
 
@@ -103,9 +115,8 @@
                     <li>AntiBan cực mạnh</li>
                 </ul>
                 <div class="action-buttons">
-                    <!-- Thay link dán vào href bên dưới để dẫn tới file cài hack của bạn -->
-                    <a href="LINK_TAI_HACK_1_NGAY_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack 1 Ngày</a>
-                    <button class="buy-btn" onclick="openQrPopup(15000, 'Goi 1 Ngay')">💳 Mua Ngay</button>
+                    <a href="LINK_TAI_HACK_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
+                    <button class="buy-btn" onclick="goToInvoice(15000, 1)">💳 Mua Ngay</button>
                 </div>
             </div>
 
@@ -120,8 +131,8 @@
                     <li>Reset Key 1 Lần</li>
                 </ul>
                 <div class="action-buttons">
-                    <a href="LINK_TAI_HACK_7_NGAY_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack 7 Ngày</a>
-                    <button class="buy-btn" onclick="openQrPopup(70000, 'Goi 7 Ngay')">💳 Mua Ngay</button>
+                    <a href="LINK_TAI_HACK_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
+                    <button class="buy-btn" onclick="goToInvoice(70000, 7)">💳 Mua Ngay</button>
                 </div>
             </div>
 
@@ -136,53 +147,101 @@
                     <li>Reset Key 3 Lần</li>
                 </ul>
                 <div class="action-buttons">
-                    <a href="LINK_TAI_HACK_30_NGAY_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack 30 Ngày</a>
-                    <button class="buy-btn" onclick="openQrPopup(160000, 'Goi 30 Ngay')">💳 Mua Ngay</button>
+                    <a href="LINK_TAI_HACK_Ở_ĐÂY" class="download-btn" target="_blank">📥 Tải Hack</a>
+                    <button class="buy-btn" onclick="goToInvoice(160000, 30)">💳 Mua Ngay</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- POPUP HIỂN THỊ MÃ QR CHUYỂN KHOẢN AGRIBANK -->
-    <div id="qrPopup" class="popup-overlay">
-        <div class="popup-box">
-            <h3 style="color: #c92a2a;">Cổng Thanh Toán Napas 24/7</h3>
-            <p id="qrInfoText" style="font-size: 1.1rem; margin-top: 10px; font-weight: bold; color: #007bff;"></p>
-            
-            <!-- Chạy API Sinh mã QR tự động dựa theo tài khoản Agribank trên ảnh -->
-            <img id="qrImage" class="qr-code-img" src="" alt="Mã QR Agribank">
-            
-            <p style="font-size: 0.8rem; color: #555; line-height: 1.4; padding: 0 10px;">
-                Chủ TK: <b>LO THI NON</b><br>
-                Ngân hàng: <b>Agribank</b><br>
-                ⚠️ Hãy quét đúng mã QR và giữ nguyên nội dung chuyển khoản để nhận Key tự động!
-            </p>
-            <button class="close-popup-btn" onclick="closeQrPopup()">Đóng lại</button>
+    <!-- GIAO DIỆN CHUYỂN SANG TRANG TẠO QR KHI NHẤN MUA -->
+    <div id="invoicePage" class="invoice-page">
+        <div class="invoice-header">CỔNG THANH TOÁN QUÉT MÃ VIETQR</div>
+        <p style="color: #666; font-size: 0.85rem;">Vui lòng mở App ngân hàng bất kỳ để quét mã thanh toán 24/7</p>
+        
+        <div class="qr-wrapper">
+            <img id="invoiceQr" class="qr-code-img" src="" alt="Mã QR Agribank">
         </div>
+
+        <p id="refreshTimer" class="timer-text">Mã số tự động làm mới sau: 30s</p>
+
+        <div class="info-box">
+            <div class="info-row"><span>Ngân hàng:</span><span>Agribank</span></div>
+            <div class="info-row"><span>Chủ tài khoản:</span><span>LO THI NON</span></div>
+            <div class="info-row"><span>Số tài khoản:</span><span>7905205067987</span></div>
+            <div class="info-row"><span>Số tiền:</span><span id="invoiceAmount" style="color:#007bff;">0 VND</span></div>
+            <div class="info-row"><span>Nội dung bắt buộc:</span><span id="invoiceContent" class="content-highlight"></span></div>
+        </div>
+
+        <p style="font-size: 0.8rem; color: #e43f5a; margin-bottom: 20px; font-weight: bold; text-align: left; line-height: 1.4;">
+            ⚠️ Chú ý: Giữ nguyên nội dung chuyển khoản được ghi ở trên để Admin kiểm tra và kích hoạt key tự động nhanh nhất!
+        </p>
+        
+        <button class="back-btn" onclick="backToStore()">⬅️ Quay lại trang bảng giá</button>
     </div>
 
     <script>
-        // CẤU HÌNH THEO ĐÚNG THÔNG TIN ẢNH MÃ QR BẠN CUNG CẤP
-        const BANK_ID = "Agribank"; 
-        const ACCOUNT_NO = "7905205067987"; 
-        const ACCOUNT_NAME = "LO THI NON"; 
+        // Thông tin cố định lấy từ ảnh ngân hàng Agribank của bạn
+        const BANK_ID = "Agribank";
+        const ACCOUNT_NO = "7905205067987";
+        const ACCOUNT_NAME = "LO THI NON";
 
-        function openQrPopup(amount, packageName) {
-            // Tự động sinh nội dung chuyển khoản ngẫu nhiên gọn gàng (Ví dụ: "NgoTranGoi1Ngay842")
-            const randomId = Math.floor(100 + Math.random() * 900);
-            const description = `NgoTran ${packageName.replace(/\s+/g, '')} ID${randomId}`;
+        let currentAmount = 0;
+        let currentDays = 0;
+        let updateInterval = null;
+        let countdownInterval = null;
+        let timeLeft = 30;
 
-            // Tạo link API tự sinh QR VietQR cho ngân hàng Agribank
-            const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-qr_only.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
-            
-            document.getElementById("qrImage").src = qrUrl;
-            document.getElementById("qrInfoText").innerText = `Số tiền: ${amount.toLocaleString('vi-VN')} VND`;
-            
-            document.getElementById("qrPopup").classList.add("show");
+        // Hàm chuyển sang giao diện hóa đơn QR
+        function goToInvoice(amount, days) {
+            currentAmount = amount;
+            currentDays = days;
+
+            // Ẩn trang bảng giá, hiện trang hóa đơn QR
+            document.getElementById("mainStore").style.display = "none";
+            document.getElementById("invoicePage").style.display = "block";
+
+            // Tạo mã lần đầu tiên
+            generateNewQR();
+
+            // Thiết lập vòng lặp cứ mỗi 30 giây đổi mã số một lần
+            clearInterval(updateInterval);
+            updateInterval = setInterval(generateNewQR, 30000);
+
+            // Thiết lập đồng hồ đếm ngược hiển thị giây trên màn hình
+            clearInterval(countdownInterval);
+            timeLeft = 30;
+            document.getElementById("refreshTimer").innerText = `Mã số tự động làm mới sau: ${timeLeft}s`;
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) timeLeft = 30;
+                document.getElementById("refreshTimer").innerText = `Mã số tự động làm mới sau: ${timeLeft}s`;
+            }, 1000);
         }
 
-        function closeQrPopup() {
-            document.getElementById("qrPopup").classList.remove("show");
+        // Hàm sinh mã QR kèm nội dung mới ngẫu nhiên đuôi
+        function generateNewQR() {
+            // Tạo mã số ngẫu nhiên có 7 chữ số (ví dụ: 8086786)
+            const randomCode = Math.floor(1000000 + Math.random() * 9000000);
+            
+            // Cấu trúc nội dung chuẩn: Mua Key [X] day [Mã số]
+            const content = `Mua Key ${currentDays} day ${randomCode}`;
+
+            // Tạo link API đúng theo chuẩn của VietQR
+            const qrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-qr_only.png?amount=${currentAmount}&addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
+            
+            // Cập nhật giao diện hình ảnh và văn bản hiển thị
+            document.getElementById("invoiceQr").src = qrUrl;
+            document.getElementById("invoiceAmount").innerText = `${currentAmount.toLocaleString('vi-VN')} VND`;
+            document.getElementById("invoiceContent").innerText = content;
+        }
+
+        // Hàm quay trở lại danh sách bảng giá ban đầu
+        function backToStore() {
+            clearInterval(updateInterval);
+            clearInterval(countdownInterval);
+            document.getElementById("invoicePage").style.display = "none";
+            document.getElementById("mainStore").style.display = "block";
         }
     </script>
 </body>
