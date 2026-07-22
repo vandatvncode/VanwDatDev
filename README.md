@@ -416,15 +416,16 @@
     </div>
 
     <script>
-        // CẤU HÌNH LIÊN KẾT FIREBASE REALTIME DATABASE 
+        // CẤU HÌNH LIÊN KẾT FIREBASE REALTIME DATABASE ĐÃ ĐƯỢC CẬP NHẬT MỚI
         const firebaseConfig = {
-            apiKey: "AIzaSyAsYourRealApiKeyHere_XYZ",
-            authDomain: "ngotran-mods-shop.firebaseapp.com",
-            databaseURL: "https://ngotran-mods-shop-default-rtdb.firebaseio.com",
-            projectId: "ngotran-mods-shop",
-            storageBucket: "ngotran-mods-shop.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:12345:web:abcdef"
+            apiKey: "AIzaSyD-6QDqoZsnldoPrstQIkWLJ1G69JYBChw",
+            authDomain: "vd12-c514c.firebaseapp.com",
+            databaseURL: "https://vd12-c514c-default-rtdb.firebaseio.com",
+            projectId: "vd12-c514c",
+            storageBucket: "vd12-c514c.firebasestorage.app",
+            messagingSenderId: "72320018344",
+            appId: "1:72320018344:web:c6117ca351357afe135f9d",
+            measurementId: "G-9QYCTZXRCM"
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -601,7 +602,7 @@
                 amount: amt,
                 bonusAmount: amt * 2,
                 details: `Nội dung chuyển khoản: ${memo}`,
-                card_pin: '', // Bank không có mã thẻ
+                card_pin: '',
                 date: new Date().toLocaleString('vi-VN')
             });
 
@@ -628,7 +629,7 @@
                 amount: val,
                 bonusAmount: val * 2,
                 details: `Loại thẻ: ${type} | SERI: ${seri}`,
-                card_pin: pin, // Lưu riêng mã thẻ (mật khẩu) để Admin thấy
+                card_pin: pin,
                 date: new Date().toLocaleString('vi-VN')
             });
 
@@ -653,7 +654,6 @@
                     const reqId = childSnapshot.key;
                     const req = childSnapshot.val();
                     
-                    // Kiểm tra nếu là thẻ cào thì hiển thị thêm Mật khẩu thẻ nổi bật
                     let pinHtml = "";
                     if (req.type === 'CARD' && req.card_pin) {
                         pinHtml = `<div style="margin-top: 5px; color: #ffbc00;">🔑 <strong>Mật khẩu thẻ (PIN):</strong> <span class="admin-highlight-code">${req.card_pin}</span></div>`;
@@ -739,3 +739,4 @@
     </script>
 </body>
 </html>
+
