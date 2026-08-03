@@ -1,24 +1,26 @@
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
 
 --------------------------------------------------------------------------------
--- CẤU HÌNH HỆ THỐNG
+-- CẤU HÌNH HỆ THỐNG & LƯU FILE
 --------------------------------------------------------------------------------
 local CONFIG = {
     TITLE       = "VanDat Dev Hub",
     GET_KEY_URL = "https://vandatvncode.github.io/VanwDatDev",
-    FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/"
+    FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/",
+    KEY_FILE    = "VanDatDev_SavedKey.txt" -- Tên file lưu key
 }
 
--- Tự động xóa GUI cũ nếu đã tồn tại để tránh đè giao diện
+-- Xóa GUI cũ nếu đang hiển thị
 if CoreGui:FindFirstChild("VanDatKeySystem") then
     CoreGui.VanDatKeySystem:Destroy()
 end
 
 --------------------------------------------------------------------------------
--- HÀM XÁC THỰC FIREBASE
+-- HÀM XÁC THỰC FIREBASE & LƯU KEY
 --------------------------------------------------------------------------------
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or request
 
@@ -66,46 +68,82 @@ local function verifyKey(userKey)
         return false, "Key của bạn đã hết hạn!"
     end
 
+    -- Lưu Key hợp lệ vào bộ nhớ máy/device
+    if writefile then
+        pcall(function()
+            writefile(CONFIG.KEY_FILE, userKey)
+        end)
+    end
+
     return true, "Xác thực thành công!"
 end
 
 --------------------------------------------------------------------------------
--- TẢI SCRIPT CHÍNH (XETER HUB V4) KHI XÁC THỰC THÀNH CÔNG
+-- KÍCH HOẠT XETER HUB V4 (Đã sửa lỗi Remotes)
 --------------------------------------------------------------------------------
 local function loadMainHub()
-    print("[VanDat Dev] Key hợp lệ! Đang khởi chạy Xeter Hub V4...")
+    print("[VanDat Dev] Key hợp lệ! Đang chờ game tải dữ liệu...")
     
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = CONFIG.TITLE,
-        Text = "Xác thực thành công! Đang tải Xeter Hub...",
+        Text = "Kích hoạt thành công! Đang tải Xeter Hub...",
         Duration = 5
     })
 
-    -- Cấu hình và chạy Script Xeter V4
+    -- Sửa lỗi 'Remotes is not a valid member': Bắt buộc chờ Remotes load xong
+    pcall(function()
+        ReplicatedStorage:WaitForChild("Remotes", 15)
+    end)
+
+    -- Cấu hình và chạy Xeter Hub
     getgenv().Version = "V4"
     getgenv().Team = "Marines"
 
-    local scriptSuccess, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/TlDinhKhoi/Xeter/refs/heads/main/Main.lua"))()
-    end)
+    task.spawn(function()
+        local scriptSuccess, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/TlDinhKhoi/Xeter/refs/heads/main/Main.lua"))()
+        end)
 
-    if not scriptSuccess then
-        warn("[VanDat Dev] Lỗi khi tải Xeter Hub:", err)
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Lỗi Tải Script",
-            Text = "Không thể tải Xeter Hub. Vui lòng kiểm tra Console (F9)!",
-            Duration = 5
-        })
+        if not scriptSuccess then
+            warn("[VanDat Dev] Lỗi khi tải Xeter Hub:", err)
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Lỗi Tải Script",
+                Text = "Xeter Hub lỗi! Vui lòng thử lại sau.",
+                Duration = 5
+            })
+        end
+    end)
+end
+
+--------------------------------------------------------------------------------
+-- BƯỚC KIỂM TRA AUTOLOGIN (TỰ ĐỘNG BỎ QUA GUI NẾU KEY CÓ SẴN & HỢP LỆ)
+--------------------------------------------------------------------------------
+local savedKey = ""
+if readfile and isfile and isfile(CONFIG.KEY_FILE) then
+    pcall(function()
+        savedKey = readfile(CONFIG.KEY_FILE)
+    end)
+end
+
+if savedKey ~= "" then
+    print("[VanDat Dev] Tìm thấy Key đã lưu. Đang tự động kiểm tra...")
+    local isValid, _ = verifyKey(savedKey)
+    if isValid then
+        loadMainHub()
+        return -- Kết thúc script tại đây, không hiện GUI
+    else
+        -- Key hết hạn hoặc sai -> Xóa file lưu cũ
+        if delfile then pcall(function() delfile(CONFIG.KEY_FILE) end) end
+        print("[VanDat Dev] Key đã lưu hết hạn hoặc không hợp lệ. Đang bật bảng nhập Key...")
     end
 end
 
 --------------------------------------------------------------------------------
--- TẠO GIAO DIỆN KEY SYSTEM (GUI)
+-- TẠO GIAO DIỆN CẦN NHẬP KEY (CHỈ HIỆN KHI CHƯA CÓ KEY HOẶC KEY HẾT HẠN)
 --------------------------------------------------------------------------------
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "VanDatKeySystem"
 
--- Gắn UI vào CoreGui hoặc PlayerGui
 local successParent = pcall(function()
     ScreenGui.Parent = CoreGui
 end)
