@@ -12,7 +12,7 @@ local CONFIG = {
     FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/"
 }
 
--- Tự động xóa GUI cũ nếu đã tồn tại để tránh xung đột
+-- Tự động xóa GUI cũ nếu đã tồn tại để tránh đè giao diện
 if CoreGui:FindFirstChild("VanDatKeySystem") then
     CoreGui.VanDatKeySystem:Destroy()
 end
@@ -70,22 +70,42 @@ local function verifyKey(userKey)
 end
 
 --------------------------------------------------------------------------------
--- TẠO GIAO DIỆN GUI
+-- TẢI SCRIPT CHÍNH (XETER HUB V4) KHI XÁC THỰC THÀNH CÔNG
 --------------------------------------------------------------------------------
 local function loadMainHub()
-    print("[VanDat Dev] Key hợp lệ! Đang chạy Hub...")
+    print("[VanDat Dev] Key hợp lệ! Đang khởi chạy Xeter Hub V4...")
+    
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = CONFIG.TITLE,
-        Text = "Kích hoạt Script thành công!",
+        Text = "Xác thực thành công! Đang tải Xeter Hub...",
         Duration = 5
     })
+
+    -- Cấu hình và chạy Script Xeter V4
+    getgenv().Version = "V4"
+    getgenv().Team = "Marines"
+
+    local scriptSuccess, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/TlDinhKhoi/Xeter/refs/heads/main/Main.lua"))()
+    end)
+
+    if not scriptSuccess then
+        warn("[VanDat Dev] Lỗi khi tải Xeter Hub:", err)
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Lỗi Tải Script",
+            Text = "Không thể tải Xeter Hub. Vui lòng kiểm tra Console (F9)!",
+            Duration = 5
+        })
+    end
 end
 
+--------------------------------------------------------------------------------
+-- TẠO GIAO DIỆN KEY SYSTEM (GUI)
+--------------------------------------------------------------------------------
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "VanDatKeySystem"
 
--- Kiểm tra quyền gắn UI vào CoreGui (tránh bị game phát hiện/chặn)
-local parentTarget = CoreGui
+-- Gắn UI vào CoreGui hoặc PlayerGui
 local successParent = pcall(function()
     ScreenGui.Parent = CoreGui
 end)
@@ -186,7 +206,7 @@ StatusLabel.TextSize = 11
 StatusLabel.TextWrapped = true
 
 --------------------------------------------------------------------------------
--- SỰ KIỆN NÚT BẤM
+-- SỰ KIỆN CÁC NÚT BẤM
 --------------------------------------------------------------------------------
 GetKeyBtn.MouseButton1Click:Connect(function()
     if setclipboard then
@@ -229,5 +249,3 @@ SubmitBtn.MouseButton1Click:Connect(function()
         StatusLabel.TextColor3 = Color3.fromRGB(255, 118, 117)
     end
 end)
-
-print("[VanDat Dev] Tải GUI thành công!")
