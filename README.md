@@ -39,10 +39,10 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 40px 30px;
+            padding: 35px 25px;
             text-align: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
                         0 0 30px rgba(108, 92, 231, 0.1);
             position: relative;
@@ -89,7 +89,38 @@
         p.subtitle {
             color: var(--text-muted);
             font-size: 14px;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Ô nhập Tên Key */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-main);
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         .btn-group {
@@ -166,7 +197,7 @@
 
         .key-text {
             font-family: monospace;
-            font-size: 16px;
+            font-size: 15px;
             color: #00ff88;
             font-weight: bold;
             letter-spacing: 1px;
@@ -186,9 +217,8 @@
 
         .copy-btn:hover { background: #5a4bcf; }
 
-        /* Style Đồng hồ đếm ngược */
         .countdown-title {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             margin-top: 12px;
             margin-bottom: 6px;
@@ -222,6 +252,67 @@
             font-size: 10px;
             color: var(--text-muted);
         }
+
+        /* GIAO DIỆN DANH SÁCH KEY ĐÃ TẠO */
+        .history-section {
+            margin-top: 30px;
+            text-align: left;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .history-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .key-list-container {
+            max-height: 220px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 4px;
+        }
+
+        /* Thanh cuộn đẹp */
+        .key-list-container::-webkit-scrollbar { width: 4px; }
+        .key-list-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        .history-card {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        .history-card .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .history-card .key-name {
+            color: #a29bfe;
+            font-weight: 700;
+        }
+
+        .history-card .key-val {
+            color: #00ff88;
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        .history-card .time-text {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
     </style>
 
     <!-- Firebase SDK -->
@@ -234,6 +325,12 @@
         <div class="avatar">⚡</div>
         <h2>VanDat Dev</h2>
         <p class="subtitle">Hệ thống Get Key tự động & Nhanh chóng</p>
+
+        <!-- Đặt Tên Key -->
+        <div class="input-group">
+            <label for="keyNameInput">Tên Key / Tên Người Dùng (Tùy chọn):</label>
+            <input type="text" id="keyNameInput" placeholder="Ví dụ: VanDat_VIP">
+        </div>
         
         <div class="btn-group">
             <button class="btn" onclick="redirectToGetKey(6)">
@@ -254,10 +351,21 @@
             <span id="statusText" class="status">Đang xử lý...</span>
             <div id="keyDisplay"></div>
         </div>
+
+        <!-- BẢNG DANH SÁCH KEY ĐÃ TẠO -->
+        <div class="history-section">
+            <div class="history-header">
+                <span>📋 Danh Sách Key Đã Tạo</span>
+            </div>
+            <div class="key-list-container" id="keyList">
+                <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">
+                    Đang tải danh sách...
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Cấu hình Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD-6QDqoZsnldoPrstQIkWLJ1G69JYBChw",
             authDomain: "vd12-c514c.firebaseapp.com",
@@ -274,15 +382,26 @@
 
         let timerInterval = null;
 
-        // 3 Link Get Key
         const GET_KEY_URLS = {
             6: "https://link4m.org/H7gGhdD",
             12: "https://link4m.net/jLTZR",
             24: "https://link4m.org/V4FnEAD"
         };
 
+        function formatDate(timestamp) {
+            const date = new Date(timestamp * 1000);
+            return date.toLocaleString('vi-VN');
+        }
+
         function redirectToGetKey(hours) {
-            const redirectUrl = GET_KEY_URLS[hours] || window.location.href;
+            const customName = document.getElementById('keyNameInput').value.trim();
+            let redirectUrl = GET_KEY_URLS[hours] || window.location.href;
+            
+            // Lưu tên tạm vào LocalStorage trước khi chuyển hướng Link4M
+            if (customName !== "") {
+                localStorage.setItem("temp_key_name", customName);
+            }
+
             window.location.href = redirectUrl;
         }
 
@@ -302,12 +421,18 @@
             const now = Math.floor(Date.now() / 1000);
             const expiresAt = now + (hours * 3600);
 
+            // Lấy tên key đã nhập trước đó
+            const savedName = localStorage.getItem("temp_key_name") || "Key Khách";
+
             try {
                 await database.ref('keys/' + generatedKey).set({
+                    key_name: savedName,
                     created_at: now,
                     expires_at: expiresAt,
                     hours: hours
                 });
+
+                localStorage.removeItem("temp_key_name"); // Dọn dẹp bộ nhớ tạm
 
                 statusText.innerText = "🎉 Khởi tạo Key thành công!";
                 statusText.style.color = "#00b894";
@@ -335,8 +460,8 @@
                     </div>
                 `;
 
-                // Bắt đầu chạy bộ đếm ngược
                 startCountdown(expiresAt);
+                loadKeyHistory(); // Cập nhật lại danh sách ngay lập tức
 
             } catch (error) {
                 console.error(error);
@@ -345,7 +470,42 @@
             }
         }
 
-        // Hàm xử lý bộ đếm ngược Giờ:Phút:Giây
+        // Tải & Hiển thị Danh sách Key từ Firebase
+        function loadKeyHistory() {
+            const keyListDiv = document.getElementById('keyList');
+
+            database.ref('keys').limitToLast(15).once('value', (snapshot) => {
+                const data = snapshot.val();
+                if (!data) {
+                    keyListDiv.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">Chưa có Key nào được tạo!</div>`;
+                    return;
+                }
+
+                keyListDiv.innerHTML = '';
+                const keysArray = Object.keys(data).reverse(); // Hiện key mới nhất lên đầu
+
+                keysArray.forEach((keyCode) => {
+                    const item = data[keyCode];
+                    const card = document.createElement('div');
+                    card.className = 'history-card';
+
+                    card.innerHTML = `
+                        <div class="row">
+                            <span>Tên Key Đã Tạo: <span class="key-name">${item.key_name || 'Vô Danh'}</span></span>
+                            <span class="key-val">${keyCode}</span>
+                        </div>
+                        <div class="row time-text">
+                            <span>Tạo: ${formatDate(item.created_at)}</span>
+                        </div>
+                        <div class="row time-text">
+                            <span>Hạn dùng: ${formatDate(item.expires_at)}</span>
+                        </div>
+                    `;
+                    keyListDiv.appendChild(card);
+                });
+            });
+        }
+
         function startCountdown(expiresAt) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -389,6 +549,8 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadKeyHistory(); // Load danh sách key khi mở trang web
+
             const urlParams = new URLSearchParams(window.location.search);
             const isCompleted = urlParams.get('completed');
             const hours = parseInt(urlParams.get('hours'));
@@ -401,3 +563,4 @@
     </script>
 </body>
 </html>
+
