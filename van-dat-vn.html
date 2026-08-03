@@ -1,17 +1,40 @@
 local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local LocalPlayer = Players.LocalPlayer
 
--- Đường dẫn Firebase Database của bạn
-local FIREBASE_URL = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/"
+--------------------------------------------------------------------------------
+-- CẤU HÌNH HỆ THỐNG
+--------------------------------------------------------------------------------
+local CONFIG = {
+    TITLE       = "VanDat Dev Hub",
+    GET_KEY_URL = "https://vandatvncode.github.io/VanwDatDev",
+    FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/"
+}
 
+-- Tự động xóa GUI cũ nếu đã tồn tại để tránh xung đột
+if CoreGui:FindFirstChild("VanDatKeySystem") then
+    CoreGui.VanDatKeySystem:Destroy()
+end
+
+--------------------------------------------------------------------------------
+-- HÀM XÁC THỰC FIREBASE
+--------------------------------------------------------------------------------
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or request
 
-local function verifyKeyWithFirebase(userKey)
-    if not httpRequest then
-        return false, "Executor không hỗ trợ HTTP Request"
+local function verifyKey(userKey)
+    if not userKey or userKey == "" then
+        return false, "Vui lòng nhập Key!"
     end
 
-    local requestUrl = FIREBASE_URL .. userKey .. ".json"
+    userKey = string.gsub(userKey, "%s+", "")
 
+    if not httpRequest then
+        return false, "Executor không hỗ trợ HTTP Request!"
+    end
+
+    local requestUrl = CONFIG.FIREBASE_DB .. userKey .. ".json"
+    
     local success, response = pcall(function()
         return httpRequest({
             Url = requestUrl,
@@ -23,25 +46,188 @@ local function verifyKeyWithFirebase(userKey)
     end)
 
     if not success or not response then
-        return false, "Không thể kết nối tới Firebase"
+        return false, "Không thể kết nối đến Firebase!"
     end
 
     if response.Body == "null" or response.Body == "" then
-        return false, "Key không tồn tại!"
+        return false, "Key không tồn tại hoặc không hợp lệ!"
     end
 
-    local ok, keyData = pcall(function()
+    local decodeSuccess, keyData = pcall(function()
         return HttpService:JSONDecode(response.Body)
     end)
 
-    if not ok or not keyData then
-        return false, "Lỗi đọc dữ liệu từ Firebase"
+    if not decodeSuccess or not keyData then
+        return false, "Dữ liệu phản hồi bị lỗi!"
     end
 
-    local now = os.time()
-    if keyData.expires_at and now > keyData.expires_at then
-        return false, "Key đã hết hạn sử dụng!"
+    local currentTime = os.time()
+    if keyData.expires_at and currentTime > keyData.expires_at then
+        return false, "Key của bạn đã hết hạn!"
     end
 
-    return true, "Key hợp lệ!"
+    return true, "Xác thực thành công!"
 end
+
+--------------------------------------------------------------------------------
+-- TẠO GIAO DIỆN GUI
+--------------------------------------------------------------------------------
+local function loadMainHub()
+    print("[VanDat Dev] Key hợp lệ! Đang chạy Hub...")
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = CONFIG.TITLE,
+        Text = "Kích hoạt Script thành công!",
+        Duration = 5
+    })
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "VanDatKeySystem"
+
+-- Kiểm tra quyền gắn UI vào CoreGui (tránh bị game phát hiện/chặn)
+local parentTarget = CoreGui
+local successParent = pcall(function()
+    ScreenGui.Parent = CoreGui
+end)
+
+if not successParent or not ScreenGui.Parent then
+    ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+end
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -115)
+MainFrame.Size = UDim2.new(0, 300, 0, 230)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+local FrameCorner = Instance.new("UICorner")
+FrameCorner.CornerRadius = UDim.new(0, 12)
+FrameCorner.Parent = MainFrame
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Parent = MainFrame
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Position = UDim2.new(0, 0, 0, 5)
+TitleLabel.Size = UDim2.new(1, 0, 0, 35)
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.Text = CONFIG.TITLE
+TitleLabel.TextColor3 = Color3.fromRGB(162, 155, 254)
+TitleLabel.TextSize = 18
+
+local KeyInput = Instance.new("TextBox")
+KeyInput.Parent = MainFrame
+KeyInput.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+KeyInput.Position = UDim2.new(0.1, 0, 0.2, 0)
+KeyInput.Size = UDim2.new(0.8, 0, 0, 35)
+KeyInput.Font = Enum.Font.Gotham
+KeyInput.PlaceholderText = "Nhập Key tại đây..."
+KeyInput.Text = ""
+KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyInput.TextSize = 13
+
+local InputCorner = Instance.new("UICorner")
+InputCorner.CornerRadius = UDim.new(0, 8)
+InputCorner.Parent = KeyInput
+
+local SubmitBtn = Instance.new("TextButton")
+SubmitBtn.Parent = MainFrame
+SubmitBtn.BackgroundColor3 = Color3.fromRGB(108, 92, 231)
+SubmitBtn.Position = UDim2.new(0.1, 0, 0.4, 0)
+SubmitBtn.Size = UDim2.new(0.38, 0, 0, 32)
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.Text = "Xác nhận"
+SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitBtn.TextSize = 12
+
+local Btn1Corner = Instance.new("UICorner")
+Btn1Corner.CornerRadius = UDim.new(0, 8)
+Btn1Corner.Parent = SubmitBtn
+
+local GetKeyBtn = Instance.new("TextButton")
+GetKeyBtn.Parent = MainFrame
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+GetKeyBtn.Position = UDim2.new(0.52, 0, 0.4, 0)
+GetKeyBtn.Size = UDim2.new(0.38, 0, 0, 32)
+GetKeyBtn.Font = Enum.Font.GothamBold
+GetKeyBtn.Text = "Lấy Key"
+GetKeyBtn.TextColor3 = Color3.fromRGB(0, 242, 254)
+GetKeyBtn.TextSize = 12
+
+local Btn2Corner = Instance.new("UICorner")
+Btn2Corner.CornerRadius = UDim.new(0, 8)
+Btn2Corner.Parent = GetKeyBtn
+
+local PasteBtn = Instance.new("TextButton")
+PasteBtn.Parent = MainFrame
+PasteBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 55)
+PasteBtn.Position = UDim2.new(0.1, 0, 0.58, 0)
+PasteBtn.Size = UDim2.new(0.8, 0, 0, 32)
+PasteBtn.Font = Enum.Font.GothamBold
+PasteBtn.Text = "📋 Dán Key từ Khay nhớ tạm"
+PasteBtn.TextColor3 = Color3.fromRGB(0, 255, 136)
+PasteBtn.TextSize = 12
+
+local Btn3Corner = Instance.new("UICorner")
+Btn3Corner.CornerRadius = UDim.new(0, 8)
+Btn3Corner.Parent = PasteBtn
+
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Parent = MainFrame
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Position = UDim2.new(0.1, 0, 0.78, 0)
+StatusLabel.Size = UDim2.new(0.8, 0, 0, 35)
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.Text = "Vui lòng nhập Key để tiếp tục"
+StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+StatusLabel.TextSize = 11
+StatusLabel.TextWrapped = true
+
+--------------------------------------------------------------------------------
+-- SỰ KIỆN NÚT BẤM
+--------------------------------------------------------------------------------
+GetKeyBtn.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(CONFIG.GET_KEY_URL)
+        StatusLabel.Text = "Đã sao chép link Get Key!"
+        StatusLabel.TextColor3 = Color3.fromRGB(0, 242, 254)
+    else
+        StatusLabel.Text = "Link: " .. CONFIG.GET_KEY_URL
+        StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
+
+PasteBtn.MouseButton1Click:Connect(function()
+    local clipboardText = (getclipboard and getclipboard()) or (get_clipboard and get_clipboard())
+    if clipboardText then
+        KeyInput.Text = clipboardText
+        StatusLabel.Text = "Đã dán Key thành công!"
+        StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 136)
+    else
+        StatusLabel.Text = "Không đọc được Khay nhớ tạm!"
+        StatusLabel.TextColor3 = Color3.fromRGB(255, 118, 117)
+    end
+end)
+
+SubmitBtn.MouseButton1Click:Connect(function()
+    StatusLabel.Text = "Đang kiểm tra Key..."
+    StatusLabel.TextColor3 = Color3.fromRGB(255, 234, 167)
+    
+    task.wait(0.3)
+    local isValid, message = verifyKey(KeyInput.Text)
+    
+    if isValid then
+        StatusLabel.Text = message
+        StatusLabel.TextColor3 = Color3.fromRGB(0, 184, 148)
+        task.wait(0.8)
+        ScreenGui:Destroy()
+        loadMainHub()
+    else
+        StatusLabel.Text = message
+        StatusLabel.TextColor3 = Color3.fromRGB(255, 118, 117)
+    end
+end)
+
+print("[VanDat Dev] Tải GUI thành công!")
