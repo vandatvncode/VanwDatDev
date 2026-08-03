@@ -89,38 +89,7 @@
         p.subtitle {
             color: var(--text-muted);
             font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* Ô nhập Tên Key */
-        .input-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            display: block;
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--text-main);
-            outline: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px var(--primary-glow);
+            margin-bottom: 25px;
         }
 
         .btn-group {
@@ -253,7 +222,7 @@
             color: var(--text-muted);
         }
 
-        /* GIAO DIỆN DANH SÁCH KEY ĐÃ TẠO */
+        /* GIAO DIỆN DANH SÁCH KEY ĐÃ TẠO (CÁ NHÂN) */
         .history-section {
             margin-top: 30px;
             text-align: left;
@@ -325,12 +294,6 @@
         <div class="avatar">⚡</div>
         <h2>VanDat Dev</h2>
         <p class="subtitle">Hệ thống Get Key tự động & Nhanh chóng</p>
-
-        <!-- Đặt Tên Key -->
-        <div class="input-group">
-            <label for="keyNameInput">Tên Key / Tên Người Dùng (Tùy chọn):</label>
-            <input type="text" id="keyNameInput" placeholder="Ví dụ: VanDat_VIP">
-        </div>
         
         <div class="btn-group">
             <button class="btn" onclick="redirectToGetKey(6)">
@@ -352,14 +315,14 @@
             <div id="keyDisplay"></div>
         </div>
 
-        <!-- BẢNG DANH SÁCH KEY ĐÃ TẠO -->
+        <!-- BẢNG DANH SÁCH KEY ĐÃ TẠO TRÊN THIẾT BỊ NÀY -->
         <div class="history-section">
             <div class="history-header">
-                <span>📋 Danh Sách Key Đã Tạo</span>
+                <span>📋 Lịch Sử Key Trái Máy Này</span>
             </div>
             <div class="key-list-container" id="keyList">
                 <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">
-                    Đang tải danh sách...
+                    Chưa có Key nào được tạo trên thiết bị này!
                 </div>
             </div>
         </div>
@@ -394,15 +357,15 @@
         }
 
         function redirectToGetKey(hours) {
-            const customName = document.getElementById('keyNameInput').value.trim();
             let redirectUrl = GET_KEY_URLS[hours] || window.location.href;
-            
-            // Lưu tên tạm vào LocalStorage trước khi chuyển hướng Link4M
-            if (customName !== "") {
-                localStorage.setItem("temp_key_name", customName);
-            }
-
             window.location.href = redirectUrl;
+        }
+
+        // Lưu Key vào LocalStorage của riêng thiết bị này
+        function saveKeyToLocalStorage(keyData) {
+            let localKeys = JSON.parse(localStorage.getItem("my_generated_keys") || "[]");
+            localKeys.unshift(keyData); // Đưa key mới nhất lên đầu
+            localStorage.setItem("my_generated_keys", JSON.stringify(localKeys));
         }
 
         async function createAndSaveKey(hours) {
@@ -420,19 +383,27 @@
 
             const now = Math.floor(Date.now() / 1000);
             const expiresAt = now + (hours * 3600);
+            const keyName = `Key ${hours} Giờ`;
 
-            // Lấy tên key đã nhập trước đó
-            const savedName = localStorage.getItem("temp_key_name") || "Key Khách";
+            const keyInfo = {
+                keyCode: generatedKey,
+                key_name: keyName,
+                created_at: now,
+                expires_at: expiresAt,
+                hours: hours
+            };
 
             try {
+                // 1. Lưu Key lên Firebase để Roblox đọc & xác thực
                 await database.ref('keys/' + generatedKey).set({
-                    key_name: savedName,
+                    key_name: keyName,
                     created_at: now,
                     expires_at: expiresAt,
                     hours: hours
                 });
 
-                localStorage.removeItem("temp_key_name"); // Dọn dẹp bộ nhớ tạm
+                // 2. Lưu Key vào bộ nhớ thiết bị hiện tại (Chỉ thiết bị này mới thấy)
+                saveKeyToLocalStorage(keyInfo);
 
                 statusText.innerText = "🎉 Khởi tạo Key thành công!";
                 statusText.style.color = "#00b894";
@@ -461,7 +432,7 @@
                 `;
 
                 startCountdown(expiresAt);
-                loadKeyHistory(); // Cập nhật lại danh sách ngay lập tức
+                loadKeyHistory(); // Cập nhật lại giao diện danh sách riêng
 
             } catch (error) {
                 console.error(error);
@@ -470,39 +441,35 @@
             }
         }
 
-        // Tải & Hiển thị Danh sách Key từ Firebase
+        // Tải & Hiển thị Danh sách Key chỉ trên THIẾT BỊ NÀY
         function loadKeyHistory() {
             const keyListDiv = document.getElementById('keyList');
+            let localKeys = JSON.parse(localStorage.getItem("my_generated_keys") || "[]");
 
-            database.ref('keys').limitToLast(15).once('value', (snapshot) => {
-                const data = snapshot.val();
-                if (!data) {
-                    keyListDiv.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">Chưa có Key nào được tạo!</div>`;
-                    return;
-                }
+            if (localKeys.length === 0) {
+                keyListDiv.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">Chưa có Key nào được tạo trên thiết bị này!</div>`;
+                return;
+            }
 
-                keyListDiv.innerHTML = '';
-                const keysArray = Object.keys(data).reverse(); // Hiện key mới nhất lên đầu
+            keyListDiv.innerHTML = '';
 
-                keysArray.forEach((keyCode) => {
-                    const item = data[keyCode];
-                    const card = document.createElement('div');
-                    card.className = 'history-card';
+            localKeys.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'history-card';
 
-                    card.innerHTML = `
-                        <div class="row">
-                            <span>Tên Key Đã Tạo: <span class="key-name">${item.key_name || 'Vô Danh'}</span></span>
-                            <span class="key-val">${keyCode}</span>
-                        </div>
-                        <div class="row time-text">
-                            <span>Tạo: ${formatDate(item.created_at)}</span>
-                        </div>
-                        <div class="row time-text">
-                            <span>Hạn dùng: ${formatDate(item.expires_at)}</span>
-                        </div>
-                    `;
-                    keyListDiv.appendChild(card);
-                });
+                card.innerHTML = `
+                    <div class="row">
+                        <span>Gói: <span class="key-name">${item.key_name}</span></span>
+                        <span class="key-val">${item.keyCode}</span>
+                    </div>
+                    <div class="row time-text">
+                        <span>Tạo: ${formatDate(item.created_at)}</span>
+                    </div>
+                    <div class="row time-text">
+                        <span>Hạn dùng: ${formatDate(item.expires_at)}</span>
+                    </div>
+                `;
+                keyListDiv.appendChild(card);
             });
         }
 
@@ -549,7 +516,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            loadKeyHistory(); // Load danh sách key khi mở trang web
+            loadKeyHistory(); // Đọc danh sách key riêng từ LocalStorage
 
             const urlParams = new URLSearchParams(window.location.search);
             const isCompleted = urlParams.get('completed');
