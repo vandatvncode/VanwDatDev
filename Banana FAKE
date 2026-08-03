@@ -11,16 +11,22 @@ local CONFIG = {
     TITLE       = "VanDat Dev Hub",
     GET_KEY_URL = "https://vandatvncode.github.io/VanwDatDev",
     FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/",
-    KEY_FILE    = "VanDatDev_SavedKey.txt" -- Tên file lưu key
+    KEY_FILE    = "VanDatDev_SavedKey.txt"
 }
 
--- Xóa GUI cũ nếu đang hiển thị
+-- Lấy Mã Định Danh Thiết Bị (HWID) từ Executor
+local getHwid = gethwid or get_hwid or (syn and syn.get_hwid) or function() 
+    return game:GetService("RbxAnalyticsService"):GetClientId() 
+end
+local clientHWID = getHwid()
+
+-- Xóa GUI cũ nếu đang chạy
 if CoreGui:FindFirstChild("VanDatKeySystem") then
     CoreGui.VanDatKeySystem:Destroy()
 end
 
 --------------------------------------------------------------------------------
--- HÀM XÁC THỰC FIREBASE & LƯU KEY
+-- HÀM XÁC THỰC FIREBASE (KÈM KHÓA THIẾT BỊ - HWID)
 --------------------------------------------------------------------------------
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or request
 
@@ -37,13 +43,12 @@ local function verifyKey(userKey)
 
     local requestUrl = CONFIG.FIREBASE_DB .. userKey .. ".json"
     
+    -- 1. Đọc dữ liệu Key từ Firebase
     local success, response = pcall(function()
         return httpRequest({
             Url = requestUrl,
             Method = "GET",
-            Headers = {
-                ["Content-Type"] = "application/json"
-            }
+            Headers = { ["Content-Type"] = "application/json" }
         })
     end)
 
@@ -63,12 +68,29 @@ local function verifyKey(userKey)
         return false, "Dữ liệu phản hồi bị lỗi!"
     end
 
+    -- 2. Kiểm tra Hạn Sử Dụng
     local currentTime = os.time()
     if keyData.expires_at and currentTime > keyData.expires_at then
         return false, "Key của bạn đã hết hạn!"
     end
 
-    -- Lưu Key hợp lệ vào bộ nhớ máy/device
+    -- 3. Kiểm tra & Khóa HWID Thiết Bị
+    if keyData.hwid == nil or keyData.hwid == "" then
+        -- Lần đầu kích hoạt Key: Đăng ký HWID thiết bị này lên Firebase
+        pcall(function()
+            httpRequest({
+                Url = requestUrl,
+                Method = "PATCH",
+                Headers = { ["Content-Type"] = "application/json" },
+                Body = HttpService:JSONEncode({ hwid = clientHWID })
+            })
+        end)
+    elseif keyData.hwid ~= clientHWID then
+        -- HWID không trùng khớp với thiết bị đã đăng ký
+        return false, "Key này đã được đăng ký cho thiết bị khác!"
+    end
+
+    -- 4. Lưu Key hợp lệ vào bộ nhớ thiết bị
     if writefile then
         pcall(function()
             writefile(CONFIG.KEY_FILE, userKey)
@@ -79,7 +101,7 @@ local function verifyKey(userKey)
 end
 
 --------------------------------------------------------------------------------
--- KÍCH HOẠT XETER HUB V4 (Đã sửa lỗi Remotes)
+-- KÍCH HOẠT SCRIPT CHÍNH (XETER HUB V4)
 --------------------------------------------------------------------------------
 local function loadMainHub()
     print("[VanDat Dev] Key hợp lệ! Đang chờ game tải dữ liệu...")
@@ -90,12 +112,10 @@ local function loadMainHub()
         Duration = 5
     })
 
-    -- Sửa lỗi 'Remotes is not a valid member': Bắt buộc chờ Remotes load xong
     pcall(function()
         ReplicatedStorage:WaitForChild("Remotes", 15)
     end)
 
-    -- Cấu hình và chạy Xeter Hub
     getgenv().Version = "V4"
     getgenv().Team = "Marines"
 
@@ -116,7 +136,7 @@ local function loadMainHub()
 end
 
 --------------------------------------------------------------------------------
--- BƯỚC KIỂM TRA AUTOLOGIN (TỰ ĐỘNG BỎ QUA GUI NẾU KEY CÓ SẴN & HỢP LỆ)
+-- KIỂM TRA TỰ ĐỘNG ĐĂNG NHẬP (AUTO LOGIN)
 --------------------------------------------------------------------------------
 local savedKey = ""
 if readfile and isfile and isfile(CONFIG.KEY_FILE) then
@@ -126,20 +146,19 @@ if readfile and isfile and isfile(CONFIG.KEY_FILE) then
 end
 
 if savedKey ~= "" then
-    print("[VanDat Dev] Tìm thấy Key đã lưu. Đang tự động kiểm tra...")
+    print("[VanDat Dev] Tìm thấy Key đã lưu. Đang kiểm tra...")
     local isValid, _ = verifyKey(savedKey)
     if isValid then
         loadMainHub()
-        return -- Kết thúc script tại đây, không hiện GUI
+        return
     else
-        -- Key hết hạn hoặc sai -> Xóa file lưu cũ
         if delfile then pcall(function() delfile(CONFIG.KEY_FILE) end) end
-        print("[VanDat Dev] Key đã lưu hết hạn hoặc không hợp lệ. Đang bật bảng nhập Key...")
+        print("[VanDat Dev] Key lưu bị lỗi/hết hạn/khác thiết bị. Đang hiện bảng nhập Key...")
     end
 end
 
 --------------------------------------------------------------------------------
--- TẠO GIAO DIỆN CẦN NHẬP KEY (CHỈ HIỆN KHI CHƯA CÓ KEY HOẶC KEY HẾT HẠN)
+-- TẠO GIAO DIỆN CẦN NHẬP KEY (GUI)
 --------------------------------------------------------------------------------
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "VanDatKeySystem"
@@ -244,7 +263,7 @@ StatusLabel.TextSize = 11
 StatusLabel.TextWrapped = true
 
 --------------------------------------------------------------------------------
--- SỰ KIỆN CÁC NÚT BẤM
+-- SỰ KIỆN NÚT BẤM
 --------------------------------------------------------------------------------
 GetKeyBtn.MouseButton1Click:Connect(function()
     if setclipboard then
