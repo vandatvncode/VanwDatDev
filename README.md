@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -184,6 +185,43 @@
         }
 
         .copy-btn:hover { background: #5a4bcf; }
+
+        /* Style Đồng hồ đếm ngược */
+        .countdown-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .time-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 6px 10px;
+            min-width: 55px;
+        }
+
+        .time-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .time-label {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
     </style>
 
     <!-- Firebase SDK -->
@@ -234,7 +272,9 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 3 Link Get Key của bạn
+        let timerInterval = null;
+
+        // 3 Link Get Key
         const GET_KEY_URLS = {
             6: "https://link4m.org/H7gGhdD",
             12: "https://link4m.net/jLTZR",
@@ -277,13 +317,63 @@
                         <span class="key-text" id="myKey">${generatedKey}</span>
                         <button class="copy-btn" onclick="copyKey()">Sao chép</button>
                     </div>
-                    <small style="color: #94a3b8;">Thời hạn: ${hours} Giờ</small>
+                    
+                    <div class="countdown-title">Thời gian còn lại</div>
+                    <div class="timer-box">
+                        <div class="time-card">
+                            <div class="time-num" id="hours">00</div>
+                            <div class="time-label">Giờ</div>
+                        </div>
+                        <div class="time-card">
+                            <div class="time-num" id="minutes">00</div>
+                            <div class="time-label">Phút</div>
+                        </div>
+                        <div class="time-card">
+                            <div class="time-num" id="seconds">00</div>
+                            <div class="time-label">Giây</div>
+                        </div>
+                    </div>
                 `;
+
+                // Bắt đầu chạy bộ đếm ngược
+                startCountdown(expiresAt);
+
             } catch (error) {
                 console.error(error);
                 statusText.innerText = "❌ Lỗi khi lưu Key lên Database!";
                 statusText.style.color = "#ff7675";
             }
+        }
+
+        // Hàm xử lý bộ đếm ngược Giờ:Phút:Giây
+        function startCountdown(expiresAt) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            function updateTimer() {
+                const now = Math.floor(Date.now() / 1000);
+                const diff = expiresAt - now;
+
+                if (diff <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('hours').innerText = "00";
+                    document.getElementById('minutes').innerText = "00";
+                    document.getElementById('seconds').innerText = "00";
+                    document.getElementById('statusText').innerText = "⚠️ Key đã hết hạn!";
+                    document.getElementById('statusText').style.color = "#ff7675";
+                    return;
+                }
+
+                const h = Math.floor(diff / 3600);
+                const m = Math.floor((diff % 3600) / 60);
+                const s = diff % 60;
+
+                document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+            }
+
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
         }
 
         function copyKey() {
