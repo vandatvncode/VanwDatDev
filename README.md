@@ -121,14 +121,33 @@
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.25);
         }
 
-        .btn:active { transform: translateY(0); }
-
         .btn-badge {
             background: rgba(255, 255, 255, 0.1);
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 12px;
             color: var(--accent);
+        }
+
+        /* KHU VỰC THÔNG BÁO BƯỚC THỰC HIỆN */
+        #stepNotice {
+            display: none;
+            background: rgba(108, 92, 231, 0.15);
+            border: 1px solid var(--primary);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .step-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
         }
 
         #result {
@@ -222,7 +241,6 @@
             color: var(--text-muted);
         }
 
-        /* GIAO DIỆN DANH SÁCH KEY ĐÃ TẠO (CÁ NHÂN) */
         .history-section {
             margin-top: 30px;
             text-align: left;
@@ -235,9 +253,6 @@
             font-weight: 700;
             color: var(--accent);
             margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
 
         .key-list-container {
@@ -249,7 +264,6 @@
             padding-right: 4px;
         }
 
-        /* Thanh cuộn đẹp */
         .key-list-container::-webkit-scrollbar { width: 4px; }
         .key-list-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
@@ -267,21 +281,9 @@
             margin-bottom: 4px;
         }
 
-        .history-card .key-name {
-            color: #a29bfe;
-            font-weight: 700;
-        }
-
-        .history-card .key-val {
-            color: #00ff88;
-            font-family: monospace;
-            font-weight: 700;
-        }
-
-        .history-card .time-text {
-            color: var(--text-muted);
-            font-size: 11px;
-        }
+        .history-card .key-name { color: #a29bfe; font-weight: 700; }
+        .history-card .key-val { color: #00ff88; font-family: monospace; font-weight: 700; }
+        .history-card .time-text { color: var(--text-muted); font-size: 11px; }
     </style>
 
     <!-- Firebase SDK -->
@@ -293,20 +295,30 @@
     <div class="container">
         <div class="avatar">⚡</div>
         <h2>VanDat Dev</h2>
-        <p class="subtitle">Hệ thống Get Key tự động & Nhanh chóng</p>
+        <p class="subtitle" id="subtitleMsg">Hệ thống Get Key tự động & Nhanh chóng</p>
         
-        <div class="btn-group">
-            <button class="btn" onclick="redirectToGetKey(6)">
+        <!-- BẢNG THÔNG BÁO BƯỚC TIẾP THEO -->
+        <div id="stepNotice">
+            <span class="step-badge" id="stepBadge">BƯỚC 2 / 2</span>
+            <p style="font-size: 13px; color: var(--text-main); margin-bottom: 15px;">Xác nhận thành công bước trước! Vui lòng ấn nút bên dưới để tiếp tục.</p>
+            <button class="btn" style="justify-content: center; background: var(--primary);" onclick="continueNextStep()">
+                <span>👉 Vượt Link Tiếp Theo</span>
+            </button>
+        </div>
+
+        <!-- BẢNG CHỌN GÓI KEY BAN ĐẦU -->
+        <div class="btn-group" id="packageList">
+            <button class="btn" onclick="startGetKeyProcess(6)">
                 <span>🚀 Key 6 Giờ</span>
-                <span class="btn-badge">Nhanh</span>
+                <span class="btn-badge">1 Link</span>
             </button>
-            <button class="btn" onclick="redirectToGetKey(12)">
+            <button class="btn" onclick="startGetKeyProcess(12)">
                 <span>⚡ Key 12 Giờ</span>
-                <span class="btn-badge">Phổ biến</span>
+                <span class="btn-badge">2 Link</span>
             </button>
-            <button class="btn" onclick="redirectToGetKey(24)">
+            <button class="btn" onclick="startGetKeyProcess(24)">
                 <span>👑 Key 24 Giờ</span>
-                <span class="btn-badge">VIP</span>
+                <span class="btn-badge">3 Link</span>
             </button>
         </div>
 
@@ -315,10 +327,10 @@
             <div id="keyDisplay"></div>
         </div>
 
-        <!-- BẢNG DANH SÁCH KEY ĐÃ TẠO TRÊN THIẾT BỊ NÀY -->
+        <!-- BẢNG LỊCH SỬ KEY -->
         <div class="history-section">
             <div class="history-header">
-                <span>📋 Lịch Sử Key Trái Máy Này</span>
+                <span>📋 Lịch Sử Key Trên Thiết Bị Này</span>
             </div>
             <div class="key-list-container" id="keyList">
                 <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">
@@ -345,10 +357,22 @@
 
         let timerInterval = null;
 
-        const GET_KEY_URLS = {
-            6: "https://link4m.org/H7gGhdD",
-            12: "https://link4m.net/jLTZR",
-            24: "https://link4m.org/V4FnEAD"
+        // -------------------------------------------------------------
+        // CẤU HÌNH DANH SÁCH LINK RÚT GỌN TẠI ĐÂY
+        // -------------------------------------------------------------
+        const GET_KEY_CHAINS = {
+            6: [
+                "https://link4m.org/H7gGhdD" // Link 1 (Key 6h - 1 Link)
+            ],
+            12: [
+                "https://link4m.net/jLTZR",   // Link 1 (Gói 12h)
+                "https://link4m.org/H7gGhdD"  // Link 2 (Gói 12h - Thay bằng link rút gọn 2 của bạn)
+            ],
+            24: [
+                "https://link4m.org/V4FnEAD", // Link 1 (Gói 24h)
+                "https://link4m.net/jLTZR",   // Link 2 (Gói 24h - Thay bằng link rút gọn 2 của bạn)
+                "https://link4m.org/H7gGhdD"  // Link 3 (Gói 24h - Thay bằng link rút gọn 3 của bạn)
+            ]
         };
 
         function formatDate(timestamp) {
@@ -356,15 +380,25 @@
             return date.toLocaleString('vi-VN');
         }
 
-        function redirectToGetKey(hours) {
-            let redirectUrl = GET_KEY_URLS[hours] || window.location.href;
-            window.location.href = redirectUrl;
+        // Khởi động quá trình Get Key
+        function startGetKeyProcess(hours) {
+            let firstLink = GET_KEY_CHAINS[hours][0];
+            window.location.href = firstLink;
         }
 
-        // Lưu Key vào LocalStorage của riêng thiết bị này
+        // Chuyển hướng tới bước tiếp theo
+        function continueNextStep() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hours = parseInt(urlParams.get('hours'));
+            const step = parseInt(urlParams.get('step'));
+
+            let nextLink = GET_KEY_CHAINS[hours][step - 1];
+            window.location.href = nextLink;
+        }
+
         function saveKeyToLocalStorage(keyData) {
             let localKeys = JSON.parse(localStorage.getItem("my_generated_keys") || "[]");
-            localKeys.unshift(keyData); // Đưa key mới nhất lên đầu
+            localKeys.unshift(keyData);
             localStorage.setItem("my_generated_keys", JSON.stringify(localKeys));
         }
 
@@ -394,7 +428,6 @@
             };
 
             try {
-                // 1. Lưu Key lên Firebase để Roblox đọc & xác thực
                 await database.ref('keys/' + generatedKey).set({
                     key_name: keyName,
                     created_at: now,
@@ -402,7 +435,6 @@
                     hours: hours
                 });
 
-                // 2. Lưu Key vào bộ nhớ thiết bị hiện tại (Chỉ thiết bị này mới thấy)
                 saveKeyToLocalStorage(keyInfo);
 
                 statusText.innerText = "🎉 Khởi tạo Key thành công!";
@@ -432,7 +464,7 @@
                 `;
 
                 startCountdown(expiresAt);
-                loadKeyHistory(); // Cập nhật lại giao diện danh sách riêng
+                loadKeyHistory();
 
             } catch (error) {
                 console.error(error);
@@ -441,7 +473,6 @@
             }
         }
 
-        // Tải & Hiển thị Danh sách Key chỉ trên THIẾT BỊ NÀY
         function loadKeyHistory() {
             const keyListDiv = document.getElementById('keyList');
             let localKeys = JSON.parse(localStorage.getItem("my_generated_keys") || "[]");
@@ -515,19 +546,31 @@
             }, 2000);
         }
 
+        // XỬ LÝ ĐIỀU HƯỚNG BƯỚC VÀ HOÀN THÀNH KEY
         window.addEventListener('DOMContentLoaded', () => {
-            loadKeyHistory(); // Đọc danh sách key riêng từ LocalStorage
+            loadKeyHistory();
 
             const urlParams = new URLSearchParams(window.location.search);
             const isCompleted = urlParams.get('completed');
             const hours = parseInt(urlParams.get('hours'));
+            const step = parseInt(urlParams.get('step'));
 
             if (isCompleted === 'true' && (hours === 6 || hours === 12 || hours === 24)) {
+                // Đã vượt qua toàn bộ các bước -> Tiến hành cấp Key
+                document.getElementById('packageList').style.display = 'none';
                 createAndSaveKey(hours);
                 window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (hours && step) {
+                // Đang trong các bước vượt link trung gian
+                let totalSteps = GET_KEY_CHAINS[hours].length;
+
+                if (step <= totalSteps) {
+                    document.getElementById('packageList').style.display = 'none';
+                    document.getElementById('stepNotice').style.display = 'block';
+                    document.getElementById('stepBadge').innerText = `BƯỚC ${step} / ${totalSteps}`;
+                }
             }
         });
     </script>
 </body>
 </html>
-
