@@ -1,82 +1,219 @@
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local VirtualUser = game:GetService("VirtualUser")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
 
 --------------------------------------------------------------------------------
--- 1. CẤU HÌNH HỆ THỐNG & TỰ ĐỘNG XÁC THỰC KEY (KHÓA 1 THIẾT BỊ - HWID)
+-- 1. NHẬN DIỆN SEA HIỆN TẠI (SEA 1, SEA 2, SEA 3)
 --------------------------------------------------------------------------------
-local CONFIG = {
-    TITLE       = "OMG Hub | Blox Fruits",
-    FIREBASE_DB = "https://vd12-c514c-default-rtdb.asia-southeast1.firebasedatabase.app/keys/",
-    KEY_FILE    = "VanDatDev_SavedKey.txt"
-}
+local PlaceId = game.PlaceId
+local Sea1_ID = 2753915549
+local Sea2_ID = 4442272183
+local Sea3_ID = 7449423635
 
-local getHwid = gethwid or get_hwid or (syn and syn.get_hwid) or function() 
-    return game:GetService("RbxAnalyticsService"):GetClientId() 
+local CurrentSea = 1
+if PlaceId == Sea2_ID then
+    CurrentSea = 2
+elseif PlaceId == Sea3_ID then
+    CurrentSea = 3
 end
-local clientHWID = getHwid()
 
-local httpRequest = (syn and syn.request) or (http and http.request) or http_request or request
+--------------------------------------------------------------------------------
+-- 2. HỆ THỐNG BIẾN TOÀN CỤC & TỰ ĐỘNG CHẠY (ENGINE LOGIC)
+--------------------------------------------------------------------------------
+_G.SelectWeapon = "Melee"
+_G.AutoFarmLevel = false
+_G.FarmNearest = false
+_G.AutoChest = false
+_G.AutoClick = false
+_G.PlayerESP = false
+_G.FruitESP = false
+_G.ChestESP = false
+_G.StatsMelee = false
+_G.StatsDefense = false
+_G.StatsSword = false
+_G.StatsFruit = false
+_G.AutoRandom = false
+_G.AutoStore = true
 
-local function verifyKey(userKey)
-    if not userKey or userKey == "" or not httpRequest then return false, "Lỗi kết nối!" end
-    userKey = string.gsub(userKey, "%s+", "")
-    local requestUrl = CONFIG.FIREBASE_DB .. userKey .. ".json"
+-- Hàm Tween di chuyển an toàn không bị Kick
+local function TweenTo(targetCFrame, speed)
+    if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return end
+    local hrp = LocalPlayer.Character.HumanoidRootPart
+    local distance = (hrp.Position - targetCFrame.Position).Magnitude
+    local time = distance / (speed or 250)
     
-    local success, response = pcall(function()
-        return httpRequest({ Url = requestUrl, Method = "GET", Headers = { ["Content-Type"] = "application/json" } })
-    end)
-
-    if not success or not response or response.Body == "null" or response.Body == "" then
-        return false, "Key không hợp lệ!"
-    end
-
-    local decodeSuccess, keyData = pcall(function() return HttpService:JSONDecode(response.Body) end)
-    if not decodeSuccess or not keyData then return false, "Dữ liệu lỗi!" end
-
-    if keyData.expires_at and os.time() > keyData.expires_at then
-        return false, "Key đã hết hạn!"
-    end
-
-    if keyData.hwid == nil or keyData.hwid == "" then
-        pcall(function()
-            httpRequest({
-                Url = requestUrl, Method = "PATCH",
-                Headers = { ["Content-Type"] = "application/json" },
-                Body = HttpService:JSONEncode({ hwid = clientHWID })
-            })
-        end)
-    elseif keyData.hwid ~= clientHWID then
-        return false, "Key đã đăng ký thiết bị khác!"
-    end
-
-    return true, "Thành công!"
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+    tween:Play()
+    return tween
 end
 
--- Kiểm tra Key lưu sẵn
-local savedKey = ""
-if readfile and isfile and isfile(CONFIG.KEY_FILE) then
-    pcall(function() savedKey = readfile(CONFIG.KEY_FILE) end)
-end
-
-local isKeyValid, _ = verifyKey(savedKey)
-if not isKeyValid then
-    warn("[OMG Hub] Chưa xác thực Key hoặc Key không hợp lệ! Vui lòng kích hoạt qua Key System.")
-    -- Vẫn cho phép tải UI nếu chạy test độc lập
+-- Tự động trang bị vũ khí đã chọn
+local function EquipWeapon()
+    if not LocalPlayer.Character then return end
+    for _, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
+        if tool:IsA("Tool") and tool.ToolTip == _G.SelectWeapon then
+            LocalPlayer.Character.Humanoid:EquipTool(tool)
+            break
+        end
+    end
 end
 
 --------------------------------------------------------------------------------
--- 2. KHỞI TẠO TẢI THƯ VIỆN FLUENT UI
+-- 3. HỆ THỐNG ESP HOẠT ĐỘNG THỰC TẾ
+--------------------------------------------------------------------------------
+local function createESP(parent, text, color)
+    if parent:FindFirstChild("OMG_ESP") then parent.OMG_ESP:Destroy() end
+    local bgui = Instance.new("BillboardGui")
+    bgui.Name = "OMG_ESP"
+    bgui.AlwaysOnTop = true
+    bgui.Size = UDim2.new(0, 150, 0, 30)
+    bgui.StudsOffset = Vector3.new(0, 3, 0)
+    bgui.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Parent = bgui
+    label.BackgroundTransparency = 1
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.Text = text
+    label.TextColor3 = color
+    label.TextStrokeTransparency = 0
+    label.TextSize = 13
+    label.Font = Enum.Font.SourceSansBold
+    return bgui, label
+end
+
+-- Thread Realtime ESP & Fast Attack
+task.spawn(function()
+    while task.wait(0.2) do
+        -- 1. Player ESP
+        for _, plr in pairs(Players:GetPlayers()) do
+            if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                local hrp = plr.Character.HumanoidRootPart
+                if _G.PlayerESP then
+                    local hum = plr.Character:FindFirstChildOfClass("Humanoid")
+                    local hp = hum and math.floor(hum.Health) or 0
+                    local dist = math.floor((LocalPlayer.Character.HumanoidRootPart.Position - hrp.Position).Magnitude)
+                    local esp = hrp:FindFirstChild("OMG_ESP")
+                    if not esp then
+                        createESP(hrp, plr.Name .. " [" .. hp .. " HP] (" .. dist .. "m)", Color3.fromRGB(255, 50, 50))
+                    else
+                        esp.TextLabel.Text = plr.Name .. " [" .. hp .. " HP] (" .. dist .. "m)"
+                    end
+                else
+                    if hrp:FindFirstChild("OMG_ESP") then hrp.OMG_ESP:Destroy() end
+                end
+            end
+        end
+
+        -- 2. Fruit ESP
+        for _, v in pairs(workspace:GetChildren()) do
+            if v:IsA("Tool") or string.find(v.Name, "Fruit") then
+                local handle = v:FindFirstChild("Handle") or v:FindFirstChildOfClass("Part")
+                if handle then
+                    if _G.FruitESP then
+                        local dist = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") 
+                            and math.floor((LocalPlayer.Character.HumanoidRootPart.Position - handle.Position).Magnitude) or 0
+                        local esp = handle:FindFirstChild("OMG_ESP")
+                        if not esp then
+                            createESP(handle, "🍎 " .. v.Name .. " (" .. dist .. "m)", Color3.fromRGB(255, 215, 0))
+                        else
+                            esp.TextLabel.Text = "🍎 " .. v.Name .. " (" .. dist .. "m)"
+                        end
+                    else
+                        if handle:FindFirstChild("OMG_ESP") then handle.OMG_ESP:Destroy() end
+                    end
+                end
+            end
+        end
+
+        -- 3. Chest ESP
+        for _, v in pairs(workspace:GetDescendants()) do
+            if string.find(v.Name, "Chest") and (v:IsA("Part") or v:IsA("MeshPart")) then
+                if _G.ChestESP then
+                    local dist = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") 
+                        and math.floor((LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude) or 0
+                    local esp = v:FindFirstChild("OMG_ESP")
+                    if not esp then
+                        createESP(v, "📦 Rương (" .. dist .. "m)", Color3.fromRGB(0, 255, 150))
+                    else
+                        esp.TextLabel.Text = "📦 Rương (" .. dist .. "m)"
+                    end
+                else
+                    if v:FindFirstChild("OMG_ESP") then v.OMG_ESP:Destroy() end
+                end
+            end
+        end
+    end
+end)
+
+-- Thread Auto Farm Level & Quái
+task.spawn(function()
+    while task.wait(0.1) do
+        if _G.AutoFarmLevel then
+            pcall(function()
+                EquipWeapon()
+                for _, enemy in pairs(workspace.Enemies:GetChildren()) do
+                    if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 and enemy:FindFirstChild("HumanoidRootPart") then
+                        repeat task.wait()
+                            if not _G.AutoFarmLevel then break end
+                            LocalPlayer.Character.HumanoidRootPart.CFrame = enemy.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                            VirtualUser:CaptureController()
+                            VirtualUser:ClickButton1(Vector2.new(500, 500))
+                        until not enemy or not enemy:FindFirstChild("Humanoid") or enemy.Humanoid.Health <= 0
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- Thread Auto Nhặt Rương (Tween)
+task.spawn(function()
+    while task.wait(0.5) do
+        if _G.AutoChest then
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if string.find(v.Name, "Chest") and (v:IsA("Part") or v:IsA("MeshPart")) then
+                        if not _G.AutoChest then break end
+                        TweenTo(v.CFrame, 300)
+                        task.wait(0.5)
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- Thread Auto Stats
+task.spawn(function()
+    while task.wait(0.5) do
+        local remotes = ReplicatedStorage:FindFirstChild("Remotes")
+        local commF = remotes and remotes:FindFirstChild("CommF_")
+        if commF then
+            if _G.StatsMelee then commF:InvokeServer("AddPoint", "Melee", 1) end
+            if _G.StatsDefense then commF:InvokeServer("AddPoint", "Defense", 1) end
+            if _G.StatsSword then commF:InvokeServer("AddPoint", "Sword", 1) end
+            if _G.StatsFruit then commF:InvokeServer("AddPoint", "Demon Fruit", 1) end
+        end
+    end
+end)
+
+--------------------------------------------------------------------------------
+-- 4. TẢI THƯ VIỆN FLUENT UI & KHỞI TẠO WINDOW
 --------------------------------------------------------------------------------
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "OMG Hub | Blox Fruits",
-    SubTitle = "By Dmg - Premium Edition",
+    Title = "OMG Hub | Blox Fruits (Sea " .. tostring(CurrentSea) .. ")",
+    SubTitle = "By Dmg - Executable Edition",
     TabWidth = 160,
     Size = UDim2.fromOffset(620, 400),
     Acrylic = true,
@@ -84,39 +221,18 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
---------------------------------------------------------------------------------
--- 3. KHỞI TẠO TẤT CẢ CÁC TAB
---------------------------------------------------------------------------------
 local Tabs = {
-    Discord     = Window:AddTab({ Title = "Discord", Icon = "disc" }),
-    Cay         = Window:AddTab({ Title = "Cày Level/Items", Icon = "sword" }),
-    Bien        = Window:AddTab({ Title = "Sự Kiện Biển", Icon = "waves" }),
-    NhiemVu     = Window:AddTab({ Title = "Nhiệm Vụ / Vũ Khí", Icon = "scroll" }),
+    Cay         = Window:AddTab({ Title = "Cày Level / Quái", Icon = "sword" }),
+    SeaEvent    = Window:AddTab({ Title = "Sự Kiện Biển", Icon = "waves" }),
     TraiCayRaid = Window:AddTab({ Title = "Trái Cây & Raid", Icon = "apple" }),
-    CauCa       = Window:AddTab({ Title = "Câu Cá Tự Động", Icon = "fish" }),
-    Webhook     = Window:AddTab({ Title = "Webhook Thông Báo", Icon = "info" }),
-    DoiServer   = Window:AddTab({ Title = "Đổi Server / Hop", Icon = "refresh-cw" }),
-    Status      = Window:AddTab({ Title = "Thông Tin Server", Icon = "scroll-text" }),
-    PvP         = Window:AddTab({ Title = "Hỗ Trợ PvP", Icon = "swords" }),
+    PvP         = Window:AddTab({ Title = "Hỗ Trợ PvP & ESP", Icon = "swords" }),
     Stats       = Window:AddTab({ Title = "Nâng Điểm Stats", Icon = "bar-chart-2" }),
-    DichChuyen  = Window:AddTab({ Title = "Dịch Chuyển", Icon = "navigation" }),
-    CuaHang     = Window:AddTab({ Title = "Cửa Hàng", Icon = "shopping-cart" }),
+    DichChuyen  = Window:AddTab({ Title = "Dịch Chuyển Đảo", Icon = "navigation" }),
     LinhTinh    = Window:AddTab({ Title = "Cài Đặt GUI", Icon = "settings" }),
 }
 
 --------------------------------------------------------------------------------
--- TAB 1: DISCORD
---------------------------------------------------------------------------------
-Tabs.Discord:AddButton({
-    Title = "Sao chép link Discord OMG Hub",
-    Callback = function()
-        if setclipboard then setclipboard("https://discord.gg/omghub") end
-        Fluent:Notify({ Title = "Discord", Content = "Đã sao chép link Discord vào Khay nhớ tạm!", Duration = 3 })
-    end
-})
-
---------------------------------------------------------------------------------
--- TAB 2: CÀY (FARMING MULTI-FUNCTION)
+-- CẤU HÌNH CÁC TAB NÚT BẬT TẮT CHỨC NĂNG
 --------------------------------------------------------------------------------
 Tabs.Cay:AddDropdown("SelectWeapon", {
     Title = "Chọn vũ khí cày",
@@ -125,121 +241,20 @@ Tabs.Cay:AddDropdown("SelectWeapon", {
     Callback = function(v) _G.SelectWeapon = v end
 })
 
-Tabs.Cay:AddSection("Cày Cấp & Quái")
 Tabs.Cay:AddToggle("AutoFarmLevel", { Title = "Tự động cày cấp (Auto Farm Level)", Default = false }):OnChanged(function(v) _G.AutoFarmLevel = v end)
-Tabs.Cay:AddToggle("FarmNearestMob", { Title = "Cày quái gần nhất (Farm Nearest)", Default = false }):OnChanged(function(v) _G.FarmNearest = v end)
-Tabs.Cay:AddToggle("AutoFactory", { Title = "Nhà máy tự động (Auto Factory)", Default = true }):OnChanged(function(v) _G.AutoFactory = v end)
+Tabs.Cay:AddToggle("AutoChest", { Title = "Tự động gom rương [ Tween ]", Default = false }):OnChanged(function(v) _G.AutoChest = v end)
 
-Tabs.Cay:AddSection("Cày Mastery (Thành thạo)")
-Tabs.Cay:AddToggle("AutoFarmMasteryWeapon", { Title = "Auto Mastery Vũ Khí (Sword/Melee)", Default = false }):OnChanged(function(v) _G.AutoMasteryWeapon = v end)
-Tabs.Cay:AddToggle("AutoFarmMasteryFruit", { Title = "Auto Mastery Trái Ác Quỷ", Default = false }):OnChanged(function(v) _G.AutoMasteryFruit = v end)
+Tabs.PvP:AddSection("Hệ Thống ESP")
+Tabs.PvP:AddToggle("PlayerESP", { Title = "ESP Người Chơi", Default = false }):OnChanged(function(v) _G.PlayerESP = v end)
+Tabs.PvP:AddToggle("FruitESP", { Title = "ESP Trái Ác Quỷ", Default = false }):OnChanged(function(v) _G.FruitESP = v end)
+Tabs.PvP:AddToggle("ChestESP", { Title = "ESP Rương", Default = false }):OnChanged(function(v) _G.ChestESP = v end)
 
-Tabs.Cay:AddSection("Ectoplasm & Rương")
-Tabs.Cay:AddToggle("AutoEctoplasm", { Title = "Cày Ectoplasm tự động", Default = false }):OnChanged(function(v) _G.AutoEctoplasm = v end)
-Tabs.Cay:AddToggle("AutoChestTween", { Title = "Tự động nhặt rương [ Tween ]", Default = false }):OnChanged(function(v) _G.AutoChestTween = v end)
-Tabs.Cay:AddToggle("StopWhenGetItem", { Title = "Dừng nhặt rương khi trúng vật phẩm", Default = true }):OnChanged(function(v) _G.StopWhenGetItem = v end)
+Tabs.Stats:AddSection("Tự Động Nâng Điểm")
+Tabs.Stats:AddToggle("StatsMelee", { Title = "Auto Điểm Melee", Default = false }):OnChanged(function(v) _G.StatsMelee = v end)
+Tabs.Stats:AddToggle("StatsDefense", { Title = "Auto Điểm Defense", Default = false }):OnChanged(function(v) _G.StatsDefense = v end)
+Tabs.Stats:AddToggle("StatsSword", { Title = "Auto Điểm Sword", Default = false }):OnChanged(function(v) _G.StatsSword = v end)
+Tabs.Stats:AddToggle("StatsFruit", { Title = "Auto Điểm Blox Fruit", Default = false }):OnChanged(function(v) _G.StatsFruit = v end)
 
-Tabs.Cay:AddSection("Săn Bosses")
-Tabs.Cay:AddToggle("AutoBosses", { Title = "Tự động cày tất cả Boss", Default = false }):OnChanged(function(v) _G.AutoBosses = v end)
-
---------------------------------------------------------------------------------
--- TAB 3: SỰ KIỆN BIỂN (SEA EVENTS - SEA 3)
---------------------------------------------------------------------------------
-Tabs.Bien:AddSection("Săn Thuyền & Quái Biển")
-Tabs.Bien:AddToggle("AutoSeaEvents", { Title = "Tự động di chuyển tìm Sea Events", Default = false }):OnChanged(function(v) _G.AutoSeaEvents = v end)
-Tabs.Bien:AddToggle("AutoKillSeaBeast", { Title = "Tự động đánh Quái Biển (Sea Beast)", Default = false }):OnChanged(function(v) _G.AutoSeaBeast = v end)
-Tabs.Bien:AddToggle("AutoKillGhostShip", { Title = "Tự động bắn Thuyền Ma (Ghost Ship)", Default = false }):OnChanged(function(v) _G.AutoGhostShip = v end)
-Tabs.Bien:AddToggle("AutoKillLeviathan", { Title = "Săn Leviathan (Auto Leviathan)", Default = false }):OnChanged(function(v) _G.AutoLeviathan = v end)
-
---------------------------------------------------------------------------------
--- TAB 4: NHIỆM VỤ & VŨ KHÍ BẢO VẬT
---------------------------------------------------------------------------------
-Tabs.NhiemVu:AddSection("Vũ Khí Huyền Thoại & Mới")
-Tabs.NhiemVu:AddToggle("AutoCursedDualKatana", { Title = "Auto Lấy Song Kiếm CDK", Default = false }):OnChanged(function(v) _G.AutoCDK = v end)
-Tabs.NhiemVu:AddToggle("AutoSoulGuitar", { Title = "Auto Lấy Khẩu Đàn Soul Guitar", Default = false }):OnChanged(function(v) _G.AutoSoulGuitar = v end)
-Tabs.NhiemVu:AddToggle("AutoSaber", { Title = "Auto Lấy Kiếm Saber", Default = false }):OnChanged(function(v) _G.AutoSaber = v end)
-Tabs.NhiemVu:AddToggle("AutoGodhuman", { Title = "Auto Lấy Võ Godhuman", Default = false }):OnChanged(function(v) _G.AutoGodhuman = v end)
-
---------------------------------------------------------------------------------
--- TAB 5: TRÁI CÂY & RAID
---------------------------------------------------------------------------------
-Tabs.TraiCayRaid:AddSection("Trái Ác Quỷ (Fruits)")
-Tabs.TraiCayRaid:AddToggle("AutoRandomFruit", { Title = "Auto Mua Trái Bất Kỳ (Random Fruit)", Default = false }):OnChanged(function(v) _G.AutoRandomFruit = v end)
-Tabs.TraiCayRaid:AddToggle("AutoStoreFruit", { Title = "Auto Cất Trái Vào Rương (Store Fruit)", Default = true }):OnChanged(function(v) _G.AutoStoreFruit = v end)
-Tabs.TraiCayRaid:AddToggle("AutoTPFruit", { Title = "Auto Bay Đến Nhặt Trái Rơi Trên Bản Đồ", Default = false }):OnChanged(function(v) _G.AutoTPFruit = v end)
-
-Tabs.TraiCayRaid:AddSection("Dungeon / Raid Thức Tỉnh")
-Tabs.TraiCayRaid:AddDropdown("SelectChip", {
-    Title = "Chọn Chip Raid",
-    Values = {"Flame", "Ice", "Quake", "Light", "Dark", "String", "Rumble", "Magma", "Human: Buddha", "Sand", "Dough"},
-    Default = "Flame",
-    Callback = function(v) _G.SelectChip = v end
-})
-Tabs.TraiCayRaid:AddToggle("AutoBuyChip", { Title = "Auto Mua Chip Raid", Default = false }):OnChanged(function(v) _G.AutoBuyChip = v end)
-Tabs.TraiCayRaid:AddToggle("AutoStartRaid", { Title = "Auto Bắt Đầu Raid & Đánh Đảo", Default = false }):OnChanged(function(v) _G.AutoStartRaid = v end)
-
---------------------------------------------------------------------------------
--- TAB 6: CÂU CÁ TỰ ĐỘNG (FISHING)
---------------------------------------------------------------------------------
-Tabs.CauCa:AddSection("Hệ Thống Auto Fishing")
-Tabs.CauCa:AddToggle("AutoFish", { Title = "Tự động thả câu & giật cá (Auto Fish)", Default = false }):OnChanged(function(v) _G.AutoFish = v end)
-Tabs.CauCa:AddToggle("AutoPerfectCast", { Title = "Luôn quăng cần Hoàn Hảo (Perfect Cast)", Default = true }):OnChanged(function(v) _G.PerfectCast = v end)
-
---------------------------------------------------------------------------------
--- TAB 7: HỖ TRỢ PVP & ESP
---------------------------------------------------------------------------------
-Tabs.PvP:AddSection("Hỗ Trợ Chiến Đấu")
-Tabs.PvP:AddToggle("AutoClick", { Title = "Auto Click Tốc Độ Cao", Default = false }):OnChanged(function(v) _G.AutoClick = v end)
-Tabs.PvP:AddToggle("SilentAimbot", { Title = "Silent Aimbot (Tự Nhắm Chiêu)", Default = false }):OnChanged(function(v) _G.SilentAimbot = v end)
-Tabs.PvP:AddToggle("PlayerESP", { Title = "Nhìn xuyên người chơi (Player ESP)", Default = false }):OnChanged(function(v) _G.PlayerESP = v end)
-Tabs.PvP:AddToggle("FruitESP", { Title = "Nhìn xuyên vị trí Trái Ác Quỷ (Fruit ESP)", Default = false }):OnChanged(function(v) _G.FruitESP = v end)
-
---------------------------------------------------------------------------------
--- TAB 8: NÂNG ĐIỂM STATS TỰ ĐỘNG
---------------------------------------------------------------------------------
-Tabs.Stats:AddSection("Auto Point Stats")
-Tabs.Stats:AddToggle("StatsMelee", { Title = "Auto Điểm Melee (Cận chiến)", Default = false }):OnChanged(function(v) _G.StatsMelee = v end)
-Tabs.Stats:AddToggle("StatsDefense", { Title = "Auto Điểm Defense (Máu)", Default = false }):OnChanged(function(v) _G.StatsDefense = v end)
-Tabs.Stats:AddToggle("StatsSword", { Title = "Auto Điểm Sword (Kiếm)", Default = false }):OnChanged(function(v) _G.StatsSword = v end)
-Tabs.Stats:AddToggle("StatsFruit", { Title = "Auto Điểm Blox Fruit (Phép)", Default = false }):OnChanged(function(v) _G.StatsFruit = v end)
-
---------------------------------------------------------------------------------
--- TAB 9: DỊCH CHUYỂN (TELEPORT)
---------------------------------------------------------------------------------
-Tabs.DichChuyen:AddSection("Dịch Chuyển Biển (Sea TP)")
-Tabs.DichChuyen:AddButton({ Title = "Dịch chuyển sang Biển 1 (Sea 1)", Callback = function() end })
-Tabs.DichChuyen:AddButton({ Title = "Dịch chuyển sang Biển 2 (Sea 2)", Callback = function() end })
-Tabs.DichChuyen:AddButton({ Title = "Dịch chuyển sang Biển 3 (Sea 3)", Callback = function() end })
-
-Tabs.DichChuyen:AddSection("Dịch Chuyển Đảo")
-Tabs.DichChuyen:AddDropdown("SelectIsland", {
-    Title = "Chọn đảo muốn đến",
-    Values = {"Cafe", "Mansion", "Castle on the Sea", "Hydra Island", "Floating Turtle", "Great Tree", "Port Town"},
-    Default = "Cafe",
-    Callback = function(v)
-        Fluent:Notify({ Title = "Dịch chuyển", Content = "Đang dịch chuyển đến " .. v, Duration = 3 })
-    end
-})
-
---------------------------------------------------------------------------------
--- TAB 10: ĐỔI SERVER & HOP
---------------------------------------------------------------------------------
-Tabs.DoiServer:AddButton({
-    Title = "Đổi sang Server Ngẫu Nhiên (Rejoin / Hop)",
-    Callback = function()
-        game:GetService("TeleportService"):Teleport(game.PlaceId, LocalPlayer)
-    end
-})
-Tabs.DoiServer:AddButton({
-    Title = "Tìm Server Ít Người Nổi Bật (Low Server Hop)",
-    Callback = function()
-        Fluent:Notify({ Title = "Hop Server", Content = "Đang tìm Server ít người nhất...", Duration = 4 })
-    end
-})
-
---------------------------------------------------------------------------------
--- LƯU & TỰ ĐỘNG TẢI GIAO DIỆN
---------------------------------------------------------------------------------
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
@@ -249,10 +264,11 @@ SaveManager:SetFolder("OMG_Hub_BloxFruits/configs")
 InterfaceManager:BuildInterfaceSection(Tabs.LinhTinh)
 SaveManager:BuildConfigSection(Tabs.LinhTinh)
 
-Window:SelectTab(2) -- Chọn sẵn Tab Cày khi khởi chạy
+Window:SelectTab(1)
 
 Fluent:Notify({
-    Title = "OMG Hub | Blox Fruits",
-    Content = "Tải thành công phiên bản OMG Hub Full Chức Năng!",
+    Title = "OMG Hub Executable",
+    Content = "Đã khởi chạy thành công toàn bộ Engine chức năng thực thi!",
     Duration = 5
 })
+
