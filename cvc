@@ -1,0 +1,35 @@
+getgenv()["Config"] = {
+    ["Fps Boost"] = true,
+    ["FPS Cap"] = 30,
+    ["Quests"] = {
+        ["Pull Level"] = true,
+        ["Upgrading Race"] = true,
+    },
+    ["Hopping"] = {
+        ["Auto Hop"] = true,
+        ["Hop Idle"] = true,
+        ["High Ping Hop"] = true,
+        ["Player Nearing Hop"] = true,
+    },
+    ["Sniper Fruit Shop"] = {
+        ["Enabled"] = true,
+        ["Fruit"] = {
+            "Kitsune-Kitsune",
+            "Dragon-Dragon",
+            "Yeti-Yeti",
+            "Gas-Gas"
+        },
+    },
+    ["Oneclick"] = {
+        ["Auto Fully Fighting Style"] = true,
+        ["Rainbow Haki"] = true,
+        ["Skull Guitar"] = true,
+        ["Cursed Dual Katana"] = true,
+        ["Saber"] = true,
+        ["Get Ghoul"] = false,
+        ["Collect Berries"] = false,
+        ["Haki Legendery"] = false,
+        ["TTK"] = false, 
+    },
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/teddyhubdev/diepvy/refs/heads/main/TeddyHub-kaitunBF.lua"))()
